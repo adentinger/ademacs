@@ -1,7 +1,7 @@
 #!/bin/bash
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" 2>/dev/null && pwd)"
-EMACS_FILE_SRC="${SCRIPT_DIR}/.emacs"
+EMACS_FILE_SRC="${SCRIPT_DIR}/emacs.d/init.el"
 
 setSystemInfo() {
     # BASED ON https://unix.stackexchange.com/questions/6345/how-can-i-get-distribution-name-and-version-number-in-a-simple-shell-script
@@ -52,7 +52,7 @@ setup() {
 
     if [ "${OS}" == GNU/Linux ]; then
         # Linux machine
-		local emacs_file_dst="${HOME}/.emacs"
+		local emacs_file_dst="${HOME}/emacs.d/init.el"
 		local repo_dir="${SCRIPT_DIR}"
     else
 		# TODO MAC?
@@ -61,6 +61,8 @@ setup() {
         local emacs_file_dst="$HOME/AppData/Roaming/.emacs"
 		local repo_dir="$(toWindowsPath "${SCRIPT_DIR}" | perl -pe 's|\\|/|g')"
     fi
+
+	mkdir -p "$(dirname "${emacs_file_dst}")"
 
 	perl -pe 's|\@REPO_DIR\@|'"${repo_dir}"'|g' "${EMACS_FILE_SRC}" > \
 		"${emacs_file_dst}"
