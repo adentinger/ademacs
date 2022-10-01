@@ -1,3 +1,6 @@
+; Much of the config taken from
+; https://github.com/daviwil/emacs-from-scratch/blob/master/init.el
+
 (setq inhibit-startup-message t)
 
 ; Disable visible scrollbar
