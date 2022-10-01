@@ -18,11 +18,15 @@
 
 (load-theme 'wombat)
 
+(setq custom-file (concat user-emacs-directory "/custom.el"))
+
 ; Need package stuff for use-package!
 (require 'package)
 (setq package-archives '(("melpa" . "https://melpa.org/packages/")
                          ("org" . "https://orgmode.org/elpa/")
                          ("elpa" . "https://elpa.gnu.org/packages/")))
+; Put the packages inside the current emacs dir, not the default one.
+(setq package-user-dir (concat user-emacs-directory "/packages"))
 (package-initialize)
 ; Only do that on initial package setupl
 (unless package-archive-contents (package-refresh-contents))
@@ -50,6 +54,8 @@
     ("C-d" . ivy-reverse-i-search-kill))
   :config
   (ivy-mode 1))
+
+(use-package all-the-icons)
 
 (use-package doom-modeline
   :ensure t

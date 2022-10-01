@@ -77,6 +77,7 @@ setup() {
     if [ "${OS}" == GNU/Linux ]; then
         # Linux machine
 		local emacs_dir_default="${HOME}/emacs.d"
+		local home_dir="${HOME}"
 
 		local ademacs_dir="${HOME}/ademacs.d"
     else
@@ -86,6 +87,7 @@ setup() {
 		local sys_config_dir="$(toWindowsPath "$HOME/AppData/Roaming")"
 		local repo_dir="$(toWindowsPath "${repo_dir}")"
 		local emacs_dir_default="${sys_config_dir}/.emacs.d"
+		local home_dir="$(toWindowsPath "${HOME}")"
 
 		local ademacs_dir="${sys_config_dir}/ademacs.d"
     fi
@@ -116,6 +118,7 @@ setup() {
 	perl -p                                                                   \
 		-e 's|\@ADEMACS_INIT_FILE\@|'"${ademacs_init_file}"'|g;'              \
 		-e 's|\@EMACS_DIR\@|'"${emacs_dir}"'|g;'                              \
+		-e 's|\@HOME_DIR\@|'"${home_dir}"'|g;'                                \
 		"${EMACS_FILE_SRC}" > "${emacs_file_dst}"
 }
 
