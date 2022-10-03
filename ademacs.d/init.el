@@ -22,11 +22,11 @@
 (setq visible-bell t)
 
 ;; Load temporary theme while the real theme is being downloaded
-;; or loaded
+;; or loaded. I don't like to be blinded!
 (load-theme 'wombat)
 
 ;; Font size
-(set-face-attribute 'default nil :height 170)
+(set-face-attribute 'default nil :height 170 :font "Courier New" :weight 'bold)
 
 ;; Don't add the annoying Custom line things in this file; add
 ;; them to a separate file
