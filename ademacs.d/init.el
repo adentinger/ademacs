@@ -25,8 +25,11 @@
 ;; or loaded. I don't like to be blinded!
 (load-theme 'wombat)
 
+;; Start emacs maximized
+(add-hook 'emacs-startup-hook 'toggle-frame-fullscreen)
+
 ;; Font size
-(set-face-attribute 'default nil :height 170 :font "Courier New" :weight 'bold)
+(set-face-attribute 'default nil :height 190 :font "Consolas" :weight 'normal)
 
 ;; Don't add the annoying Custom line things in this file; add
 ;; them to a separate file
@@ -34,6 +37,7 @@
 
 (column-number-mode)
 (global-display-line-numbers-mode t)
+(set-default-coding-systems 'utf-8)
 
 ;; Don't show line number in certain modes
 (dolist (mode '(org-mode-hook
@@ -83,6 +87,7 @@
   :bind (("M-x" . counsel-M-x)
 	 ("C-x b" . counsel-ibuffer)
 	 ("C-x C-f" . counsel-find-file)
+	 ("C-M-j" . counsel-switch-buffer)
 	 :map minibuffer-local-map ("C-r" . 'counsel-minibuffer-history))
   :config (setq ivy-initial-inputs-alist nil) ; Don't start searches with "^"
 )
