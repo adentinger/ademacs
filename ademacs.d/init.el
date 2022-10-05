@@ -28,8 +28,10 @@
 ;; Start emacs maximized
 (add-hook 'emacs-startup-hook 'toggle-frame-fullscreen)
 
-;; Font size
-(set-face-attribute 'default nil :height 190 :font "Consolas" :weight 'normal)
+;; Font && font size
+(if (eq system-type 'windows-nt)
+  (progn (set-face-attribute 'default nil :height 190 :weight 'normal :font "Consolas"))
+  (progn (set-face-attribute 'default nil :height 190 :weight 'normal)))
 
 ;; Don't add the annoying Custom line things in this file; add
 ;; them to a separate file

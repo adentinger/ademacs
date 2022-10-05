@@ -76,7 +76,7 @@ setup() {
 
     if [ "${OS}" == GNU/Linux ]; then
         # Linux machine
-		local emacs_dir_default="${HOME}/emacs.d"
+		local emacs_dir_default="${HOME}/.emacs.d"
 		local home_dir="${HOME}"
 
 		local ademacs_dir="${HOME}/ademacs.d"
