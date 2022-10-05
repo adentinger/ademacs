@@ -40,6 +40,7 @@
 (column-number-mode)
 (global-display-line-numbers-mode t)
 (set-default-coding-systems 'utf-8)
+(setq-default tab-width 4)
 
 ;; Don't show line number in certain modes
 (dolist (mode '(org-mode-hook
