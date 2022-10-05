@@ -99,6 +99,8 @@ setup() {
 	if [ "${RERUN}" != 0 ]; then
 		echo "Deleting ${emacs_dir}"
 		rm -rf "${emacs_dir}"
+		echo "Deleting ${emacs_dir_default}"
+		rm -rf "${emacs_dir_default}"
 	fi
 
 	mkdir -p "$(dirname "${emacs_file_dst}")"
