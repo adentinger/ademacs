@@ -124,9 +124,26 @@
   (counsel-describe-function-function #'helpful-callable)
   (counsel-describe-variable-function #'helpful-variable)
   :bind
-  ;; remap thing apparently returns the string representing the keybinding that
+  ;; 'remap' thing apparently returns the string representing the keybinding that
   ;; binds given function
   ([remap describe-function] . counsel-describe-function)
   ([remap describe-command] . helpful-command)
   ([remap describe-variable] . counsel-describe-variable)
   ([remap describe-key] . helpful-key))
+
+(use-package evil
+  :init
+  (setq evil-want-integration t)
+  (setq evil-want-keybinding nil)
+  :config (evil-mode 1)
+  (define-key evil-insert-state-map (kbd "C-g") 'evil-normal-state)
+  (define-key evil-normal-state-map (kbd "j") 'evil-backward-char)
+  (define-key evil-normal-state-map (kbd ";") 'evil-forward-char)
+  (define-key evil-normal-state-map (kbd "k") 'evil-previous-visual-line)
+  (define-key evil-normal-state-map (kbd "l") 'evil-next-visual-line))
+
+(use-package evil-collection
+  :after evil
+  :config
+  (evil-collection-init))
+
