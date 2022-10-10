@@ -1,0 +1,80 @@
+              evil-paste-pop
+"             evil-use-register
+&             evil-ex-repeat-substitute
+.             evil-repeat
+<             evil-shift-left
+<deletechar>  evil-delete-char
+<escape>      evil-force-normal-state
+<insert>      evil-insert
+<insertchar>  evil-insert
+<mouse-2>     mouse-yank-primary
+=             evil-indent
+>             evil-shift-right
+@             evil-execute-macro
+A             evil-append-line
+C             evil-change-line
+C-.           evil-repeat-pop
+C-n           evil-paste-pop-next
+C-p           evil-paste-pop
+C-r           evil-redo
+C-t           pop-tag-mark
+D             evil-delete-line
+DEL           evil-backward-char
+I             evil-insert-line
+J             evil-join
+M-.           evil-repeat-pop-next
+M-y           evil-paste-pop
+O             evil-open-above
+P             evil-paste-before
+R             evil-enter-replace-state
+S             evil-change-whole-line
+X             evil-delete-backward-char
+Y             evil-yank-line
+Z Q           evil-quit
+Z Z           evil-save-modified-and-close
+[ F           evil-find-file-at-point-with-line
+[ f           find-file-at-point
+] F           evil-find-file-at-point-with-line
+] f           find-file-at-point
+a             evil-append
+c             evil-change
+d             evil-delete
+g &           evil-ex-repeat-global-substitute
+g ,           evil-goto-last-change-reverse
+g 8           what-cursor-position
+g ;           evil-goto-last-change
+g ?           evil-rot13
+g F           evil-find-file-at-point-with-line
+g I           evil-insert-0-line
+g J           evil-join-whitespace
+g P           evil-paste-before-cursor-after
+g T           tab-bar-switch-to-prev-tab
+g U           evil-upcase
+g a           what-cursor-position
+g f           find-file-at-point
+g i           evil-insert-resume
+g p           evil-paste-after-cursor-after
+g q           evil-fill-and-move
+g t           tab-bar-switch-to-next-tab
+g u           evil-downcase
+g w           evil-fill
+g x           browse-url-at-point
+g ~           evil-invert-case
+i             evil-insert
+m             evil-set-marker
+o             evil-open-below
+p             evil-paste-after
+q             evil-record-macro
+r             evil-replace
+s             evil-substitute
+u             evil-undo
+x             evil-delete-char
+y             evil-yank
+z =           ispell-word
+z O           evil-open-fold-rec
+z a           evil-toggle-fold
+z c           evil-close-fold
+z m           evil-close-folds
+z o           evil-open-fold
+z r           evil-open-folds
+~             evil-invert-char

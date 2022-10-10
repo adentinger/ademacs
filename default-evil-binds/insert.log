@@ -1,0 +1,23 @@
+<delete>   delete-char
+<escape>   evil-normal-state
+<insert>   evil-enter-replace-state
+<mouse-2>  mouse-yank-primary
+C-@        evil-paste-last-insertion-and-stop-insert
+C-a        evil-paste-last-insertion
+C-d        evil-shift-left-line
+C-e        evil-copy-from-below
+C-g        evil-normal-state
+C-k        evil-insert-digraph
+C-n        evil-complete-next
+C-o        evil-execute-in-normal-state
+C-p        evil-complete-previous
+C-q        evil-quoted-insert
+C-r        evil-paste-from-register
+C-t        evil-shift-right-line
+C-v        evil-quoted-insert
+C-w        evil-delete-backward-word
+C-x C-n    evil-complete-next-line
+C-x C-p    evil-complete-previous-line
+C-y        evil-copy-from-above
+C-z        evil-emacs-state
+DEL        evil-delete-backward-char-and-join

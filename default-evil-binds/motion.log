@@ -1,0 +1,199 @@
+!               evil-shell-command
+#               evil-search-word-backward
+$               evil-end-of-line
+%               evil-jump-item
+'               evil-goto-mark-line
+(               evil-backward-sentence-begin
+)               evil-forward-sentence-begin
+*               evil-search-word-forward
++               evil-next-line-first-non-blank
+,               evil-repeat-find-char-reverse
+-               evil-previous-line-first-non-blank
+/               evil-search-forward
+0               evil-beginning-of-line
+1               digit-argument
+2               digit-argument
+3               digit-argument
+4               digit-argument
+5               digit-argument
+6               digit-argument
+7               digit-argument
+8               digit-argument
+9               digit-argument
+:               evil-ex
+;               evil-repeat-find-char
+<down-mouse-1>  evil-mouse-drag-region
+<down>          evil-next-line
+<end>           evil-end-of-line
+<home>          evil-beginning-of-line
+<left>          evil-backward-char
+<right>         evil-forward-char
+<up>            evil-previous-line
+?               evil-search-backward
+B               evil-backward-WORD-begin
+C-6             evil-switch-to-windows-last-buffer
+C-]             evil-jump-to-tag
+C-^             evil-buffer
+C-b             evil-scroll-page-up
+C-d             evil-scroll-down
+C-e             evil-scroll-line-down
+C-f             evil-scroll-page-down
+C-g             evil-normal-state
+C-o             evil-jump-backward
+C-v             evil-visual-block
+C-w +           evil-window-increase-height
+C-w -           evil-window-decrease-height
+C-w :           evil-ex
+C-w <           evil-window-decrease-width
+C-w <down>      evil-window-down
+C-w <left>      evil-window-left
+C-w <right>     evil-window-right
+C-w <up>        evil-window-up
+C-w =           balance-windows
+C-w >           evil-window-increase-width
+C-w C-<down>    evil-window-down
+C-w C-<left>    evil-window-left
+C-w C-<right>   evil-window-right
+C-w C-<up>      evil-window-up
+C-w C-S-h       evil-window-move-far-left
+C-w C-S-j       evil-window-move-very-bottom
+C-w C-S-k       evil-window-move-very-top
+C-w C-S-l       evil-window-move-far-right
+C-w C-S-r       evil-window-rotate-upwards
+C-w C-S-s       evil-window-split
+C-w C-S-w       evil-window-prev
+C-w C-_         evil-window-set-height
+C-w C-b         evil-window-bottom-right
+C-w C-c         evil-window-delete
+C-w C-f         ffap-other-window
+C-w C-h         evil-window-left
+C-w C-j         evil-window-down
+C-w C-k         evil-window-up
+C-w C-l         evil-window-right
+C-w C-n         evil-window-new
+C-w C-o         delete-other-windows
+C-w C-p         evil-window-mru
+C-w C-q         evil-quit
+C-w C-r         evil-window-rotate-downwards
+C-w C-s         evil-window-split
+C-w C-t         evil-window-top-left
+C-w C-v         evil-window-vsplit
+C-w C-w         evil-window-next
+C-w C-x         evil-window-exchange
+C-w H           evil-window-move-far-left
+C-w J           evil-window-move-very-bottom
+C-w K           evil-window-move-very-top
+C-w L           evil-window-move-far-right
+C-w R           evil-window-rotate-upwards
+C-w S           evil-window-split
+C-w W           evil-window-prev
+C-w _           evil-window-set-height
+C-w b           evil-window-bottom-right
+C-w c           evil-window-delete
+C-w f           ffap-other-window
+C-w g T         tab-bar-switch-to-prev-tab
+C-w g t         tab-bar-switch-to-next-tab
+C-w h           evil-window-left
+C-w j           evil-window-down
+C-w k           evil-window-up
+C-w l           evil-window-right
+C-w n           evil-window-new
+C-w o           delete-other-windows
+C-w p           evil-window-mru
+C-w q           evil-quit
+C-w r           evil-window-rotate-downwards
+C-w s           evil-window-split
+C-w t           evil-window-top-left
+C-w v           evil-window-vsplit
+C-w w           evil-window-next
+C-w x           evil-window-exchange
+C-w |           evil-window-set-width
+C-y             evil-scroll-line-up
+C-z             evil-emacs-state
+E               evil-forward-WORD-end
+F               evil-find-char-backward
+G               evil-goto-line
+H               evil-window-top
+K               evil-lookup
+L               evil-window-bottom
+M               evil-window-middle
+N               evil-search-previous
+RET             evil-ret
+SPC             evil-forward-char
+SPC..~          undefined
+T               evil-find-char-to-backward
+TAB             evil-jump-forward
+V               evil-visual-line
+W               evil-forward-WORD-begin
+Y               evil-yank-line
+[ '             evil-previous-mark-line
+[ (             evil-previous-open-paren
+[ [             evil-backward-section-begin
+[ ]             evil-backward-section-end
+[ `             evil-previous-mark
+[ s             evil-prev-flyspell-error
+[ {             evil-previous-open-brace
+\               evil-execute-in-emacs-state
+] '             evil-next-mark-line
+] )             evil-next-close-paren
+] [             evil-forward-section-end
+] ]             evil-forward-section-begin
+] `             evil-next-mark
+] s             evil-next-flyspell-error
+] }             evil-next-close-brace
+^               evil-first-non-blank
+_               evil-next-line-1-first-non-blank
+`               evil-goto-mark
+b               evil-backward-word-begin
+e               evil-forward-word-end
+f               evil-find-char
+g #             evil-search-unbounded-word-backward
+g $             evil-end-of-visual-line
+g *             evil-search-unbounded-word-forward
+g 0             evil-beginning-of-visual-line
+g <down>        evil-next-visual-line
+g <end>         evil-end-of-visual-line
+g <home>        evil-first-non-blank-of-visual-line
+g <up>          evil-previous-visual-line
+g C-]           evil-jump-to-tag
+g E             evil-backward-WORD-end
+g M             evil-percentage-of-line
+g N             evil-previous-match
+g ^             evil-first-non-blank-of-visual-line
+g _             evil-last-non-blank
+g d             evil-goto-definition
+g e             evil-backward-word-end
+g g             evil-goto-first-line
+g j             evil-next-visual-line
+g k             evil-previous-visual-line
+g m             evil-middle-of-visual-line
+g n             evil-next-match
+g o             evil-goto-char
+g v             evil-visual-restore
+h               evil-backward-char
+j               evil-next-line
+k               evil-previous-line
+l               evil-forward-char
+n               evil-search-next
+t               evil-find-char-to
+v               evil-visual-char
+w               evil-forward-word-begin
+y               evil-yank
+z +             evil-scroll-bottom-line-to-top
+z -             Keyboard Macro
+z .             Keyboard Macro
+z <left>        Keyboard Macro
+z <return>      Keyboard Macro
+z <right>       Keyboard Macro
+z H             evil-scroll-left
+z L             evil-scroll-right
+z RET           Keyboard Macro
+z ^             evil-scroll-top-line-to-bottom
+z b             evil-scroll-line-to-bottom
+z h             evil-scroll-column-left
+z l             evil-scroll-column-right
+z t             evil-scroll-line-to-top
+z z             evil-scroll-line-to-center
+{               evil-backward-paragraph
+|               evil-goto-column
+}               evil-forward-paragraph

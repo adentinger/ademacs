@@ -1,0 +1,52 @@
+<escape>      evil-exit-visual-state
+<insert>      undefined
+<insertchar>  undefined
+<mouse-2>     evil-exit-visual-and-repeat
+A             evil-append
+C-g           evil-normal-state
+I             evil-insert
+O             evil-visual-exchange-corners
+R             evil-change-whole-line
+U             evil-upcase
+a "           evil-a-double-quote
+a '           evil-a-single-quote
+a (           evil-a-paren
+a )           evil-a-paren
+a <           evil-an-angle
+a >           evil-an-angle
+a B           evil-a-curly
+a W           evil-a-WORD
+a [           evil-a-bracket
+a ]           evil-a-bracket
+a `           evil-a-back-quote
+a b           evil-a-paren
+a o           evil-a-symbol
+a p           evil-a-paragraph
+a s           evil-a-sentence
+a t           evil-a-tag
+a w           evil-a-word
+a {           evil-a-curly
+a }           evil-a-curly
+g f           evil-find-file-at-point-visual
+i "           evil-inner-double-quote
+i '           evil-inner-single-quote
+i (           evil-inner-paren
+i )           evil-inner-paren
+i <           evil-inner-angle
+i >           evil-inner-angle
+i B           evil-inner-curly
+i W           evil-inner-WORD
+i [           evil-inner-bracket
+i ]           evil-inner-bracket
+i `           evil-inner-back-quote
+i b           evil-inner-paren
+i o           evil-inner-symbol
+i p           evil-inner-paragraph
+i s           evil-inner-sentence
+i t           evil-inner-tag
+i w           evil-inner-word
+i {           evil-inner-curly
+i }           evil-inner-curly
+o             exchange-point-and-mark
+u             evil-downcase
+z =           ispell-word
