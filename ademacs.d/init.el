@@ -134,7 +134,9 @@
 (use-package general
   :after evil)
 
-;;(load "./evil")
+(use-package hydra)
+
+;; (load "./evil")
 
 (use-package undo-tree
   :ensure t
@@ -148,6 +150,16 @@
   :after evil
   :config
   (evil-collection-init))
+
+(defhydra ade/evil-window-size-change (:timeout 4)
+  "Resize current window"
+  ("a" evil-window-decrease-width "- width")
+  ("f" evil-window-increase-width "+ width")
+  ("s" evil-window-decrease-height "- height")
+  ("d" evil-window-increase-height "+ height"))
+
+(general-create-definer ade/evil-window-mgt-leader-def
+  :prefix "C-w")
 
 ;; I don't really care about Vim compatibility -- I don't use Vim. All I want
 ;; is modal editing. So remove all Evil keybindings. I'll make my own
@@ -574,6 +586,18 @@
   (general-def 'motion "h"   'evil-visual-char)
   (general-def 'motion "H"   'evil-visual-line)
   (general-def 'motion "M-h" 'evil-visual-block)
+  (ade/evil-window-mgt-leader-def 'motion "a"   'evil-window-left)
+  (ade/evil-window-mgt-leader-def 'motion "f"   'evil-window-right)
+  (ade/evil-window-mgt-leader-def 'motion "s"   'evil-window-up)
+  (ade/evil-window-mgt-leader-def 'motion "d"   'evil-window-down)
+  (ade/evil-window-mgt-leader-def 'motion "q"   'evil-quit)
+  (ade/evil-window-mgt-leader-def 'motion "C-q" 'evil-quit)
+  (ade/evil-window-mgt-leader-def 'motion "w"   'evil-window-split)
+  (ade/evil-window-mgt-leader-def 'motion "e"   'evil-window-vsplit)
+  (ade/evil-window-mgt-leader-def 'motion "C-w" 'evil-window-split)
+  (ade/evil-window-mgt-leader-def 'motion "C-e" 'evil-window-vsplit)
+  (ade/evil-window-mgt-leader-def 'motion "r"   'ade/evil-window-size-change/body)
+  (ade/evil-window-mgt-leader-def 'motion "C-r" 'ade/evil-window-size-change/body)
 
   (general-def 'normal "k"   'evil-insert)
   (general-def 'normal "K"   'evil-insert-line)
