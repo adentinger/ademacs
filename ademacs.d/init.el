@@ -98,7 +98,42 @@
 (use-package ivy-rich
   :init (ivy-rich-mode 1))
 
-(use-package all-the-icons)
+;; Needed by doom-modeline
+(use-package all-the-icons
+  :if (display-graphic-p))
+
+;; Taken from all-the-icons package
+(defun ade/all-the-icons-install-fonts-windows ()
+ "Helper function to download and install the latests fonts based on OS."
+ (interactive)
+ (unless
+   (file-exists-p (concat ade/flag-dir "/all-the-icons-install-fonts"))
+     (let* ((url-format "https://raw.githubusercontent.com/domtronn/all-the-icons.el/master/fonts/%s")
+          (font-dest (cond
+		              ((eq system-type 'windows-nt)
+					   (concat user-emacs-directory "/fonts-to-install"))))
+          (known-dest? (stringp font-dest))
+		  (progn (if (not font-dest)
+			  (error "Running %s on system other than Windows NT"
+								(get-current-function-name)))))
+
+     (unless (file-directory-p font-dest) (mkdir font-dest t))
+
+     (mapc (lambda (font)
+             (url-copy-file (format url-format font) (expand-file-name font font-dest) t))
+           all-the-icons-font-names)
+	 (when (yes-or-no-p
+			(format "Please install fonts in %s. Did install succeed? " font-dest))
+       (message "%s Successfully %s `all-the-icons' fonts to `%s'!"
+                (all-the-icons-wicon "stars" :v-adjust 0.0)
+                (if known-dest? "installed" "downloaded")
+                font-dest)
+       ;; Indicate that the installation is done
+       (make-empty-file (concat ade/flag-dir "/all-the-icons-install-fonts"))))))
+
+(if (not (eq system-type 'windows-nt))
+	(all-the-icons-install-fonts)
+	(ade/all-the-icons-install-fonts-windows))
 
 (use-package doom-modeline
   :ensure t
