@@ -131,6 +131,480 @@
   ([remap describe-variable] . counsel-describe-variable)
   ([remap describe-key] . helpful-key))
 
+(use-package general
+  :after evil)
+
+;;(load "./evil")
+
+(use-package undo-tree
+  :ensure t
+  :after evil
+  :diminish
+  :config
+  (evil-set-undo-system 'undo-tree)
+  (global-undo-tree-mode 1))
+
+(use-package evil-collection
+  :after evil
+  :config
+  (evil-collection-init))
+
+;; I don't really care about Vim compatibility -- I don't use Vim. All I want
+;; is modal editing. So remove all Evil keybindings. I'll make my own
+;; afterwards. My keybindings are more about where the buttons are on the
+;; keyboard than about the name of the functionality, altough I do insipre
+;; myself from the default keybindings too.
+;;
+;; TODO See if we could iterate on the evil keymaps instead of hardcoding
+;; all the keybindings.
+(defun ade/remove-evil-keybindings ()
+  (interactive)
+  (progn
+    (general-unbind 'motion
+      "!"
+      "#"
+      "$"
+      "%"
+      "'"
+      "("
+      ")"
+      "*"
+      "+"
+      ","
+      "-"
+      "/"
+      "0"
+      "1"
+      "2"
+      "3"
+      "4"
+      "5"
+      "6"
+      "7"
+      "8"
+      "9"
+      ":"
+      ";"
+      "<down-mouse-1>"
+      "<down>"
+      "<end>"
+      "<home>"
+      "<left>"
+      "<right>"
+      "<up>"
+      "?"
+      "B"
+      "C-6"
+      "C-]"
+      "C-^"
+      "C-b"
+      "C-d"
+      "C-e"
+      "C-f"
+      "C-g"
+      "C-o"
+      "C-v"
+      "C-w +"
+      "C-w -"
+      "C-w :"
+      "C-w <"
+      "C-w <down>"
+      "C-w <left>"
+      "C-w <right>"
+      "C-w <up>"
+      "C-w ="
+      "C-w >"
+      "C-w C-<down>"
+      "C-w C-<left>"
+      "C-w C-<right>"
+      "C-w C-<up>"
+      "C-w C-S-h"
+      "C-w C-S-j"
+      "C-w C-S-k"
+      "C-w C-S-l"
+      "C-w C-S-r"
+      "C-w C-S-s"
+      "C-w C-S-w"
+      "C-w C-_"
+      "C-w C-b"
+      "C-w C-c"
+      "C-w C-f"
+      "C-w C-h"
+      "C-w C-j"
+      "C-w C-k"
+      "C-w C-l"
+      "C-w C-n"
+      "C-w C-o"
+      "C-w C-p"
+      "C-w C-q"
+      "C-w C-r"
+      "C-w C-s"
+      "C-w C-t"
+      "C-w C-v"
+      "C-w C-w"
+      "C-w C-x"
+      "C-w H"
+      "C-w J"
+      "C-w K"
+      "C-w L"
+      "C-w R"
+      "C-w S"
+      "C-w W"
+      "C-w _"
+      "C-w b"
+      "C-w c"
+      "C-w f"
+      "C-w g T"
+      "C-w g t"
+      "C-w h"
+      "C-w j"
+      "C-w k"
+      "C-w l"
+      "C-w n"
+      "C-w o"
+      "C-w p"
+      "C-w q"
+      "C-w r"
+      "C-w s"
+      "C-w t"
+      "C-w v"
+      "C-w w"
+      "C-w x"
+      "C-w |"
+      "C-y"
+      "C-z"
+      "E"
+      "F"
+      "G"
+      "H"
+      "K"
+      "L"
+      "M"
+      "N"
+      "RET"
+      "SPC"
+      "SPC..~"
+      "T"
+      "TAB"
+      "V"
+      "W"
+      "Y"
+      "[ '"
+      "[ ("
+      "[ ["
+      "[ ]"
+      "[ `"
+      "[ s"
+      "[ {"
+      "\\"
+      "] '"
+      "] )"
+      "] ["
+      "] ]"
+      "] `"
+      "] s"
+      "] }"
+      "^"
+      "_"
+      "`"
+      "b"
+      "e"
+      "f"
+      "g #"
+      "g $"
+      "g *"
+      "g 0"
+      "g <down>"
+      "g <end>"
+      "g <home>"
+      "g <up>"
+      "g C-]"
+      "g E"
+      "g M"
+      "g N"
+      "g ^"
+      "g _"
+      "g d"
+      "g e"
+      "g g"
+      "g j"
+      "g k"
+      "g m"
+      "g n"
+      "g o"
+      "g v"
+      "h"
+      "j"
+      "k"
+      "l"
+      "n"
+      "t"
+      "v"
+      "w"
+      "y"
+      "z +"
+      "z -"
+      "z ."
+      "z <left>"
+      "z <return>"
+      "z <right>"
+      "z H"
+      "z L"
+      "z RET"
+      "z ^"
+      "z b"
+      "z h"
+      "z l"
+      "z t"
+      "z z"
+      "{"
+      "|"
+      "}")
+    (general-unbind 'normal
+      "\""
+      "&"
+      "."
+      "<"
+      "<deletechar>"
+      "<escape>"
+      "<insert>"
+      "<insertchar>"
+      "<mouse-2>"
+      "="
+      ">"
+      "@"
+      "A"
+      "C"
+      "C-."
+      "C-n"
+      "C-p"
+      "C-r"
+      "C-t"
+      "D"
+      "DEL"
+      "I"
+      "J"
+      "M-."
+      "M-y"
+      "O"
+      "P"
+      "R"
+      "S"
+      "X"
+      "Y"
+      "Z Q"
+      "Z Z"
+      "[ F"
+      "[ f"
+      "] F"
+      "] f"
+      "a"
+      "c"
+      "d"
+      "g &"
+      "g ,"
+      "g 8"
+      "g ;"
+      "g ?"
+      "g F"
+      "g I"
+      "g J"
+      "g P"
+      "g T"
+      "g U"
+      "g a"
+      "g f"
+      "g i"
+      "g p"
+      "g q"
+      "g t"
+      "g u"
+      "g w"
+      "g x"
+      "g ~"
+      "i"
+      "m"
+      "o"
+      "p"
+      "q"
+      "r"
+      "s"
+      "u"
+      "x"
+      "y"
+      "z ="
+      "z O"
+      "z a"
+      "z c"
+      "z m"
+      "z o"
+      "z r"
+      "~")
+    (general-unbind 'insert
+      "<delete>"
+      "<escape>"
+      "<insert>"
+      "<mouse-2>"
+      "C-@"
+      "C-a"
+      "C-d"
+      "C-e"
+      "C-g"
+      "C-k"
+      "C-n"
+      "C-o"
+      "C-p"
+      "C-q"
+      "C-r"
+      "C-t"
+      "C-v"
+      "C-w"
+      "C-x C-n"
+      "C-x C-p"
+      "C-y"
+      "C-z"
+      "DEL")
+    (general-unbind 'replace
+      "<escape>"
+      "<insert>"
+      "<mouse-2>"
+      "C-@"
+      "C-a"
+      "C-d"
+      "C-e"
+      "C-k"
+      "C-n"
+      "C-o"
+      "C-p"
+      "C-q"
+      "C-r"
+      "C-t"
+      "C-v"
+      "C-w"
+      "C-x C-n"
+      "C-x C-p"
+      "C-y"
+      "DEL")
+    (general-unbind 'visual
+      "<escape>"
+      "<insert>"
+      "<insertchar>"
+      "<mouse-2>"
+      "A"
+      "C-g"
+      "I"
+      "O"
+      "R"
+      "U"
+      "a \""
+      "a '"
+      "a ("
+      "a )"
+      "a <"
+      "a >"
+      "a B"
+      "a W"
+      "a ["
+      "a ]"
+      "a `"
+      "a b"
+      "a o"
+      "a p"
+      "a s"
+      "a t"
+      "a w"
+      "a {"
+      "a }"
+      "g f"
+      "i \""
+      "i '"
+      "i ("
+      "i )"
+      "i <"
+      "i >"
+      "i B"
+      "i W"
+      "i ["
+      "i ]"
+      "i `"
+      "i b"
+      "i o"
+      "i p"
+      "i s"
+      "i t"
+      "i w"
+      "i {"
+      "i }"
+      "o"
+      "u"
+      "z =")))
+
+(defun ade/add-custom-evil-keybindings ()
+  (interactive)
+
+  ;; C-g is like "quit"; it makes us go back to normal mode. Easy to hit!
+  (general-def 'motion "C-g" 'evil-normal-state)
+  (general-def 'insert "C-g" 'evil-normal-state)
+  (general-def 'replace "C-g" 'evil-normal-state)
+
+  ;; Movement and going back to normal state is generally with left hand
+  ;; whereas changing modes, inserting and special commands (e.g. kill, yank)
+  ;; usually with right hand.
+  (general-def 'motion ":"   'evil-ex) ; Vim execute command thing.
+  (general-def 'motion "a"   'evil-backward-char)
+  (general-def 'motion "f"   'evil-forward-char)
+  (general-def 'motion "s"   'evil-previous-visual-line)
+  (general-def 'motion "d"   'evil-next-visual-line)
+  (general-def 'motion "k"   'evil-insert)
+  (general-def 'motion "K"   'evil-insert-line)
+  (general-def 'motion "l"   'evil-append)
+  (general-def 'motion "L"   'evil-append-line)
+  (general-def 'motion "w"   'evil-backward-word-begin)
+  (general-def 'motion "e"   'evil-forward-word-end)
+  (general-def 'motion "W"   'evil-backward-WORD-begin)
+  (general-def 'motion "E"   'evil-forward-WORD-end)
+  (general-def 'motion "q"   'evil-beginning-of-visual-line)
+  (general-def 'motion "r"   'evil-end-of-visual-line)
+  (general-def 'motion "Q"   'beginning-of-buffer)
+  (general-def 'motion "R"   'end-of-buffer)
+  (general-def 'motion "x"   'scroll-down)
+  (general-def 'motion "c"   'scroll-up)
+  (general-def 'motion "X"   (lambda () (interactive) (scroll-down 1)))
+  (general-def 'motion "C"   (lambda () (interactive) (scroll-up 1)))
+  (general-def 'motion "h"   'evil-visual-char)
+  (general-def 'motion "H"   'evil-visual-line)
+  (general-def 'motion "M-h" 'evil-visual-block)
+
+  (general-def 'normal "k"   'evil-insert)
+  (general-def 'normal "K"   'evil-insert-line)
+  (general-def 'normal "l"   'evil-append)
+  (general-def 'normal "L"   'evil-append-line)
+  (general-def 'normal "j"   'evil-visual-char)
+  (general-def 'normal "J"   'evil-visual-line)
+  (general-def 'normal "M-j" 'evil-visual-block)
+  (general-def 'normal "h"   'evil-replace)
+  (general-def 'normal "H"   'evil-enter-replace-state)
+  (general-def 'normal "u"   'evil-undo) ; C-z on Linux
+  (general-def 'normal "U"   'evil-redo) ; C-Z on Linux, so uppercase makes sense
+  (general-def 'normal "p"   'evil-paste-before)
+  (general-def 'normal "P"   'evil-paste-after)
+  (general-def 'normal "n"   'evil-delete-backward-char)
+  (general-def 'normal "N"   'evil-delete-whole-line)
+  (general-def 'normal "m"   'evil-delete-char)
+  (general-def 'normal "M"   'evil-delete-while-line)
+
+  (general-def 'visual ";"   'comment-dwim) ; I do that often!
+  (general-def 'visual "h"   'evil-visual-char)
+  (general-def 'visual "H"   'evil-visual-line)
+  (general-def 'visual "M-h" 'evil-visual-block)
+  (general-def 'visual "o"   'kill-ring-save)
+  (general-def 'visual "O"   'kill-region)
+  ;; "a" seems to be overridden by its nil keybindings, causing it
+  ;; to be considered a prefix keybinding, so forcefully set that!
+  (general-def 'visual "a"   'evil-backward-char)
+  (general-def 'visual "u"   'evil-downcase)
+  (general-def 'visual "U"   'evil-upcase))
+
 (use-package evil
   :init
   (setq evil-want-integration t)
@@ -146,88 +620,6 @@
   ;; evil-forward/backward-char can move accross lines
   (setq evil-cross-lines t)
 
-  (define-key evil-insert-state-map (kbd "C-g") 'evil-normal-state)
-  (define-key evil-insert-state-map (kbd "C-f") 'evil-normal-state)
-  (define-key evil-insert-state-map (kbd "M-x") (lambda () (interactive) (scroll-down 1)))
-  (define-key evil-insert-state-map (kbd "M-c") (lambda () (interactive) (scroll-up 1)))
-
-  (define-key evil-normal-state-map (kbd "C-f") 'evil-normal-state)
-  (define-key evil-normal-state-map (kbd "M-x") (lambda () (interactive) (scroll-down 1)))
-  (define-key evil-normal-state-map (kbd "M-c") (lambda () (interactive) (scroll-up 1)))
-  (define-key evil-normal-state-map (kbd "a") 'evil-backward-char)
-  (define-key evil-normal-state-map (kbd "f") 'evil-forward-char)
-  (define-key evil-normal-state-map (kbd "s") 'evil-previous-visual-line)
-  (define-key evil-normal-state-map (kbd "d") 'evil-next-visual-line)
-  (define-key evil-normal-state-map (kbd "k") 'evil-insert)
-  (define-key evil-normal-state-map (kbd "K") 'evil-insert-line)
-  (define-key evil-normal-state-map (kbd "l") 'evil-append)
-  (define-key evil-normal-state-map (kbd "L") 'evil-append-line)
-  (define-key evil-normal-state-map (kbd "w") 'evil-backward-word-begin)
-  (define-key evil-normal-state-map (kbd "e") 'evil-forward-word-end)
-  (define-key evil-normal-state-map (kbd "W") 'evil-backward-WORD-begin)
-  (define-key evil-normal-state-map (kbd "E") 'evil-forward-WORD-end)
-  (define-key evil-normal-state-map (kbd "q") 'evil-beginning-of-visual-line)
-  (define-key evil-normal-state-map (kbd "r") 'evil-end-of-visual-line)
-  (define-key evil-normal-state-map (kbd "Q") 'beginning-of-buffer)
-  (define-key evil-normal-state-map (kbd "R") 'end-of-buffer)
-  (define-key evil-normal-state-map (kbd "x") 'scroll-down)
-  (define-key evil-normal-state-map (kbd "c") 'scroll-up)
-  (define-key evil-normal-state-map (kbd "h") 'evil-visual-char)
-  (define-key evil-normal-state-map (kbd "H") 'evil-visual-line)
-  (define-key evil-normal-state-map (kbd "M-h") 'evil-visual-block)
-
-  (define-key evil-visual-state-map (kbd "C-f") 'evil-normal-state)
-  (define-key evil-visual-state-map (kbd "M-x") (lambda () (interactive) (scroll-down 1)))
-  (define-key evil-visual-state-map (kbd "M-c") (lambda () (interactive) (scroll-up 1)))
-  (define-key evil-visual-state-map (kbd "a") 'evil-backward-char)
-  (define-key evil-visual-state-map (kbd "f") 'evil-forward-char)
-  (define-key evil-visual-state-map (kbd "s") 'evil-previous-visual-line)
-  (define-key evil-visual-state-map (kbd "d") 'evil-next-visual-line)
-  (define-key evil-visual-state-map (kbd "k") 'evil-insert)
-  (define-key evil-visual-state-map (kbd "K") 'evil-insert-line)
-  (define-key evil-visual-state-map (kbd "l") 'evil-append)
-  (define-key evil-visual-state-map (kbd "L") 'evil-append-line)
-  (define-key evil-visual-state-map (kbd "w") 'evil-backward-word-begin)
-  (define-key evil-visual-state-map (kbd "e") 'evil-forward-word-end)
-  (define-key evil-visual-state-map (kbd "W") 'evil-backward-WORD-begin)
-  (define-key evil-visual-state-map (kbd "E") 'evil-forward-WORD-end)
-  (define-key evil-visual-state-map (kbd "q") 'evil-beginning-of-visual-line)
-  (define-key evil-visual-state-map (kbd "r") 'evil-end-of-visual-line)
-  (define-key evil-visual-state-map (kbd "Q") 'beginning-of-buffer)
-  (define-key evil-visual-state-map (kbd "R") 'end-of-buffer)
-  (define-key evil-visual-state-map (kbd "x") 'scroll-down)
-  (define-key evil-visual-state-map (kbd "c") 'scroll-up)
-  (define-key evil-visual-state-map (kbd "h") 'evil-visual-char)
-  (define-key evil-visual-state-map (kbd "H") 'evil-visual-line)
-  (define-key evil-visual-state-map (kbd "M-h") 'evil-visual-block)
-
-  (define-key evil-motion-state-map (kbd "C-f") 'evil-normal-state)
-  (define-key evil-motion-state-map (kbd "M-x") (lambda () (interactive) (scroll-down 1)))
-  (define-key evil-motion-state-map (kbd "M-c") (lambda () (interactive) (scroll-up 1)))
-  (define-key evil-motion-state-map (kbd "a") 'evil-backward-char)
-  (define-key evil-motion-state-map (kbd "f") 'evil-forward-char)
-  (define-key evil-motion-state-map (kbd "s") 'evil-previous-visual-line)
-  (define-key evil-motion-state-map (kbd "d") 'evil-next-visual-line)
-  (define-key evil-motion-state-map (kbd "k") 'evil-insert)
-  (define-key evil-motion-state-map (kbd "K") 'evil-insert-line)
-  (define-key evil-motion-state-map (kbd "l") 'evil-append)
-  (define-key evil-motion-state-map (kbd "L") 'evil-append-line)
-  (define-key evil-motion-state-map (kbd "w") 'evil-backward-word-begin)
-  (define-key evil-motion-state-map (kbd "e") 'evil-forward-word-end)
-  (define-key evil-motion-state-map (kbd "W") 'evil-backward-WORD-begin)
-  (define-key evil-motion-state-map (kbd "E") 'evil-forward-WORD-end)
-  (define-key evil-motion-state-map (kbd "q") 'evil-beginning-of-visual-line)
-  (define-key evil-motion-state-map (kbd "r") 'evil-end-of-visual-line)
-  (define-key evil-motion-state-map (kbd "Q") 'beginning-of-buffer)
-  (define-key evil-motion-state-map (kbd "R") 'end-of-buffer)
-  (define-key evil-motion-state-map (kbd "x") 'scroll-down)
-  (define-key evil-motion-state-map (kbd "c") 'scroll-up)
-  (define-key evil-motion-state-map (kbd "h") 'evil-visual-char)
-  (define-key evil-motion-state-map (kbd "H") 'evil-visual-line)
-  (define-key evil-motion-state-map (kbd "M-h") 'evil-visual-block))
-
-(use-package evil-collection
-  :after evil
-  :config
-  (evil-collection-init))
+  (ade/remove-evil-keybindings)
+  (ade/add-custom-evil-keybindings))
 
