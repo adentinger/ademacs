@@ -6,6 +6,10 @@
 (setq ade/flag-dir (concat user-emacs-directory "/ade-flags"))
 (unless (file-directory-p ade/flag-dir) (mkdir ade/flag-dir t))
 
+;; Load temporary theme while the real theme is being downloaded
+;; or loaded. I don't like to be blinded!
+(load-theme 'wombat)
+
 (setq inhibit-startup-message t)
 
 ;; Disable visible scrollbar
@@ -20,10 +24,6 @@
 (menu-bar-mode -1)
 
 (setq visible-bell t)
-
-;; Load temporary theme while the real theme is being downloaded
-;; or loaded. I don't like to be blinded!
-(load-theme 'wombat)
 
 ;; Start emacs maximized
 (add-hook 'emacs-startup-hook 'toggle-frame-fullscreen)
