@@ -594,6 +594,10 @@
   (general-def 'motion "C-g" 'evil-normal-state)
   (general-def 'insert "C-g" 'evil-normal-state)
   (general-def 'replace "C-g" 'evil-normal-state)
+  ;; Keeping <escape> seems to be a Vim doctrine, so let's keep it.
+  (general-def 'motion  "<escape>" 'evil-normal-state)
+  (general-def 'insert "<escape>" 'evil-normal-state)
+  (general-def 'replace "<escape>" 'evil-normal-state)
 
   ;; Movement and going back to normal state is generally with left hand
   ;; whereas changing modes, inserting and special commands (e.g. kill, yank)
@@ -622,6 +626,7 @@
   (general-def 'motion "h"   'evil-visual-char)
   (general-def 'motion "H"   'evil-visual-line)
   (general-def 'motion "M-h" 'evil-visual-block)
+  (general-def 'motion "t"   'evil-jump-item)
   (ade/evil-window-mgt-leader-def 'motion "a"   'evil-window-left)
   (ade/evil-window-mgt-leader-def 'motion "f"   'evil-window-right)
   (ade/evil-window-mgt-leader-def 'motion "s"   'evil-window-up)
@@ -651,7 +656,36 @@
   (general-def 'normal "n"   'evil-delete-backward-char)
   (general-def 'normal "N"   'evil-delete-whole-line)
   (general-def 'normal "m"   'evil-delete-char)
-  (general-def 'normal "M"   'evil-delete-while-line)
+  (general-def 'normal "M"   'evil-delete-whole-line)
+
+  (general-def '(insert replace) "C-a" 'evil-backward-char)
+  (general-def '(insert replace) "C-f" 'evil-forward-char)
+  ;; Already mapped to search command
+  ;; (general-def '(insert replace) "C-s" 'evil-previous-visual-line)
+  (general-def '(insert replace) "C-d" 'evil-next-visual-line)
+  (general-def '(insert replace) "C-u" 'evil-undo)
+  (general-def '(insert replace) "C-U" 'evil-redo)
+  ;; Already in insert/replace state so C-k should go to beginning of line
+  (general-def '(insert replace) "C-k" 'evil-insert-line)
+  (general-def '(insert replace) "C-K" 'evil-insert-line)
+  ;; Already in insert/replace state so C-l should go to end of line
+  (general-def '(insert replace) "C-l" 'evil-append-line)
+  (general-def '(insert replace) "C-L" 'evil-append-line)
+  ;; <return> maps to C-m, so rebinding C-m looks like a can of worms:
+  ;; http://makble.com/rebind-ctrlm-and-enter-in-emacs
+  ;;
+  ;; (general-def '(insert replace) "C-n" 'evil-delete-backward-char)
+  ;; (general-def '(insert replace) "C-N" 'evil-delete-whole-line)
+  ;; (general-def '(insert replace) "C-m" 'evil-delete-char)
+  ;; (general-def '(insert replace) "C-M" 'evil-delete-whole-line)
+  ;;
+  ;; C-w is already mapped to window management
+  ;; (general-def '(insert replace) "C-w" 'evil-backward-word-begin)
+  ;; (general-def '(insert replace) "C-W" 'evil-backward-WORD-begin)
+  ;; (general-def '(insert replace) "C-e" 'evil-forward-word-begin)
+  ;; (general-def '(insert replace) "C-E" 'evil-forward-WORD-begin)
+  (general-def '(insert replace) "C-p" 'evil-paste-before)
+  (general-def '(insert replace) "C-P" 'evil-paste-after)
 
   (general-def 'visual ";"   'comment-dwim) ; I do that often!
   (general-def 'visual "h"   'evil-visual-char)
