@@ -102,38 +102,42 @@
 (use-package all-the-icons
   :if (display-graphic-p))
 
+(setq ade/all-the-icons-install-fonts-flag-path (concat ade/flag-dir "/all-the-icons-install-fonts"))
+
 ;; Taken from all-the-icons package
 (defun ade/all-the-icons-install-fonts-windows ()
- "Helper function to download and install the latests fonts based on OS."
+ "Helper function to download and install the latests fonts on Windows."
  (interactive)
- (unless
-   (file-exists-p (concat ade/flag-dir "/all-the-icons-install-fonts"))
-     (let* ((url-format "https://raw.githubusercontent.com/domtronn/all-the-icons.el/master/fonts/%s")
-          (font-dest (cond
-		              ((eq system-type 'windows-nt)
-					   (concat user-emacs-directory "/fonts-to-install"))))
-          (known-dest? (stringp font-dest))
-		  (progn (if (not font-dest)
-			  (error "Running %s on system other than Windows NT"
-								(get-current-function-name)))))
+ (let* ((url-format "https://raw.githubusercontent.com/domtronn/all-the-icons.el/master/fonts/%s")
+        (font-dest (cond
+		            ((eq system-type 'windows-nt)
+					 (concat user-emacs-directory "/fonts-to-install"))))
+        (known-dest? (stringp font-dest))
+		(progn (if (not font-dest)
+				   (error "Running %s on system other than Windows NT"
+						  (get-current-function-name)))))
 
-     (unless (file-directory-p font-dest) (mkdir font-dest t))
+   (unless (file-directory-p font-dest) (mkdir font-dest t))
 
-     (mapc (lambda (font)
-             (url-copy-file (format url-format font) (expand-file-name font font-dest) t))
-           all-the-icons-font-names)
-	 (when (yes-or-no-p
-			(format "Please install fonts in %s. Did install succeed? " font-dest))
-       (message "%s Successfully %s `all-the-icons' fonts to `%s'!"
-                (all-the-icons-wicon "stars" :v-adjust 0.0)
-                (if known-dest? "installed" "downloaded")
-                font-dest)
-       ;; Indicate that the installation is done
-       (make-empty-file (concat ade/flag-dir "/all-the-icons-install-fonts"))))))
+   (mapc (lambda (font)
+           (url-copy-file (format url-format font) (expand-file-name font font-dest) t))
+         all-the-icons-font-names)
+   (when (yes-or-no-p
+		  (format "Please manually install fonts in %s. Did install succeed? " font-dest))
+     (message "%s Successfully %s `all-the-icons' fonts to `%s'!"
+              (all-the-icons-wicon "stars" :v-adjust 0.0)
+              (if known-dest? "installed" "downloaded")
+              font-dest))))
 
-(if (not (eq system-type 'windows-nt))
-	(all-the-icons-install-fonts)
-	(ade/all-the-icons-install-fonts-windows))
+(defun ade/all-the-icons-install-fonts ()
+  (interactive)
+  (unless (file-exists-p ade/all-the-icons-install-fonts-flag-path)
+	(progn (if (not (eq system-type 'windows-nt))
+			   (all-the-icons-install-fonts)
+			 (ade/all-the-icons-install-fonts-windows))
+		   (make-empty-file ade/all-the-icons-install-fonts-flag-path))))
+
+(ade/all-the-icons-install-fonts)
 
 (use-package doom-modeline
   :ensure t
@@ -166,12 +170,9 @@
   ([remap describe-variable] . counsel-describe-variable)
   ([remap describe-key] . helpful-key))
 
-(use-package general
-  :after evil)
+(use-package general)
 
 (use-package hydra)
-
-;; (load "./evil")
 
 (use-package undo-tree
   :ensure t
