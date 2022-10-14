@@ -102,7 +102,8 @@
 (use-package all-the-icons
   :if (display-graphic-p))
 
-(setq ade/all-the-icons-install-fonts-flag-path (concat ade/flag-dir "/all-the-icons-install-fonts"))
+(setq ade/all-the-icons-install-fonts-flag-path
+	  (concat ade/flag-dir "/all-the-icons-install-fonts"))
 
 ;; Taken from all-the-icons package
 (defun ade/all-the-icons-install-fonts-windows ()
@@ -139,10 +140,15 @@
 
 (ade/all-the-icons-install-fonts)
 
+;; https://github.com/seagle0128/doom-modeline/issues/187#issuecomment-507201556
+(defun ade/doom-modeline-height ()
+  "Calculate the actual char height of the mode-line."
+  (- (frame-char-height) 8))
+
 (use-package doom-modeline
-  :ensure t
   :init (doom-modeline-mode 1)
-  :custom ((doom-modeline-height 2)))
+  :config
+  (advice-add #'doom-modeline--font-height :override #'ade/doom-modeline-height))
 
 (use-package doom-themes
   :init (load-theme 'doom-dark+ t))
@@ -157,8 +163,6 @@
   :custom (which-key-idle-delay 0.3))
 
 (use-package helpful
-  ;; :custom section is to avoid adding variables in the annoying custom.el file
-  ;; that we setup earlier
   :custom
   (counsel-describe-function-function #'helpful-callable)
   (counsel-describe-variable-function #'helpful-variable)
