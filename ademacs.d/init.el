@@ -99,7 +99,8 @@
   (interactive)
   (unless (file-exists-p ade/all-the-icons-install-fonts-flag-path)
 	(progn (if (not (eq system-type 'windows-nt))
-			   (all-the-icons-install-fonts)
+			   ;; Don't prompt for fonts install on Linux and MacOS.
+			   (all-the-icons-install-fonts t)
 			 (ade/all-the-icons-install-fonts-windows))
 		   (make-empty-file ade/all-the-icons-install-fonts-flag-path))))
 
@@ -603,6 +604,10 @@
   (general-def 'motion "C-g" 'evil-normal-state)
   (general-def 'insert "C-g" 'evil-normal-state)
   (general-def 'replace "C-g" 'evil-normal-state)
+  ;; Need access to emacs state in case evil ever betrays me.
+  (general-def 'motion "C-z" 'evil-emacs-state)
+  (general-def 'insert "C-z" 'evil-emacs-state)
+  (general-def 'replace "C-z" 'evil-emacs-state)
   ;; Keeping <escape> seems to be a Vim doctrine, so let's keep it.
   (general-def 'motion  "<escape>" 'evil-normal-state)
   (general-def 'insert "<escape>" 'evil-normal-state)
