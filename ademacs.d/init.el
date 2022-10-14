@@ -700,19 +700,23 @@
   (general-def 'visual "U"   'evil-upcase))
 
 (use-package evil
-  :init
-  (setq evil-want-integration t)
-  (setq evil-want-keybinding nil)
-  :config (evil-mode 1)
-
+  :custom
+  ;; Apparently needed with evil-collection
+  (evil-want-integration t)
+  ;; Apparently also needed with evil-collection
+  (evil-want-keybinding nil)
   ;; Hitting "." shouldn't move the cursor (normally repeats last command)
-  (setq evil-repeat-move-cursor nil)
+  (evil-repeat-move-cursor nil)
   ;; Exiting insert mode shouldn't move the cursor one char back
-  (setq evil-move-cursor-back nil)
+  (evil-move-cursor-back nil)
   ;; evil-forward/backward-char can move to the EOL character. Like, seriously.
-  (setq evil-move-beyond-eol t)
+  (evil-move-beyond-eol t)
   ;; evil-forward/backward-char can move accross lines
-  (setq evil-cross-lines t)
+  (evil-cross-lines t)
+
+  :config
+
+  (evil-mode 1)
 
   (ade/remove-evil-keybindings)
   (ade/add-custom-evil-keybindings))
