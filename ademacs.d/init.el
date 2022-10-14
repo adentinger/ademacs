@@ -67,41 +67,6 @@
 ;; Always ensure packages loaded by use-package is downloaded
 (setq use-package-always-ensure t)
 
-(use-package ivy
-  :diminish
-  :bind (("C-s" . swiper)
-    :map ivy-minibuffer-map
-    ("TAB" . ivy-alt-done)
-    ("C-l" . ivy-alt-done)
-    ("C-j" . ivy-next-line)
-    ("C-k" . ivy-previous-line)
-    :map ivy-switch-buffer-map
-    ("C-k" . ivy-previous-line)
-    ("C-l" . ivy-done)
-    ("C-d" . ivy-switch-buffer-kill)
-    :map ivy-reverse-i-search-map
-    ("C-k" . ivy-previous-line)
-    ("C-d" . ivy-reverse-i-search-kill))
-  :config
-  (ivy-mode 1))
-
-;; Counsel package is used by ivy-rich; ivy-rich doesn't seem to work without it
-(use-package counsel
-  :bind (("M-x" . counsel-M-x)
-	 ("C-x b" . counsel-ibuffer)
-	 ("C-x C-f" . counsel-find-file)
-	 ("C-M-j" . counsel-switch-buffer)
-	 :map minibuffer-local-map ("C-r" . 'counsel-minibuffer-history))
-  :custom (ivy-initial-inputs-alist nil) ; Don't start searches with "^"
-)
-
-(use-package ivy-rich
-  :init (ivy-rich-mode 1))
-
-;; Needed by doom-modeline
-(use-package all-the-icons
-  :if (display-graphic-p))
-
 (setq ade/all-the-icons-install-fonts-flag-path
 	  (concat ade/flag-dir "/all-the-icons-install-fonts"))
 
@@ -138,7 +103,46 @@
 			 (ade/all-the-icons-install-fonts-windows))
 		   (make-empty-file ade/all-the-icons-install-fonts-flag-path))))
 
-(ade/all-the-icons-install-fonts)
+;; Needed by doom-modeline
+(use-package all-the-icons
+  :if (display-graphic-p)
+  :config
+  (ade/all-the-icons-install-fonts))
+
+(use-package ivy
+  :diminish
+  :bind (("C-s" . swiper)
+    :map ivy-minibuffer-map
+    ("TAB" . ivy-alt-done)
+    ("C-l" . ivy-alt-done)
+    ("C-j" . ivy-next-line)
+    ("C-k" . ivy-previous-line)
+    :map ivy-switch-buffer-map
+    ("C-k" . ivy-previous-line)
+    ("C-l" . ivy-done)
+    ("C-d" . ivy-switch-buffer-kill)
+    :map ivy-reverse-i-search-map
+    ("C-k" . ivy-previous-line)
+    ("C-d" . ivy-reverse-i-search-kill))
+  :config
+  (ivy-mode 1))
+
+;; Counsel package is used by ivy-rich; ivy-rich doesn't seem to work without it
+(use-package counsel
+  :bind (("M-x" . counsel-M-x)
+	 ("C-x b" . counsel-ibuffer)
+	 ("C-x C-f" . counsel-find-file)
+	 ("C-M-j" . counsel-switch-buffer)
+	 :map minibuffer-local-map ("C-r" . 'counsel-minibuffer-history))
+  :custom (ivy-initial-inputs-alist nil)) ; Don't start searches with "^"
+
+;; When some text is selected and we type some other text, the selected text is
+;; removed first. Not particularly useful since we use Evil mode, but oh well.
+(use-package delsel
+  :config (delete-selection-mode 1))
+
+(use-package ivy-rich
+  :init (ivy-rich-mode 1))
 
 ;; https://github.com/seagle0128/doom-modeline/issues/187#issuecomment-507201556
 (defun ade/doom-modeline-height ()
@@ -146,6 +150,7 @@
   (- (frame-char-height) 8))
 
 (use-package doom-modeline
+  :after all-the-icons
   :init (doom-modeline-mode 1)
   :config
   (advice-add #'doom-modeline--font-height :override #'ade/doom-modeline-height))
