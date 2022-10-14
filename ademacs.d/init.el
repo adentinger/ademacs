@@ -92,7 +92,7 @@
 	 ("C-x C-f" . counsel-find-file)
 	 ("C-M-j" . counsel-switch-buffer)
 	 :map minibuffer-local-map ("C-r" . 'counsel-minibuffer-history))
-  :config (setq ivy-initial-inputs-alist nil) ; Don't start searches with "^"
+  :custom (ivy-initial-inputs-alist nil) ; Don't start searches with "^"
 )
 
 (use-package ivy-rich
@@ -154,7 +154,7 @@
 (use-package which-key
   :init (which-key-mode)
   :diminish which-key-mode
-  :config (setq which-key-idle-delay 0.3))
+  :custom (which-key-idle-delay 0.3))
 
 (use-package helpful
   ;; :custom section is to avoid adding variables in the annoying custom.el file
