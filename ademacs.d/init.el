@@ -195,6 +195,11 @@
   (evil-set-undo-system 'undo-tree)
   (global-undo-tree-mode 1))
 
+;; Somehow, adding this to the :init of evil still triggers a warning on the
+;; first time emacs is run, so just set that before evil and evil-collection
+;; are ever mentioned.
+(setq evil-want-keybinding nil)
+
 (use-package evil-collection
   :after evil
   :config
