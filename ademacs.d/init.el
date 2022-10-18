@@ -1,6 +1,31 @@
 ;;; Much of the config taken from
 ;;; https://github.com/daviwil/emacs-from-scratch/blob/master/init.el
 
+;;(if (eq system-type 'windows-nt)
+;;	(setq ade/win-usr-dir (s-replace "\\" "/" (getenv "userprofile"))))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Config variables
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;;(if (not (eq system-type 'windows-nt))
+;;	(progn
+;;	  (setq ade/prjs-dir "~/Git"))
+;;  (progn
+;;	(setq ade/prjs-dir (concat ade/win-usr-dir "/Git"))))
+
+;;; KEY PREFIXES
+;;;
+;;; As much as possible we use the below rather than hardcoded keybindings,
+;;; however in some cases it may not be possible, or I haven't figured out how
+;;; to use them yet.
+(setq ade/cmd-pfx-plain "C-SPC")
+(setq ade/evil-window-mgt-leader-pfx-plain "C-w")
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Rest of code
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 ;; Create dir specific to flag files that indicate whether some action has been
 ;; performed already
 (setq ade/flag-dir (concat user-emacs-directory "/ade-flags"))
@@ -185,6 +210,9 @@
 
 (use-package general)
 
+(general-create-definer ade/cmd-pfx
+  :prefix ade/cmd-pfx-plain)
+
 (use-package hydra)
 
 (use-package undo-tree
@@ -213,7 +241,7 @@
   ("d" evil-window-increase-height "+ height"))
 
 (general-create-definer ade/evil-window-mgt-leader-def
-  :prefix "C-w")
+  :prefix ade/evil-window-mgt-leader-pfx-plain)
 
 ;; I don't really care about Vim compatibility -- I don't use Vim. All I want
 ;; is modal editing. So remove all Evil keybindings. I'll make my own
@@ -742,4 +770,15 @@
 
   (ade/remove-evil-keybindings)
   (ade/add-custom-evil-keybindings))
+
+(use-package projectile
+  :diminish projectile-mode
+  :init
+  ;; Otherwise projectile screams because keybinding is not a prefix key.
+  (unbind-key ade/cmd-pfx-plain)
+  (when (file-directory-p ade/prjs-dir)
+	(setq projectile-project-search-path '("C:/Users/adent/Git")))
+  :custom ((projectile-completion-system 'ivy))
+  :config (projectile-mode)
+  :bind-keymap ("C-SPC p" . projectile-command-map))
 
