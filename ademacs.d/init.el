@@ -12,15 +12,18 @@
 
 (setq inhibit-startup-message t)
 
-;; Disable visible scrollbar
-(scroll-bar-mode -1)
-;; Disable the toolbar
-(tool-bar-mode -1)
-;; Disable tooltips
-(tooltip-mode -1)
-;; Give some breathing room
-(set-fringe-mode 10)
-;; Disable menu bar
+(if (display-graphic-p)
+    (progn
+      ;; Disable visible scrollbar
+      (scroll-bar-mode -1)
+      ;; Disable the toolbar
+      (tool-bar-mode -1)
+      ;; Disable tooltips
+      (tooltip-mode -1)
+      ;; Give some breathing room
+      (set-fringe-mode 10)))
+
+;; Disable menu bar that appears in both graphic and headless modes
 (menu-bar-mode -1)
 
 (setq visible-bell t)
