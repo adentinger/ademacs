@@ -1,18 +1,18 @@
 ;;; Much of the config taken from
 ;;; https://github.com/daviwil/emacs-from-scratch/blob/master/init.el
 
-;;(if (eq system-type 'windows-nt)
-;;	(setq ade/win-usr-dir (s-replace "\\" "/" (getenv "userprofile"))))
+(if (eq system-type 'windows-nt)
+	(setq ade/win/usr-dir (replace-regexp-in-string "\\\\" "/" (getenv "userprofile"))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Config variables
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;;(if (not (eq system-type 'windows-nt))
-;;	(progn
-;;	  (setq ade/prjs-dir "~/Git"))
-;;  (progn
-;;	(setq ade/prjs-dir (concat ade/win-usr-dir "/Git"))))
+(if (not (eq system-type 'windows-nt))
+	(progn
+	  (setq ade/prjs-dir "~/Git"))
+(progn
+	(setq ade/prjs-dir (concat ade/win/usr-dir "/Git"))))
 
 ;;; KEY PREFIXES
 ;;;
@@ -777,7 +777,7 @@
   ;; Otherwise projectile screams because keybinding is not a prefix key.
   (unbind-key ade/cmd-pfx-plain)
   (when (file-directory-p ade/prjs-dir)
-	(setq projectile-project-search-path '("C:/Users/adent/Git")))
+	(setq projectile-project-search-path (list ade/prjs-dir)))
   :custom ((projectile-completion-system 'ivy))
   :config (projectile-mode)
   :bind-keymap ("C-SPC p" . projectile-command-map))
