@@ -149,18 +149,17 @@
 
 (use-package ivy
   :diminish
-  :bind (("C-s" . swiper)
+  :init (unbind-key "C-v")
+  :bind (("C-v" . swiper)
 		 :map ivy-minibuffer-map
 		 ("TAB" . ivy-alt-done)
-		 ("C-l" . ivy-alt-done)
-		 ("C-j" . ivy-next-line)
-		 ("C-k" . ivy-previous-line)
+		 ("C-s" . ivy-previous-line)
+		 ("C-d" . ivy-next-line)
 		 :map ivy-switch-buffer-map
-		 ("C-k" . ivy-previous-line)
-		 ("C-l" . ivy-done)
+		 ("C-s" . ivy-previous-line)
 		 ("C-d" . ivy-switch-buffer-kill)
 		 :map ivy-reverse-i-search-map
-		 ("C-k" . ivy-previous-line)
+		 ("C-s" . ivy-previous-line)
 		 ("C-d" . ivy-reverse-i-search-kill))
   :config
   (ivy-mode 1)
@@ -226,6 +225,11 @@
 
 (use-package hydra)
 
+;; Somehow, adding this to the :init of evil still triggers a warning on the
+;; first time emacs is run, so just set that before evil and evil-collection
+;; are ever mentioned.
+(setq evil-want-keybinding nil)
+
 (use-package undo-tree
   :ensure t
   :after evil
@@ -233,11 +237,6 @@
   :config
   (evil-set-undo-system 'undo-tree)
   (global-undo-tree-mode 1))
-
-;; Somehow, adding this to the :init of evil still triggers a warning on the
-;; first time emacs is run, so just set that before evil and evil-collection
-;; are ever mentioned.
-(setq evil-want-keybinding nil)
 
 (use-package evil-collection
   :after evil
@@ -253,135 +252,6 @@
 
 (general-create-definer ade/evil-window-mgt-leader-def
   :prefix ade/evil-window-mgt-leader-pfx-plain)
-
-;; I don't really care about Vim compatibility -- I don't use Vim. All I want
-;; is modal editing. So remove all Evil keybindings. I'll make my own
-;; afterwards. My keybindings are more about where the buttons are on the
-;; keyboard than about the name of the functionality, altough I do insipre
-;; myself from the default keybindings too.
-(defun ade/remove-evil-keybindings ()
-  (interactive)
-  (setf (cdr evil-motion-state-map) nil)
-  (setf (cdr evil-normal-state-map) nil)
-  (setf (cdr evil-visual-state-map) nil)
-  (setf (cdr evil-replace-state-map) nil)
-  (setf (cdr evil-insert-state-map) nil))
-
-(defun ade/add-custom-evil-keybindings ()
-  (interactive)
-
-  ;; C-g is like "quit"; it makes us go back to normal mode. Easy to hit!
-  (general-def 'motion "C-g" 'evil-normal-state)
-  (general-def 'insert "C-g" 'evil-normal-state)
-  (general-def 'replace "C-g" 'evil-normal-state)
-  ;; Need access to emacs state in case evil ever betrays me.
-  (general-def 'motion "C-z" 'evil-emacs-state)
-  (general-def 'insert "C-z" 'evil-emacs-state)
-  (general-def 'replace "C-z" 'evil-emacs-state)
-  ;; Keeping <escape> seems to be a Vim doctrine, so let's keep it.
-  (general-def 'motion  "<escape>" 'evil-normal-state)
-  (general-def 'insert "<escape>" 'evil-normal-state)
-  (general-def 'replace "<escape>" 'evil-normal-state)
-
-  ;; Movement and going back to normal state is generally with left hand
-  ;; whereas changing modes, inserting and special commands (e.g. kill, yank)
-  ;; usually with right hand.
-  (general-def 'motion ":"   'evil-ex) ; Vim execute command thing.
-  (general-def 'motion "a"   'evil-backward-char)
-  (general-def 'motion "f"   'evil-forward-char)
-  (general-def 'motion "s"   'evil-previous-visual-line)
-  (general-def 'motion "d"   'evil-next-visual-line)
-  (general-def 'motion "k"   'evil-insert)
-  (general-def 'motion "K"   'evil-insert-line)
-  (general-def 'motion "l"   'evil-append)
-  (general-def 'motion "L"   'evil-append-line)
-  (general-def 'motion "w"   'evil-backward-word-begin)
-  (general-def 'motion "e"   'evil-forward-word-end)
-  (general-def 'motion "W"   'evil-backward-WORD-begin)
-  (general-def 'motion "E"   'evil-forward-WORD-end)
-  (general-def 'motion "q"   'evil-beginning-of-visual-line)
-  (general-def 'motion "r"   'evil-end-of-visual-line)
-  (general-def 'motion "Q"   'beginning-of-buffer)
-  (general-def 'motion "R"   'end-of-buffer)
-  (general-def 'motion "x"   'scroll-down)
-  (general-def 'motion "c"   'scroll-up)
-  (general-def 'motion "X"   (lambda () (interactive) (scroll-down 1)))
-  (general-def 'motion "C"   (lambda () (interactive) (scroll-up 1)))
-  (general-def 'motion "h"   'evil-visual-char)
-  (general-def 'motion "H"   'evil-visual-line)
-  (general-def 'motion "M-h" 'evil-visual-block)
-  (general-def 'motion "t"   'evil-jump-item)
-  (ade/evil-window-mgt-leader-def 'motion "a"   'evil-window-left)
-  (ade/evil-window-mgt-leader-def 'motion "f"   'evil-window-right)
-  (ade/evil-window-mgt-leader-def 'motion "s"   'evil-window-up)
-  (ade/evil-window-mgt-leader-def 'motion "d"   'evil-window-down)
-  (ade/evil-window-mgt-leader-def 'motion "q"   'evil-quit)
-  (ade/evil-window-mgt-leader-def 'motion "C-q" 'evil-quit)
-  (ade/evil-window-mgt-leader-def 'motion "w"   'evil-window-split)
-  (ade/evil-window-mgt-leader-def 'motion "e"   'evil-window-vsplit)
-  (ade/evil-window-mgt-leader-def 'motion "C-w" 'evil-window-split)
-  (ade/evil-window-mgt-leader-def 'motion "C-e" 'evil-window-vsplit)
-  (ade/evil-window-mgt-leader-def 'motion "r"   'ade/evil-window-size-change/body)
-  (ade/evil-window-mgt-leader-def 'motion "C-r" 'ade/evil-window-size-change/body)
-
-  (general-def 'normal "k"   'evil-insert)
-  (general-def 'normal "K"   'evil-insert-line)
-  (general-def 'normal "l"   'evil-append)
-  (general-def 'normal "L"   'evil-append-line)
-  (general-def 'normal "j"   'evil-visual-char)
-  (general-def 'normal "J"   'evil-visual-line)
-  (general-def 'normal "M-j" 'evil-visual-block)
-  (general-def 'normal "h"   'evil-replace)
-  (general-def 'normal "H"   'evil-enter-replace-state)
-  (general-def 'normal "u"   'evil-undo) ; C-z on Linux
-  (general-def 'normal "U"   'evil-redo) ; C-Z on Linux, so uppercase makes sense
-  (general-def 'normal "p"   'evil-paste-before)
-  (general-def 'normal "P"   'evil-paste-after)
-  (general-def 'normal "n"   'evil-delete-backward-char)
-  (general-def 'normal "N"   'evil-delete-whole-line)
-  (general-def 'normal "m"   'evil-delete-char)
-  (general-def 'normal "M"   'evil-delete-whole-line)
-
-  (general-def '(insert replace) "C-a" 'evil-backward-char)
-  (general-def '(insert replace) "C-f" 'evil-forward-char)
-  ;; Already mapped to search command
-  ;; (general-def '(insert replace) "C-s" 'evil-previous-visual-line)
-  (general-def '(insert replace) "C-d" 'evil-next-visual-line)
-  (general-def '(insert replace) "C-u" 'evil-undo)
-  (general-def '(insert replace) "C-U" 'evil-redo)
-  ;; Already in insert/replace state so C-k should go to beginning of line
-  (general-def '(insert replace) "C-k" 'evil-insert-line)
-  (general-def '(insert replace) "C-K" 'evil-insert-line)
-  ;; Already in insert/replace state so C-l should go to end of line
-  (general-def '(insert replace) "C-l" 'evil-append-line)
-  (general-def '(insert replace) "C-L" 'evil-append-line)
-  ;; <return> maps to C-m, so rebinding C-m looks like a can of worms:
-  ;; http://makble.com/rebind-ctrlm-and-enter-in-emacs
-  ;;
-  ;; (general-def '(insert replace) "C-n" 'evil-delete-backward-char)
-  ;; (general-def '(insert replace) "C-N" 'evil-delete-whole-line)
-  ;; (general-def '(insert replace) "C-m" 'evil-delete-char)
-  ;; (general-def '(insert replace) "C-M" 'evil-delete-whole-line)
-  ;;
-  ;; C-w is already mapped to window management
-  ;; (general-def '(insert replace) "C-w" 'evil-backward-word-begin)
-  ;; (general-def '(insert replace) "C-W" 'evil-backward-WORD-begin)
-  ;; (general-def '(insert replace) "C-e" 'evil-forward-word-begin)
-  ;; (general-def '(insert replace) "C-E" 'evil-forward-WORD-begin)
-  (general-def '(insert replace) "C-p" 'evil-paste-before)
-  (general-def '(insert replace) "C-P" 'evil-paste-after)
-
-  (general-def 'visual ";"   'comment-dwim) ; I do that often!
-  (general-def 'visual "h"   'evil-visual-char)
-  (general-def 'visual "H"   'evil-visual-line)
-  (general-def 'visual "M-h" 'evil-visual-block)
-  (general-def 'visual "o"   'kill-ring-save)
-  (general-def 'visual "O"   'kill-region)
-  ;; "a" seems to be overridden by its nil keybindings, causing it
-  ;; to be considered a prefix keybinding, so forcefully set that!
-  (general-def 'visual "a"   'evil-backward-char)
-  (general-def 'visual "u"   'evil-downcase)
-  (general-def 'visual "U"   'evil-upcase))
 
 (use-package evil
   :custom
@@ -399,6 +269,140 @@
   (evil-cross-lines t)
 
   :config
+
+  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  ;; Complete rework of the evil keybindings. ;;
+  ;;      ~~User discretion is advised~~      ;;
+  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+  ;; I don't really care about Vim compatibility -- I don't use Vim. All I want
+  ;; is modal editing. So remove all Evil keybindings. I'll make my own
+  ;; afterwards. My keybindings are more about where the buttons are on the
+  ;; keyboard than about the name of the functionality, altough I do insipre
+  ;; myself from the default keybindings too.
+  (defun ade/remove-evil-keybindings ()
+	(interactive)
+	(setf (cdr evil-motion-state-map) nil)
+	(setf (cdr evil-normal-state-map) nil)
+	(setf (cdr evil-visual-state-map) nil)
+	(setf (cdr evil-replace-state-map) nil)
+	(setf (cdr evil-insert-state-map) nil))
+
+  (defun ade/add-custom-evil-keybindings ()
+	(interactive)
+
+	;; C-g is like "quit"; it makes us go back to normal mode. Easy to hit!
+	(general-def 'motion "C-g" 'evil-normal-state)
+	(general-def 'insert "C-g" 'evil-normal-state)
+	(general-def 'replace "C-g" 'evil-normal-state)
+	;; Need access to emacs state in case evil ever betrays me.
+	(general-def 'motion "C-z" 'evil-emacs-state)
+	(general-def 'insert "C-z" 'evil-emacs-state)
+	(general-def 'replace "C-z" 'evil-emacs-state)
+	;; Keeping <escape> seems to be a Vim doctrine, so let's keep it.
+	(general-def 'motion  "<escape>" 'evil-normal-state)
+	(general-def 'insert "<escape>" 'evil-normal-state)
+	(general-def 'replace "<escape>" 'evil-normal-state)
+
+	;; Movement and going back to normal state is generally with left hand
+	;; whereas changing modes, inserting and special commands (e.g. kill, yank)
+	;; usually with right hand.
+	(general-def 'motion ":"   'evil-ex) ; Vim execute command thing.
+	(general-def 'motion "a"   'evil-backward-char)
+	(general-def 'motion "f"   'evil-forward-char)
+	(general-def 'motion "s"   'evil-previous-visual-line)
+	(general-def 'motion "d"   'evil-next-visual-line)
+	(general-def 'motion "k"   'evil-insert)
+	(general-def 'motion "K"   'evil-insert-line)
+	(general-def 'motion "l"   'evil-append)
+	(general-def 'motion "L"   'evil-append-line)
+	(general-def 'motion "w"   'evil-backward-word-begin)
+	(general-def 'motion "e"   'evil-forward-word-end)
+	(general-def 'motion "W"   'evil-backward-WORD-begin)
+	(general-def 'motion "E"   'evil-forward-WORD-end)
+	(general-def 'motion "q"   'evil-beginning-of-visual-line)
+	(general-def 'motion "r"   'evil-end-of-visual-line)
+	(general-def 'motion "Q"   'beginning-of-buffer)
+	(general-def 'motion "R"   'end-of-buffer)
+	(general-def 'motion "x"   'scroll-down)
+	(general-def 'motion "c"   'scroll-up)
+	(general-def 'motion "X"   (lambda () (interactive) (scroll-down 1)))
+	(general-def 'motion "C"   (lambda () (interactive) (scroll-up 1)))
+	(general-def 'motion "h"   'evil-visual-char)
+	(general-def 'motion "H"   'evil-visual-line)
+	(general-def 'motion "M-h" 'evil-visual-block)
+	(general-def 'motion "t"   'evil-jump-item)
+	(ade/evil-window-mgt-leader-def 'motion "a"   'evil-window-left)
+	(ade/evil-window-mgt-leader-def 'motion "f"   'evil-window-right)
+	(ade/evil-window-mgt-leader-def 'motion "s"   'evil-window-up)
+	(ade/evil-window-mgt-leader-def 'motion "d"   'evil-window-down)
+	(ade/evil-window-mgt-leader-def 'motion "q"   'evil-quit)
+	(ade/evil-window-mgt-leader-def 'motion "C-q" 'evil-quit)
+	(ade/evil-window-mgt-leader-def 'motion "w"   'evil-window-split)
+	(ade/evil-window-mgt-leader-def 'motion "e"   'evil-window-vsplit)
+	(ade/evil-window-mgt-leader-def 'motion "C-w" 'evil-window-split)
+	(ade/evil-window-mgt-leader-def 'motion "C-e" 'evil-window-vsplit)
+	(ade/evil-window-mgt-leader-def 'motion "r"   'ade/evil-window-size-change/body)
+	(ade/evil-window-mgt-leader-def 'motion "C-r" 'ade/evil-window-size-change/body)
+
+	(general-def 'normal "k"   'evil-insert)
+	(general-def 'normal "K"   'evil-insert-line)
+	(general-def 'normal "l"   'evil-append)
+	(general-def 'normal "L"   'evil-append-line)
+	(general-def 'normal "j"   'evil-visual-char)
+	(general-def 'normal "J"   'evil-visual-line)
+	(general-def 'normal "M-j" 'evil-visual-block)
+	(general-def 'normal "h"   'evil-replace)
+	(general-def 'normal "H"   'evil-enter-replace-state)
+	(general-def 'normal "u"   'evil-undo) ; C-z on Linux
+	(general-def 'normal "U"   'evil-redo) ; C-Z on Linux, so uppercase makes sense
+	(general-def 'normal "p"   'evil-paste-before)
+	(general-def 'normal "P"   'evil-paste-after)
+	(general-def 'normal "n"   'evil-delete-backward-char)
+	(general-def 'normal "N"   'evil-delete-whole-line)
+	(general-def 'normal "m"   'evil-delete-char)
+	(general-def 'normal "M"   'evil-delete-whole-line)
+
+	(general-def '(insert replace) "C-a" 'evil-backward-char)
+	(general-def '(insert replace) "C-f" 'evil-forward-char)
+	(general-def '(insert replace) "C-s" 'evil-previous-visual-line)
+	(general-def '(insert replace) "C-d" 'evil-next-visual-line)
+	(general-def '(insert replace) "C-u" 'evil-undo)
+	(general-def '(insert replace) "C-U" 'evil-redo)
+	;; Already in insert/replace state so C-k should go to beginning of line
+	(general-def '(insert replace) "C-k" 'evil-insert-line)
+	(general-def '(insert replace) "C-K" 'evil-insert-line)
+	;; Already in insert/replace state so C-l should go to end of line
+	(general-def '(insert replace) "C-l" 'evil-append-line)
+	(general-def '(insert replace) "C-L" 'evil-append-line)
+	;; <return> maps to C-m, so rebinding C-m looks like a can of worms:
+	;; http://makble.com/rebind-ctrlm-and-enter-in-emacs
+	;;
+	;; (general-def '(insert replace) "C-n" 'evil-delete-backward-char)
+	;; (general-def '(insert replace) "C-N" 'evil-delete-whole-line)
+	;; (general-def '(insert replace) "C-m" 'evil-delete-char)
+	;; (general-def '(insert replace) "C-M" 'evil-delete-whole-line)
+	;;
+	;; C-w is already mapped to window management
+	;; (general-def '(insert replace) "C-w" 'evil-backward-word-begin)
+	;; (general-def '(insert replace) "C-W" 'evil-backward-WORD-begin)
+	;; (general-def '(insert replace) "C-e" 'evil-forward-word-begin)
+	;; (general-def '(insert replace) "C-E" 'evil-forward-WORD-begin)
+	(general-def '(insert replace) "C-p" 'evil-paste-before)
+	(general-def '(insert replace) "C-P" 'evil-paste-after)
+
+	(general-def 'visual ";"   'comment-dwim) ; I do that often!
+	(general-def 'visual "h"   'evil-visual-char)
+	(general-def 'visual "H"   'evil-visual-line)
+	(general-def 'visual "M-h" 'evil-visual-block)
+	(general-def 'visual "o"   'kill-ring-save)
+	(general-def 'visual "O"   'kill-region)
+	;; "a" seems to be overridden by its nil keybindings, causing it
+	;; to be considered a prefix keybinding, so forcefully set that!
+	(general-def 'visual "a"   'evil-backward-char)
+	(general-def 'visual "u"   'evil-downcase)
+	(general-def 'visual "U"   'evil-upcase))
+
   (evil-mode 1)
   (ade/remove-evil-keybindings)
   (ade/add-custom-evil-keybindings))
@@ -423,10 +427,10 @@
 				tab-width 4
 				indent-tabs-mode t)
   (define-key c-mode-base-map (kbd "RET") 'newline-and-indent)
+
   (defun ade/c-c++-remove-keybindings ()
 	(setf (cdr c-mode-base-map) nil)
 	(setf (cdr c-mode-map) nil))
-
   (ade/c-c++-remove-keybindings)
 
   (defun ade/c-c++-indent-setup ()
@@ -448,7 +452,6 @@
 
 ;; Note that we need to install the clangd server before
 ;; lsp-mode starts for it to work:
-;;
 ;; https://emacs-lsp.github.io/lsp-mode/page/lsp-clangd/
 (use-package eglot
   :config
