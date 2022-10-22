@@ -413,10 +413,17 @@
 				tab-width 4
 				indent-tabs-mode t)
   (define-key c-mode-base-map (kbd "RET") 'newline-and-indent)
+  (defun ade/c-c++-remove-keybindings ()
+	(setf (cdr c-mode-base-map) nil)
+	(setf (cdr c-mode-map) nil))
+
+  (ade/c-c++-remove-keybindings)
+
   (defun ade/c-c++-indent-setup ()
 	(c-set-offset 'arglist-intro '+)
 	(c-set-offset 'innamespace 0)
 	(c-set-offset 'arglist-close 0))
+
   (add-hook 'c-mode-hook   'ade/c-c++-indent-setup)
   (add-hook 'c++-mode-hook 'ade/c-c++-indent-setup))
 
@@ -424,9 +431,15 @@
   :commands (lsp lsp-deferred)
   :init
   (setq-default lsp-keymap-prefix (concat ade/cmd-pfx-plain " l"))
+  :bind
+  (("C-c C-c" . completion-at-point))
   :config
   (lsp-enable-which-key-integration t))
 
+;; Note that we need to install the clangd server before
+;; lsp-mode starts for it to work:
+;;
+;; https://emacs-lsp.github.io/lsp-mode/page/lsp-clangd/
 (use-package eglot
   :config
   (add-to-list 'eglot-server-programs '((c++-mode c-mode) "clangd"))
