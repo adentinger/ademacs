@@ -77,7 +77,17 @@
 (global-display-line-numbers-mode t)
 (set-default-coding-systems 'utf-8)
 (setq-default tab-width 4)
-(setq-default show-trailing-whitespace t)
+
+(defun ade/show-trailing-whitespace ()
+  (setq-default show-trailing-whitespace t)
+  (dolist (hook '(special-mode-hook
+                  term-mode-hook
+                  comint-mode-hook
+                  compilation-mode-hook
+                  minibuffer-setup-hook))
+    (add-hook hook
+			  (lambda () (setq show-trailing-whitespace nil)))))
+(ade/show-trailing-whitespace)
 
 ;; Don't show line number in certain modes
 (dolist (mode '(org-mode-hook
