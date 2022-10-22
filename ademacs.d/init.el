@@ -166,13 +166,13 @@
 	 :map minibuffer-local-map ("C-r" . 'counsel-minibuffer-history))
   :custom (ivy-initial-inputs-alist nil)) ; Don't start searches with "^"
 
+(use-package ivy-rich
+  :init (ivy-rich-mode 1))
+
 ;; When some text is selected and we type some other text, the selected text is
 ;; removed first. Not particularly useful since we use Evil mode, but oh well.
 (use-package delsel
   :config (delete-selection-mode 1))
-
-(use-package ivy-rich
-  :init (ivy-rich-mode 1))
 
 ;; https://github.com/seagle0128/doom-modeline/issues/187#issuecomment-507201556
 (defun ade/doom-modeline-height ()
@@ -389,9 +389,7 @@
   (evil-cross-lines t)
 
   :config
-
   (evil-mode 1)
-
   (ade/remove-evil-keybindings)
   (ade/add-custom-evil-keybindings))
 
@@ -405,4 +403,20 @@
   :custom ((projectile-completion-system 'ivy))
   :config (projectile-mode)
   :bind-keymap ("C-SPC p" . projectile-command-map))
+
+(use-package cc-mode
+  :ensure nil
+  :custom
+  (c-tab-always-indent . nil)
+  :config
+  (setq-default c-basic-offset 4
+				tab-width 4
+				indent-tabs-mode t)
+  (define-key c-mode-base-map (kbd "RET") 'newline-and-indent)
+  (defun ade/c-c++-indent-setup ()
+	(c-set-offset 'arglist-intro '+)
+	(c-set-offset 'innamespace 0)
+	(c-set-offset 'arglist-close 0))
+  (add-hook 'c-mode-hook   'ade/c-c++-indent-setup)
+  (add-hook 'c++-mode-hook 'ade/c-c++-indent-setup))
 
