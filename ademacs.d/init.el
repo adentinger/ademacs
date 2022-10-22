@@ -11,7 +11,7 @@
 (if (not (eq system-type 'windows-nt))
 	(progn
 	  (setq ade/prjs-dir "~/Git"))
-(progn
+  (progn
 	(setq ade/prjs-dir (concat ade/win/usr-dir "/Git"))))
 
 ;;; KEY PREFIXES
@@ -58,7 +58,7 @@
 
 ;; Font && font size
 (if (eq system-type 'windows-nt)
-  (progn (set-face-attribute 'default nil :height 190 :weight 'normal :font "Consolas"))
+	(progn (set-face-attribute 'default nil :height 190 :weight 'normal :font "Consolas"))
   (progn (set-face-attribute 'default nil :height 190 :weight 'normal)))
 
 ;; Don't add the annoying Custom line things in this file; add
@@ -142,28 +142,30 @@
 (use-package ivy
   :diminish
   :bind (("C-s" . swiper)
-    :map ivy-minibuffer-map
-    ("TAB" . ivy-alt-done)
-    ("C-l" . ivy-alt-done)
-    ("C-j" . ivy-next-line)
-    ("C-k" . ivy-previous-line)
-    :map ivy-switch-buffer-map
-    ("C-k" . ivy-previous-line)
-    ("C-l" . ivy-done)
-    ("C-d" . ivy-switch-buffer-kill)
-    :map ivy-reverse-i-search-map
-    ("C-k" . ivy-previous-line)
-    ("C-d" . ivy-reverse-i-search-kill))
+		 :map ivy-minibuffer-map
+		 ("TAB" . ivy-alt-done)
+		 ("C-l" . ivy-alt-done)
+		 ("C-j" . ivy-next-line)
+		 ("C-k" . ivy-previous-line)
+		 :map ivy-switch-buffer-map
+		 ("C-k" . ivy-previous-line)
+		 ("C-l" . ivy-done)
+		 ("C-d" . ivy-switch-buffer-kill)
+		 :map ivy-reverse-i-search-map
+		 ("C-k" . ivy-previous-line)
+		 ("C-d" . ivy-reverse-i-search-kill))
   :config
-  (ivy-mode 1))
+  (ivy-mode 1)
+  (dolist (mode '(counsel-mode))
+	(add-hook mode (lambda () (setq show-trailing-whitespace nil)))))
 
 ;; Counsel package is used by ivy-rich; ivy-rich doesn't seem to work without it
 (use-package counsel
   :bind (("M-x" . counsel-M-x)
-	 ("C-x b" . counsel-ibuffer)
-	 ("C-x C-f" . counsel-find-file)
-	 ("C-M-j" . counsel-switch-buffer)
-	 :map minibuffer-local-map ("C-r" . 'counsel-minibuffer-history))
+		 ("C-x b" . counsel-ibuffer)
+		 ("C-x C-f" . counsel-find-file)
+		 ("C-M-j" . counsel-switch-buffer)
+		 :map minibuffer-local-map ("C-r" . 'counsel-minibuffer-history))
   :custom (ivy-initial-inputs-alist nil)) ; Don't start searches with "^"
 
 (use-package ivy-rich
