@@ -347,6 +347,8 @@
 	(general-def 'motion "c"   'scroll-up)
 	(general-def 'motion "X"   (lambda () (interactive) (scroll-down 1)))
 	(general-def 'motion "C"   (lambda () (interactive) (scroll-up 1)))
+	(general-def 'motion "b"   'evil-jump-backward)
+	(general-def 'motion "B"   'evil-jump-forward)
 	(general-def 'motion "h"   'evil-visual-char)
 	(general-def 'motion "H"   'evil-visual-line)
 	(general-def 'motion "M-h" 'evil-visual-block)
