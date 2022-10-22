@@ -31,6 +31,14 @@
 (setq ade/flag-dir (concat user-emacs-directory "/ade-flags"))
 (unless (file-directory-p ade/flag-dir) (mkdir ade/flag-dir t))
 
+(defun ade/make-empty-file (fname)
+  "Creates an empty file, or does nothing if the file already exists."
+  (interactive
+   (let ((fname (read-file-name "Create empty file: ")))))
+  (if (not (file-exists-p fname))
+	  (write-region "" nil fname)
+	(message "Not creating file: File exists: %s" fname)))
+
 ;; Load temporary theme while the real theme is being downloaded
 ;; or loaded. I don't like to be blinded!
 (load-theme 'wombat)
@@ -100,29 +108,29 @@
 	  (concat ade/flag-dir "/all-the-icons-install-fonts"))
 
 ;; Taken from all-the-icons package
-(defun ade/all-the-icons-install-fonts-windows ()
- "Helper function to download and install the latests fonts on Windows."
- (interactive)
- (let* ((url-format "https://raw.githubusercontent.com/domtronn/all-the-icons.el/master/fonts/%s")
-        (font-dest (cond
-		            ((eq system-type 'windows-nt)
-					 (concat user-emacs-directory "/fonts-to-install"))))
-        (known-dest? (stringp font-dest))
-		(progn (if (not font-dest)
-				   (error "Running %s on system other than Windows NT"
-						  (get-current-function-name)))))
+(defun ade/win/all-the-icons-install-fonts ()
+  "Helper function to download and install the latests fonts on Windows."
+  (interactive)
+  (let* ((url-format "https://raw.githubusercontent.com/domtronn/all-the-icons.el/master/fonts/%s")
+         (font-dest (cond
+		             ((eq system-type 'windows-nt)
+					  (concat user-emacs-directory "/fonts-to-install"))))
+         (known-dest? (stringp font-dest))
+		 (progn (if (not font-dest)
+					(error "Running %s on system other than Windows NT"
+						   (get-current-function-name)))))
 
-   (unless (file-directory-p font-dest) (mkdir font-dest t))
+	(unless (file-directory-p font-dest) (mkdir font-dest t))
 
-   (mapc (lambda (font)
-           (url-copy-file (format url-format font) (expand-file-name font font-dest) t))
-         all-the-icons-font-names)
-   (when (yes-or-no-p
-		  (format "Please manually install fonts in %s. Did install succeed? " font-dest))
-     (message "%s Successfully %s `all-the-icons' fonts to `%s'!"
-              (all-the-icons-wicon "stars" :v-adjust 0.0)
-              (if known-dest? "installed" "downloaded")
-              font-dest))))
+	(mapc (lambda (font)
+			(url-copy-file (format url-format font) (expand-file-name font font-dest) t))
+          all-the-icons-font-names)
+	(when (yes-or-no-p
+		   (format "Please manually install fonts in %s. Did install succeed? " font-dest))
+      (message "%s Successfully %s `all-the-icons' fonts to `%s'!"
+               (all-the-icons-wicon "stars" :v-adjust 0.0)
+               (if known-dest? "installed" "downloaded")
+               font-dest))))
 
 (defun ade/all-the-icons-install-fonts ()
   (interactive)
@@ -130,8 +138,8 @@
 	(progn (if (not (eq system-type 'windows-nt))
 			   ;; Don't prompt for fonts install on Linux and MacOS.
 			   (all-the-icons-install-fonts t)
-			 (ade/all-the-icons-install-fonts-windows))
-		   (make-empty-file ade/all-the-icons-install-fonts-flag-path))))
+			 (ade/win/all-the-icons-install-fonts))
+		   (ade/make-empty-file ade/all-the-icons-install-fonts-flag-path))))
 
 ;; Needed by doom-modeline
 (use-package all-the-icons
