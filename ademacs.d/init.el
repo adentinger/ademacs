@@ -157,10 +157,19 @@
   :config
   (ade/all-the-icons-install-fonts))
 
+(use-package swiper
+  :ensure nil
+  :after ivy
+  :init (unbind-key "C-v")
+  :bind
+  (("C-v" . swiper)
+   :map swiper-map
+   ("C-s" . ivy-previous-line)
+   ("C-d" . ivy-next-line)))
+
 (use-package ivy
   :diminish
-  :init (unbind-key "C-v")
-  :bind (("C-v" . swiper)
+  :bind (
 		 :map ivy-minibuffer-map
 		 ("TAB" . ivy-alt-done)
 		 ("C-s" . ivy-previous-line)
