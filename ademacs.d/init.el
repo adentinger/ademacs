@@ -223,7 +223,7 @@
 (use-package which-key
   :init (which-key-mode)
   :diminish which-key-mode
-  :custom (which-key-idle-delay 0.3))
+  :custom (which-key-idle-delay 1.0))
 
 (use-package helpful
   :custom
@@ -440,7 +440,7 @@
 (use-package cc-mode
   :ensure nil
   :custom
-  (c-tab-always-indent . nil)
+  (c-tab-always-indent nil)
   :config
   (setq-default c-basic-offset 4
 				tab-width 4
@@ -460,21 +460,50 @@
   (add-hook 'c-mode-hook   'ade/c-c++-indent-setup)
   (add-hook 'c++-mode-hook 'ade/c-c++-indent-setup))
 
+(defun ade/lsp-mode-setup ()
+  (setq lsp-headerline-breadcrumb-segments '(path-up-to-project file symbols))
+  (lsp-headerline-breadcrumb-mode))
+
+(defun ade/lsp-c-c++-mode-setup ()
+  (lsp-mode 1)
+  (lsp)
+  (setq-default lsp-idle-delay 0.1))
+
 (use-package lsp-mode
   :commands (lsp lsp-deferred)
   :init
-  (setq-default lsp-keymap-prefix (concat ade/cmd-pfx-plain " l"))
+  (setq lsp-keymap-prefix (concat ade/cmd-pfx-plain " l"))
+  :hook
+  (lsp-mode . ade/lsp-mode-setup)
+  (c-mode   . ade/lsp-c-c++-mode-setup)
+  (c++-mode . ade/lsp-c-c++-mode-setup)
   :bind
   (("C-c C-c" . completion-at-point))
   :config
   (lsp-enable-which-key-integration t))
 
-;; Note that we need to install the clangd server before
-;; lsp-mode starts for it to work:
-;; https://emacs-lsp.github.io/lsp-mode/page/lsp-clangd/
-(use-package eglot
-  :config
-  (add-to-list 'eglot-server-programs '((c++-mode c-mode) "clangd"))
-  (add-hook 'c-mode-hook 'eglot-ensure)
-  (add-hook 'c++-mode-hook 'eglot-ensure))
+(use-package lsp-treemacs)
+
+(use-package lsp-ivy)
+
+(use-package lsp-ui
+  :hook (lsp-mode . lsp-ui-mode))
+
+(use-package company
+  :after lsp-mode
+  :hook (lsp-mode . company-mode)
+  ;; Use TAB to complete and setup evil-like cycling through the
+  ;; entries.
+  :bind (:map company-active-map
+			  ("<tab>" . company-complete-selection)
+			  ("M-s" . company-select-previous)
+			  ("M-d" . company-select-next))
+  (:map lsp-mode-map ("<tab>" . company-indent-or-complete-common))
+  :custom
+  (company-minimum-prefix-length 1)
+  (company-idle-delay 0.0))
+
+(use-package company-box
+  :hook (company-mode . company-box-mode))
+
 
