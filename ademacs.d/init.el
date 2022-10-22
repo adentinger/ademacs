@@ -69,6 +69,7 @@
 (global-display-line-numbers-mode t)
 (set-default-coding-systems 'utf-8)
 (setq-default tab-width 4)
+(setq-default show-trailing-whitespace t)
 
 ;; Don't show line number in certain modes
 (dolist (mode '(org-mode-hook
