@@ -420,3 +420,16 @@
   (add-hook 'c-mode-hook   'ade/c-c++-indent-setup)
   (add-hook 'c++-mode-hook 'ade/c-c++-indent-setup))
 
+(use-package lsp-mode
+  :commands (lsp lsp-deferred)
+  :init
+  (setq-default lsp-keymap-prefix (concat ade/cmd-pfx-plain " l"))
+  :config
+  (lsp-enable-which-key-integration t))
+
+(use-package eglot
+  :config
+  (add-to-list 'eglot-server-programs '((c++-mode c-mode) "clangd"))
+  (add-hook 'c-mode-hook 'eglot-ensure)
+  (add-hook 'c++-mode-hook 'eglot-ensure))
+
