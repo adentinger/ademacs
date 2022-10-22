@@ -79,7 +79,7 @@ setup() {
 		local emacs_dir_default="${HOME}/.emacs.d"
 		local home_dir="${HOME}"
 
-		local ademacs_dir="${HOME}/ademacs.d"
+		local ademacs_dir="${HOME}/.ademacs.d"
     else
 		# TODO MAC?
 
@@ -89,7 +89,7 @@ setup() {
 		local emacs_dir_default="${sys_config_dir}/.emacs.d"
 		local home_dir="$(toWindowsPath "${HOME}")"
 
-		local ademacs_dir="${sys_config_dir}/ademacs.d"
+		local ademacs_dir="${sys_config_dir}/.ademacs.d"
     fi
 
 	local emacs_file_dst="${emacs_dir_default}/init.el"
