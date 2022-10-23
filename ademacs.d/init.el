@@ -516,3 +516,15 @@
   (add-hook 'c-mode-hook   'ade/c-c++-indent-setup)
   (add-hook 'c++-mode-hook 'ade/c-c++-indent-setup))
 
+(use-package cmake-mode
+  :mode ("CMakeLists\\.txt\\'" "\\.cmake\\'")
+  :hook (cmake-mode . lsp-deferred))
+
+(use-package cmake-ide
+  :config
+  (cmake-ide-setup)
+  :hook
+  (cmake-mode .
+			  (lambda () (when (projectile-project-p)
+						   (setq cmake-ide-build-dir (concat (projectile-project-root) "build"))))))
+
