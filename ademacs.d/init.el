@@ -444,29 +444,6 @@
   :config (projectile-mode)
   :bind-keymap ("C-SPC p" . projectile-command-map))
 
-(use-package cc-mode
-  :ensure nil
-  :custom
-  (c-tab-always-indent nil)
-  :config
-  (setq-default c-basic-offset 4
-				tab-width 4
-				indent-tabs-mode t)
-  (define-key c-mode-base-map (kbd "RET") 'newline-and-indent)
-
-  (defun ade/c-c++-remove-keybindings ()
-	(setf (cdr c-mode-base-map) nil)
-	(setf (cdr c-mode-map) nil))
-  (ade/c-c++-remove-keybindings)
-
-  (defun ade/c-c++-indent-setup ()
-	(c-set-offset 'arglist-intro '+)
-	(c-set-offset 'innamespace 0)
-	(c-set-offset 'arglist-close 0))
-
-  (add-hook 'c-mode-hook   'ade/c-c++-indent-setup)
-  (add-hook 'c++-mode-hook 'ade/c-c++-indent-setup))
-
 (defun ade/lsp-mode-setup ()
   (setq lsp-headerline-breadcrumb-segments '(path-up-to-project file symbols))
   (lsp-headerline-breadcrumb-mode))
@@ -513,4 +490,26 @@
 (use-package company-box
   :hook (company-mode . company-box-mode))
 
+(use-package cc-mode
+  :ensure nil
+  :custom
+  (c-tab-always-indent nil)
+  :config
+  (setq-default c-basic-offset 4
+				tab-width 4
+				indent-tabs-mode t)
+  (define-key c-mode-base-map (kbd "RET") 'newline-and-indent)
+
+  (defun ade/c-c++-remove-keybindings ()
+	(setf (cdr c-mode-base-map) nil)
+	(setf (cdr c-mode-map) nil))
+  (ade/c-c++-remove-keybindings)
+
+  (defun ade/c-c++-indent-setup ()
+	(c-set-offset 'arglist-intro '+)
+	(c-set-offset 'innamespace 0)
+	(c-set-offset 'arglist-close 0))
+
+  (add-hook 'c-mode-hook   'ade/c-c++-indent-setup)
+  (add-hook 'c++-mode-hook 'ade/c-c++-indent-setup))
 
