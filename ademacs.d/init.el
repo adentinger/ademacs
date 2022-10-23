@@ -362,6 +362,11 @@
 	(ade/evil-window-mgt-leader-def 'motion "e"   'evil-window-vsplit)
 	(ade/evil-window-mgt-leader-def 'motion "C-w" 'evil-window-split)
 	(ade/evil-window-mgt-leader-def 'motion "C-e" 'evil-window-vsplit)
+	(ade/evil-window-mgt-leader-def 'motion "g"   (lambda () (interactive) (kill-buffer nil)))
+	;; C-g is for emacs cancelling.
+	;; (ade/evil-window-mgt-leader-def 'motion "C-g" (lambda () (interactive) (kill-buffer nil)))
+    (ade/evil-window-mgt-leader-def 'motion "b"   'counsel-ibuffer)
+    (ade/evil-window-mgt-leader-def 'motion "C-b" 'counsel-ibuffer)
 	(ade/evil-window-mgt-leader-def 'motion "r"   'ade/evil-window-size-change/body)
 	(ade/evil-window-mgt-leader-def 'motion "C-r" 'ade/evil-window-size-change/body)
 
@@ -382,6 +387,7 @@
 	(general-def 'normal "N"   'evil-delete-whole-line)
 	(general-def 'normal "m"   'evil-delete-char)
 	(general-def 'normal "M"   'evil-delete-whole-line)
+	(general-def 'normal "y"   'save-buffer)
 
 	(general-def '(insert replace) "C-a" 'evil-backward-char)
 	(general-def '(insert replace) "C-f" 'evil-forward-char)
