@@ -490,6 +490,9 @@
 (use-package company-box
   :hook (company-mode . company-box-mode))
 
+(use-package flycheck
+  :hook (lsp-mode . flycheck-mode))
+
 (use-package cc-mode
   :ensure nil
   :custom
