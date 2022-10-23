@@ -157,16 +157,6 @@
   :config
   (ade/all-the-icons-install-fonts))
 
-(use-package swiper
-  :ensure nil
-  :after ivy
-  :init (unbind-key "C-v")
-  :bind
-  (("C-v" . swiper)
-   :map swiper-map
-   ("C-s" . ivy-previous-line)
-   ("C-d" . ivy-next-line)))
-
 (use-package ivy
   :diminish
   :bind (
@@ -184,6 +174,15 @@
   (ivy-mode 1)
   (dolist (mode '(counsel-mode))
 	(add-hook mode (lambda () (setq show-trailing-whitespace nil)))))
+
+(use-package swiper
+  :ensure nil
+  :init (unbind-key "C-v")
+  :bind
+  (("C-v" . swiper)
+   :map swiper-map
+   ("C-s" . ivy-previous-line)
+   ("C-d" . ivy-next-line)))
 
 ;; Counsel package is used by ivy-rich; ivy-rich doesn't seem to work without it
 (use-package counsel
