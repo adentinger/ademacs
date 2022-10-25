@@ -49,14 +49,10 @@
 
   (if (display-graphic-p)
       (progn
-		;; Disable visible scrollbar
 		(scroll-bar-mode -1)
-		;; Disable the toolbar
 		(tool-bar-mode -1)
-		;; Disable tooltips
 		(tooltip-mode -1)
-		;; Give some breathing room
-		(set-fringe-mode 10)))
+		(set-fringe-mode 0)))
   ;; Disable menu bar that appears in both graphic and headless modes
   (menu-bar-mode -1)
   ;; No beeps thank you
@@ -306,12 +302,10 @@
   ;;      ~~User discretion is advised~~      ;;
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-  ;; I don't really care about Vim compatibility -- I don't use Vim. All I want
-  ;; is modal editing. So remove all Evil keybindings. I'll make my own
-  ;; afterwards. My keybindings are more about where the buttons are on the
-  ;; keyboard than about the name of the functionality, altough I do insipre
-  ;; myself from the default keybindings too.
   (defun ade/remove-evil-keybindings ()
+	"Removes all Evil keybindings.
+
+I don't really care about Vim compatibility -- I don't use Vim. All I want is modal editing. So I'll make my own afterwards. "
 	(interactive)
 	(setf (cdr evil-motion-state-map) nil)
 	(setf (cdr evil-normal-state-map) nil)
@@ -320,6 +314,9 @@
 	(setf (cdr evil-insert-state-map) nil))
 
   (defun ade/add-custom-evil-keybindings ()
+	"Sets up new Evil keybindings.
+
+These are more about where the buttons are on the keyboard than about the name of the functionality, altough I do insipre myself from the default keybindings too."
 	(interactive)
 
 	;; C-g is like "quit"; it makes us go back to normal mode. Easy to hit!
@@ -427,6 +424,10 @@
 	;; (general-def '(insert replace) "C-W" 'evil-backward-WORD-begin)
 	;; (general-def '(insert replace) "C-e" 'evil-forward-word-begin)
 	;; (general-def '(insert replace) "C-E" 'evil-forward-WORD-begin)
+	(general-def '(insert replace) "C-q" 'evil-beginning-of-visual-line)
+	(general-def '(insert replace) "C-r" 'evil-end-of-visual-line)
+	(general-def '(insert replace) "C-Q" 'beginning-of-buffer)
+	(general-def '(insert replace) "C-R" 'end-of-buffer)
 	(general-def '(insert replace) "C-p" 'evil-paste-before)
 	(general-def '(insert replace) "C-P" 'evil-paste-after)
 
