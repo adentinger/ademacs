@@ -67,10 +67,13 @@
 ;; Call that newly-created function
 (ade/do-basic-ui-setup)
 
-;; Font && font size
-(if (eq system-type 'windows-nt)
-	(progn (set-face-attribute 'default nil :height 190 :weight 'normal :font "Consolas"))
-  (progn (set-face-attribute 'default nil :height 190 :weight 'normal)))
+(defun ade/set-font ()
+  ;; Font && font size
+  (if (eq system-type 'windows-nt)
+	  (progn (set-face-attribute 'default nil :height 190 :weight 'normal :font "Consolas"))
+	(progn (set-face-attribute 'default nil :height 190 :weight 'normal))))
+
+(ade/set-font)
 
 ;; Don't add the annoying Custom line things in this file; add
 ;; them to a separate file
