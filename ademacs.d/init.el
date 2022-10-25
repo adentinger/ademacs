@@ -1,18 +1,22 @@
 ;;; Much of the config taken from
 ;;; https://github.com/daviwil/emacs-from-scratch/blob/master/init.el
 
+;; Load temporary theme while the real theme is being downloaded
+;; or loaded. I don't like to be blinded!
+(load-theme 'wombat)
+
 (if (eq system-type 'windows-nt)
 	(setq ade/win/usr-dir (replace-regexp-in-string "\\\\" "/" (getenv "userprofile"))))
+
+(if (not (eq system-type 'windows-nt))
+	(progn (setq ade/git-prj-dir "~/Git"))
+  (progn (setq ade/git-prj-dir (concat ade/win/usr-dir "/Git"))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Config variables
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(if (not (eq system-type 'windows-nt))
-	(progn
-	  (setq ade/prjs-dir "~/Git"))
-  (progn
-	(setq ade/prjs-dir (concat ade/win/usr-dir "/Git"))))
+(setq ade/prj-dirs (list ade/git-prj-dir "~"))
 
 ;;; KEY PREFIXES
 ;;;
@@ -39,30 +43,29 @@
 	  (write-region "" nil fname)
 	(message "Not creating file: File exists: %s" fname)))
 
-;; Load temporary theme while the real theme is being downloaded
-;; or loaded. I don't like to be blinded!
-(load-theme 'wombat)
+(defun ade/do-basic-ui-setup ()
+  ;; Down with the ugly default Emacs startup buffer!!
+  (setq inhibit-startup-message t)
 
-(setq inhibit-startup-message t)
+  (if (display-graphic-p)
+      (progn
+		;; Disable visible scrollbar
+		(scroll-bar-mode -1)
+		;; Disable the toolbar
+		(tool-bar-mode -1)
+		;; Disable tooltips
+		(tooltip-mode -1)
+		;; Give some breathing room
+		(set-fringe-mode 10)))
+  ;; Disable menu bar that appears in both graphic and headless modes
+  (menu-bar-mode -1)
+  ;; No beeps thank you
+  (setq visible-bell t)
+  ;; Maximize Emacs once this init script finishes running
+  (add-hook 'emacs-startup-hook 'toggle-frame-fullscreen))
 
-(if (display-graphic-p)
-    (progn
-      ;; Disable visible scrollbar
-      (scroll-bar-mode -1)
-      ;; Disable the toolbar
-      (tool-bar-mode -1)
-      ;; Disable tooltips
-      (tooltip-mode -1)
-      ;; Give some breathing room
-      (set-fringe-mode 10)))
-
-;; Disable menu bar that appears in both graphic and headless modes
-(menu-bar-mode -1)
-
-(setq visible-bell t)
-
-;; Start emacs maximized
-(add-hook 'emacs-startup-hook 'toggle-frame-fullscreen)
+;; Call that newly-created function
+(ade/do-basic-ui-setup)
 
 ;; Font && font size
 (if (eq system-type 'windows-nt)
@@ -73,10 +76,21 @@
 ;; them to a separate file
 (setq custom-file (concat user-emacs-directory "/custom.el"))
 
-(column-number-mode)
-(global-display-line-numbers-mode t)
-(set-default-coding-systems 'utf-8)
-(setq-default tab-width 4)
+(defun ade/do-basic-text-editing-ui-setup ()
+  (column-number-mode)
+  (global-display-line-numbers-mode t)
+  (set-default-coding-systems 'utf-8)
+  (setq-default tab-width 4
+				indent-tabs-mode t)
+  ;; Don't show line number in certain modes
+  (dolist (mode '(org-mode-hook
+                  term-mode-hook
+                  shell-mode-hook
+                  treemacs-mode-hook
+                  eshell-mode-hook))
+	(add-hook mode (lambda () (display-line-numbers-mode 0)))))
+
+(ade/do-basic-text-editing-ui-setup)
 
 (defun ade/show-trailing-whitespace ()
   (setq-default show-trailing-whitespace t)
@@ -87,35 +101,28 @@
                   minibuffer-setup-hook))
     (add-hook hook
 			  (lambda () (setq show-trailing-whitespace nil)))))
+
 (ade/show-trailing-whitespace)
 
-;; Don't show line number in certain modes
-(dolist (mode '(org-mode-hook
-                term-mode-hook
-                shell-mode-hook
-                treemacs-mode-hook
-                eshell-mode-hook))
-  (add-hook mode (lambda () (display-line-numbers-mode 0))))
+(defun ade/setup-pkg-manager ()
+  ;; Need package stuff for use-package!
+  (require 'package)
+  (setq package-archives '(("melpa" . "https://melpa.org/packages/")
+                           ("org" . "https://orgmode.org/elpa/")
+                           ("elpa" . "https://elpa.gnu.org/packages/")))
+  ;; Put the packages inside the current emacs dir, not the default one.
+  (setq package-user-dir (concat user-emacs-directory "/packages"))
+  (package-initialize)
+  ;; Only do that on initial package setup
+  (unless package-archive-contents (package-refresh-contents))
+  ;; For non-Linux platforms apparently...
+  (unless (package-installed-p 'use-package) (package-install 'use-package)))
 
-;; Need package stuff for use-package!
-(require 'package)
-(setq package-archives '(("melpa" . "https://melpa.org/packages/")
-                         ("org" . "https://orgmode.org/elpa/")
-                         ("elpa" . "https://elpa.gnu.org/packages/")))
-;; Put the packages inside the current emacs dir, not the default one.
-(setq package-user-dir (concat user-emacs-directory "/packages"))
-(package-initialize)
-;; Only do that on initial package setup
-(unless package-archive-contents (package-refresh-contents))
-;; For non-Linux platforms apparently...
-(unless (package-installed-p 'use-package) (package-install 'use-package))
+(ade/setup-pkg-manager)
 
 (require 'use-package)
 ;; Always ensure packages loaded by use-package is downloaded
 (setq use-package-always-ensure t)
-
-(setq ade/all-the-icons-install-fonts-flag-path
-	  (concat ade/flag-dir "/all-the-icons-install-fonts"))
 
 ;; Taken from all-the-icons package
 (defun ade/win/all-the-icons-install-fonts ()
@@ -144,6 +151,9 @@
 
 (defun ade/all-the-icons-install-fonts ()
   (interactive)
+  (setq ade/all-the-icons-install-fonts-flag-path
+		(concat ade/flag-dir "/all-the-icons-install-fonts"))
+
   (unless (file-exists-p ade/all-the-icons-install-fonts-flag-path)
 	(progn (if (not (eq system-type 'windows-nt))
 			   ;; Don't prompt for fonts install on Linux and MacOS.
@@ -438,9 +448,13 @@
   :init
   ;; Otherwise projectile screams because keybinding is not a prefix key.
   (unbind-key ade/cmd-pfx-plain)
-  (when (file-directory-p ade/prjs-dir)
-	(setq projectile-project-search-path (list ade/prjs-dir)))
-  :custom ((projectile-completion-system 'ivy))
+  (dolist (dir (-filter 'file-directory-p ade/prj-dirs))
+	(setq projectile-project-search-path (list ade/prj-dirs)))
+  (setq-default projectile-globally-ignored-files '("~undo-tree~"))
+  :custom
+  ((projectile-completion-system 'ivy)
+   ;; Extra ignore rules don't work without native indexing
+   (projectile-indexing-method 'native))
   :config (projectile-mode)
   :bind-keymap ("C-SPC p" . projectile-command-map))
 
@@ -498,9 +512,7 @@
   :custom
   (c-tab-always-indent nil)
   :config
-  (setq-default c-basic-offset 4
-				tab-width 4
-				indent-tabs-mode t)
+  (setq-default c-basic-offset 4)
   (define-key c-mode-base-map (kbd "RET") 'newline-and-indent)
 
   (defun ade/c-c++-remove-keybindings ()
@@ -521,10 +533,10 @@
   :hook (cmake-mode . lsp-deferred))
 
 (use-package cmake-ide
-  :config
-  (cmake-ide-setup)
   :hook
   (cmake-mode .
 			  (lambda () (when (projectile-project-p)
-						   (setq cmake-ide-build-dir (concat (projectile-project-root) "build"))))))
+						   (setq cmake-ide-build-dir (concat (projectile-project-root) "build")))))
+  :config
+  (cmake-ide-setup))
 
