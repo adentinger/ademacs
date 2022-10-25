@@ -43,16 +43,23 @@
 	  (write-region "" nil fname)
 	(message "Not creating file: File exists: %s" fname)))
 
+(if (eq system-type 'windows-nt)
+	(progn
+	  (defun ade/win/add-things-to-PATH ()
+		;; MSYS2's dir is only a last resort; put it last in the PATH
+		(setenv "PATH" (concat (getenv "PATH") ";C:\\msys64\\usr\\bin")))
+
+	  (ade/win/add-things-to-PATH)))
+
 (defun ade/do-basic-ui-setup ()
   ;; Down with the ugly default Emacs startup buffer!!
   (setq inhibit-startup-message t)
 
-  (if (display-graphic-p)
-      (progn
-		(scroll-bar-mode -1)
-		(tool-bar-mode -1)
-		(tooltip-mode -1)
-		(set-fringe-mode 0)))
+  (when (display-graphic-p)
+	(scroll-bar-mode -1)
+	(tool-bar-mode -1)
+	(tooltip-mode -1)
+	(set-fringe-mode 0))
   ;; Disable menu bar that appears in both graphic and headless modes
   (menu-bar-mode -1)
   ;; No beeps thank you
