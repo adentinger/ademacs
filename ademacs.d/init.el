@@ -507,7 +507,7 @@ These are more about where the buttons are on the keyboard than about the name o
 			  ("<tab>" . company-complete-selection)
 			  ("M-s" . company-select-previous)
 			  ("M-d" . company-select-next))
-  (:map lsp-mode-map ("<tab>" . company-indent-or-complete-common))
+  (:map lsp-mode-map ("<tab>" . indent-for-tab-command))
   :custom
   (company-minimum-prefix-length 1)
   (company-idle-delay 0.0))
@@ -537,7 +537,12 @@ These are more about where the buttons are on the keyboard than about the name o
 	(c-set-offset 'arglist-close 0))
 
   (add-hook 'c-mode-hook   'ade/c-c++-indent-setup)
-  (add-hook 'c++-mode-hook 'ade/c-c++-indent-setup))
+  (add-hook 'c++-mode-hook 'ade/c-c++-indent-setup)
+  :bind (
+		 :map c-mode-map
+			   ("C-c C-s" . c-show-syntactic-information)
+		 :map c++-mode-map
+			   ("C-c C-s" . c-show-syntactic-information)))
 
 (use-package cmake-mode
   :mode ("CMakeLists\\.txt\\'" "\\.cmake\\'")
