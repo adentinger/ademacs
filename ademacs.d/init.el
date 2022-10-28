@@ -479,22 +479,27 @@ These are more about where the buttons are on the keyboard than about the name o
 ;;;                                TERMINAL                                 ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(use-package term
-  :config
-  (setq-default explicit-shell-file-name "bash")
-  (setq-default term-prompt-regexp ade/terminal-prompt-regexp))
+(if module-file-suffix ; Check for dynamic modules support.
+	;; VTerm: speedy terminal but requires Emacs dynamic modules support,
+	;; a fairly recent CMake version, and other build essentials to setup.
+	;; Check out the ademacs repo's README.md for the list of packages to
+	;; install on Ubuntu.
+	(use-package vterm
+	  :commands vterm
+	  :config
+	  (setq-default term-prompt-regexp ade/terminal-prompt-regexp)
+	  (setq-default vterm-max-scrollback 10000))
 
-;; For terminal colors
-(use-package eterm-256color
-  :hook (term-mode . eterm-256color-mode))
-
-;; Speedy terminal but requires C++ compiler to setup
-(when module-file-suffix
-  (use-package vterm
-	:commands vterm
+  ;; Term: terminal emulator written in Elisp.
+  (use-package term
 	:config
-	(setq-default term-prompt-regexp ade/terminal-prompt-regexp)
-	(setq-default vterm-max-scrollback 10000)))
+	(setq-default explicit-shell-file-name "bash")
+	(setq-default term-prompt-regexp ade/terminal-prompt-regexp))
+
+  ;; For terminal colors
+  (use-package eterm-256color
+	:hook (term-mode . eterm-256color-mode)))
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;                           IDE-LIKE FEATURES                             ;;;

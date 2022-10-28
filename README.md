@@ -9,3 +9,13 @@ For C/C++ buffers:
 For CMake buffers (e.g. `CMakeLists.txt` or `*.cmake` files):
 - [cmake-language-server](https://emacs-lsp.github.io/lsp-mode/page/lsp-cmake/) for LSP mode (code completion, ...).
 
+## Building Emacs with modules support for VTerm
+
+[VTerm](https://github.com/akermu/emacs-libvterm) requires Emacs to be compiled with dynamic modules support. Without dynamic modules support, this config using the Term package instead.
+
+```bash
+sudo apt-get install build-essential texinfo libx11-dev libxpm-dev libjpeg-dev libpng-dev libgif-dev libtiff-dev libncurses-dev automake autoconf libgtk-3-dev
+./configure --with-modules --without-pop --with-x-toolkit=yes
+make -j10
+```
+
