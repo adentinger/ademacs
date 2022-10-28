@@ -286,6 +286,10 @@
   (evil-set-undo-system 'undo-tree)
   (global-undo-tree-mode 1))
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;                                EVIL MODE                                ;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 (use-package evil-collection
   :after evil
   :config
@@ -467,6 +471,10 @@ These are more about where the buttons are on the keyboard than about the name o
   (evil-mode 1)
   (ade/remove-evil-keybindings)
   (ade/add-custom-evil-keybindings))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;                           IDE-LIKE FEATURES                             ;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (use-package projectile
   :diminish projectile-mode
