@@ -259,6 +259,13 @@
 (general-create-definer ade/cmd-pfx
   :prefix ade/cmd-pfx-plain)
 
+(setq ade/generic-pfx-plain "C-c")
+(general-create-definer ade/generic-pfx
+  :prefix ade/generic-pfx-plain)
+
+(ade/generic-pfx
+ "r" 'revert-buffer)
+
 (use-package hydra)
 
 ;; Somehow, adding this to the :init of evil still triggers a warning on the
