@@ -476,6 +476,27 @@ These are more about where the buttons are on the keyboard than about the name o
   (ade/add-custom-evil-keybindings))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;                                TERMINAL                                 ;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(use-package term
+  :config
+  (setq-default explicit-shell-file-name "bash")
+  (setq-default term-prompt-regexp ade/terminal-prompt-regexp))
+
+;; For terminal colors
+(use-package eterm-256color
+  :hook (term-mode . eterm-256color-mode))
+
+;; Speedy terminal but requires C++ compiler to setup
+(when module-file-suffix
+  (use-package vterm
+	:commands vterm
+	:config
+	(setq-default term-prompt-regexp ade/terminal-prompt-regexp)
+	(setq-default vterm-max-scrollback 10000)))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;                           IDE-LIKE FEATURES                             ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
