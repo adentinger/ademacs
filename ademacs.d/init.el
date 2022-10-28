@@ -16,15 +16,20 @@
 ;;; Config variables
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(setq ade/prj-dirs (list ade/git-prj-dir "~"))
+(defconst ade/prj-dirs (list ade/git-prj-dir "~")
+  "List of paths that Projectile will search for projects in.")
+(defconst ade/terminal-prompt-regexp "^[^#$%>\n]*[#$%>] *"
+  "Regular expression that matches a prompt in a terminal.")
 
 ;;; KEY PREFIXES
 ;;;
 ;;; As much as possible we use the below rather than hardcoded keybindings,
 ;;; however in some cases it may not be possible, or I haven't figured out how
 ;;; to use them yet.
-(setq ade/cmd-pfx-plain "C-SPC")
-(setq ade/evil-window-mgt-leader-pfx-plain "C-w")
+(defconst ade/cmd-pfx-plain "C-SPC"
+  "String representation of the prefix key for prefixes of commands (Projectile, LSP, ...).")
+(defconst ade/evil-window-mgt-leader-pfx-plain "C-w"
+  "String representation of the prefix key for Evil mode window management.")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Rest of code
