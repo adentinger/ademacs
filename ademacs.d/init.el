@@ -194,6 +194,8 @@
 (use-package swiper
   :ensure nil
   :init (unbind-key "C-v")
+  :custom
+  (ivy-extra-directories nil)
   :bind
   (("C-v" . swiper)
    :map swiper-map
