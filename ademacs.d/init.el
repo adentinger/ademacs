@@ -515,7 +515,14 @@ These are more about where the buttons are on the keyboard than about the name o
 (use-package lsp-ivy)
 
 (use-package lsp-ui
-  :hook (lsp-mode . lsp-ui-mode))
+  :hook (lsp-mode . lsp-ui-mode)
+  :bind
+  (:map lsp-ui-peek-mode-map
+		("M-s" . lsp-ui-peek--select-prev)
+		("M-d" . lsp-ui-peek--select-next)
+		("M-a" . lsp-ui-peek--select-prev-file)
+		("M-f" . lsp-ui-peek--select-next-file)
+		("C-g" . lsp-ui-peek--abort)))
 
 (use-package company
   :after lsp-mode
