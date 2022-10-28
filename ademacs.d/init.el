@@ -463,12 +463,15 @@ These are more about where the buttons are on the keyboard than about the name o
   (unbind-key ade/cmd-pfx-plain)
   (dolist (dir (-filter 'file-directory-p ade/prj-dirs))
 	(setq projectile-project-search-path (list ade/prj-dirs)))
+
+  ;; Extra ignore rules don't work without native indexing
+  (projectile-indexing-method 'native)
+  ;; This does not seem to work unfortunately...
   (setq-default projectile-globally-ignored-files '("~undo-tree~"))
   :custom
   ((projectile-completion-system 'ivy)
-   ;; Extra ignore rules don't work without native indexing
-   (projectile-indexing-method 'native))
-  :config (projectile-mode)
+  :config
+  (projectile-mode)
   :bind-keymap ("C-SPC p" . projectile-command-map))
 
 (defun ade/lsp-mode-setup ()
@@ -556,5 +559,9 @@ These are more about where the buttons are on the keyboard than about the name o
 			  (lambda () (when (projectile-project-p)
 						   (setq cmake-ide-build-dir (concat (projectile-project-root) "build")))))
   :config
-  (cmake-ide-setup))
+  (cmake-ide-setup)
+  (ade/cmd-pfx
+	"c c" 'cmake-ide-run-cmake
+	"c b" 'camke-ide-compile
+	"c d" 'cmake-ide-load-db))
 
