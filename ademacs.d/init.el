@@ -471,12 +471,19 @@ These are more about where the buttons are on the keyboard than about the name o
   (dolist (dir (-filter 'file-directory-p ade/prj-dirs))
 	(setq projectile-project-search-path (list ade/prj-dirs)))
 
-  ;; Extra ignore rules don't work without native indexing
-  (projectile-indexing-method 'native)
   ;; This does not seem to work unfortunately...
   (setq-default projectile-globally-ignored-files '("~undo-tree~"))
+
+  ;; Doesn't work at the moment because SpaceStudio doesn't create a project
+  ;; file with a fixed name.
+  ;; (defun ade/projectile-register-spacestudio ()
+  ;; 	(projectile-register-project-type 'spacestudio '("*.spacestudio")))
+  ;; (ade/projectile-register-spacestudio)
+
   :custom
-  ((projectile-completion-system 'ivy)
+  (projectile-completion-system 'ivy)
+  ;; Extra ignore rules don't work without native indexing
+  (projectile-indexing-method 'native)
   :config
   (projectile-mode)
   :bind-keymap ("C-SPC p" . projectile-command-map))
