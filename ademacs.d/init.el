@@ -523,6 +523,9 @@ These are more about where the buttons are on the keyboard than about the name o
   (projectile-indexing-method 'native)
   :config
   (projectile-mode)
+  ;; Can't figure out how to use the ade/cmd-pfx-plain string to do this; maybe
+  ;; we could set the string to a variable first?
+  ;; https://emacs.stackexchange.com/questions/74322/use-package-bind-keymap-with-car-as-a-form
   :bind-keymap ("C-SPC p" . projectile-command-map))
 
 (defun ade/lsp-mode-setup ()
