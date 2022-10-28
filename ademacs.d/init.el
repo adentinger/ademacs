@@ -304,6 +304,9 @@
 
 (general-create-definer ade/evil-window-mgt-leader-def
   :prefix ade/evil-window-mgt-leader-pfx-plain)
+;; Remove any existing keybinding conflicting with our window management.
+;; Window management is pretty general and important!
+(general-unbind ade/evil-window-mgt-leader-pfx-plain)
 
 (use-package evil
   :custom
