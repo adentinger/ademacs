@@ -479,16 +479,22 @@ These are more about where the buttons are on the keyboard than about the name o
 ;;;                                TERMINAL                                 ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(if module-file-suffix ; Check for dynamic modules support.
+(unless (and
+	module-file-suffix ; Check for dynamic modules support.
 	;; VTerm: speedy terminal but requires Emacs dynamic modules support,
 	;; a fairly recent CMake version, and other build essentials to setup.
 	;; Check out the ademacs repo's README.md for the list of packages to
 	;; install on Ubuntu.
 	(use-package vterm
+	  ;; For now, let's load vterm only when the vterm command is run to avoid
+	  ;; having messages pop up on Emacs load.
 	  :commands vterm
+	  :custom
+	  (vterm-always-compile-module t)
 	  :config
 	  (setq-default term-prompt-regexp ade/terminal-prompt-regexp)
-	  (setq-default vterm-max-scrollback 10000))
+	  (setq-default vterm-max-scrollback 10000)
+	  (vterm-module-compile)))
 
   ;; Term: terminal emulator written in Elisp.
   (use-package term
@@ -499,7 +505,6 @@ These are more about where the buttons are on the keyboard than about the name o
   ;; For terminal colors
   (use-package eterm-256color
 	:hook (term-mode . eterm-256color-mode)))
-
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;                           IDE-LIKE FEATURES                             ;;;
