@@ -643,11 +643,23 @@ way, return nil if compilation has/had failed, and non-nil otherwise."
   :mode ("CMakeLists\\.txt\\'" "\\.cmake\\'")
   :hook (cmake-mode . lsp-deferred))
 
+;; Some kind of 'improved' CMake highlighting. Gimme!
+(use-package cmake-font-lock
+  :after (cmake-mode)
+  :hook (cmake-mode . cmake-font-lock-activate))
+
+;; Config from https://www.reddit.com/r/emacs/comments/audffp/tip_how_to_use_a_stable_and_fast_environment_to/
+(defun ade/cmake-ide-setup-build-dir ()
+  "Sets the cmake-ide-build-dir variable from projectile's project root."
+  (when (projectile-project-p)
+	(setq cmake-ide-build-dir
+		  (concat (projectile-project-root) "/build"))))
+
 (use-package cmake-ide
+  :after projectile
   :hook
-  (cmake-mode .
-			  (lambda () (when (projectile-project-p)
-						   (setq cmake-ide-build-dir (concat (projectile-project-root) "build")))))
+  (c-mode . ade/cmake-ide-setup-build-dir)
+  (c++-mode . ade/cmake-ide-setup-build-dir)
   :config
   (cmake-ide-setup)
   (ade/cmd-pfx
