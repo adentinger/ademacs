@@ -22,10 +22,6 @@
   "Regular expression that matches a prompt in a terminal.")
 
 ;;; KEY PREFIXES
-;;;
-;;; As much as possible we use the below rather than hardcoded keybindings,
-;;; however in some cases it may not be possible, or I haven't figured out how
-;;; to use them yet.
 (defconst ade/cmd-pfx-plain "C-SPC"
   "String representation of the prefix key for prefixes of commands (Projectile, LSP, ...).")
 (defconst ade/evil-window-mgt-leader-pfx-plain "C-w"
@@ -540,6 +536,14 @@ way, return nil if compilation has/had failed, and non-nil otherwise."
   ;; This does not seem to work unfortunately...
   (setq-default projectile-globally-ignored-files '("~undo-tree~"))
 
+  ;; Does the same as :bind-keymap, but uses a variable's value to compute
+  ;; the keybinding string. See:
+  ;; https://emacs.stackexchange.com/questions/74322/use-package-bind-keymap-with-car-as-a-form
+  (bind-key (concat ade/cmd-pfx-plain " p")
+			#'(lambda nil
+				(interactive)
+				(use-package-autoload-keymap 'projectile-command-map 'projectile nil)))
+
   ;; Doesn't work at the moment because SpaceStudio doesn't create a project
   ;; file with a fixed name.
   ;; (defun ade/projectile-register-spacestudio ()
@@ -551,11 +555,7 @@ way, return nil if compilation has/had failed, and non-nil otherwise."
   ;; Extra ignore rules don't work without native indexing
   (projectile-indexing-method 'native)
   :config
-  (projectile-mode)
-  ;; Can't figure out how to use the ade/cmd-pfx-plain string to do this; maybe
-  ;; we could set the string to a variable first?
-  ;; https://emacs.stackexchange.com/questions/74322/use-package-bind-keymap-with-car-as-a-form
-  :bind-keymap ("C-SPC p" . projectile-command-map))
+  (projectile-mode))
 
 (defun ade/lsp-mode-setup ()
   (setq lsp-headerline-breadcrumb-segments '(path-up-to-project file symbols))
