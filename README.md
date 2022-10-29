@@ -13,9 +13,17 @@ For CMake buffers (e.g. `CMakeLists.txt` or `*.cmake` files):
 
 [VTerm](https://github.com/akermu/emacs-libvterm) requires Emacs to be compiled with dynamic modules support. Without dynamic modules support, this config using the Term package instead.
 
+Here is how to build Emacs with modules support on Ubuntu:
+
 ```bash
+emacs_tar_basename=emacs-28.2
+tmpdir="$(mktemp -d)"
+echo "Building Emacs in ${tmpdir}"
+cd "${tmpdir}" && wget https://ftp.gnu.org/gnu/emacs/${emacs_tar_basename}.tar.xz && tar -xJf ${emacs_tar_basename}.tar.xz && cd ${emacs_tar_basename}
 sudo apt-get install build-essential texinfo libx11-dev libxpm-dev libjpeg-dev libpng-dev libgif-dev libtiff-dev libncurses-dev automake autoconf libgtk-3-dev
-./configure --with-modules --without-pop --with-x-toolkit=yes
-make -j10
+./configure --with-modules --without-pop --with-x-toolkit=yes && make -j10
+
+# If happy with ./src/emacs, then:
+sudo make install
 ```
 
