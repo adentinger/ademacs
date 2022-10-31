@@ -475,6 +475,28 @@ These are more about where the buttons are on the keyboard than about the name o
 ;;;                                TERMINAL                                 ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+(defun ade/vterm-compile ()
+  "Try compiling VTerm if it hasn't been attempted already. Either
+way, return nil if compilation has/had failed, and non-nil otherwise."
+  (let
+	  ((compile-attempted-flag-path
+		(concat ade/flag-dir "/vterm-compile-attempted"))
+	   (compile-worked-flag-path
+		(concat ade/flag-dir "/vterm-compile-worked"))
+	   (compile-worked nil))
+	;; If vterm compile wasn't attempted yet...
+	(unless (file-exists-p compile-attempted-flag-path)
+	  ;; ...then try to compile...
+	  (setq compile-worked (ignore-errors (vterm-module-compile) t))
+	  ;; ...and if compile worked, then remember so...
+	  (when compile-worked
+		(ade/make-empty-file compile-worked-flag-path)))
+	;; ...and remember that compilation was attempted.
+	(ade/make-empty-file compile-attempted-flag-path)
+	;; Then evaluate to whether compile had worked when we
+	;; attempted it.
+	(file-exists-p compile-worked-flag-path)))
+
 (unless (and
 		 module-file-suffix ; Check for dynamic modules support.
 
@@ -483,37 +505,18 @@ These are more about where the buttons are on the keyboard than about the name o
 		 ;; Check out the ademacs repo's README.md for the list of packages to
 		 ;; install on Ubuntu.
 		 (use-package vterm
-		   ;; Ensure VTerm is loaded right away so we know whether to setup
-		   ;; Term.
+		   ;; Ensure VTerm is loaded right away so that the compile function we
+		   ;; defined above has access to the VTerm functions.
 		   :demand t
-		   :init
-		   (defun ade/vterm-compile ()
-			 "Try compiling VTerm if it hasn't been attempted already. Either
-way, return nil if compilation has/had failed, and non-nil otherwise."
-			 (let
-				 ((compile-attempted-flag-path
-				   (concat ade/flag-dir "/vterm-compile-attempted"))
-				  (compile-worked-flag-path
-				   (concat ade/flag-dir "/vterm-compile-worked"))
-				  (compile-worked nil))
-			   ;; If vterm compile wasn't attempted yet...
-			   (unless (file-exists-p compile-attempted-flag-path)
-				 ;; ...then try to compile...
-				 (setq compile-worked (ignore-errors (vterm-module-compile) t))
-				 ;; ...and if compile worked, then remember so...
-				 (when compile-worked
-				   (ade/make-empty-file compile-worked-flag-path)))
-				 ;; ...and remember that compilation was attempted.
-				 (ade/make-empty-file compile-attempted-flag-path)
-			   ;; Then evaluate to whether compile had worked when we
-			   ;; attempted it.
-			   (file-exists-p compile-worked-flag-path)))
-		   (add-hook 'emacs-startup-hook 'ade/vterm-compile)
 		   :custom
 		   (vterm-always-compile-module t)
 		   :config
 		   (setq-default term-prompt-regexp ade/terminal-prompt-regexp)
-		   (setq-default vterm-max-scrollback 10000)))
+		   (setq-default vterm-max-scrollback 10000))
+
+		 (ade/vterm-compile))
+
+  (message "VTerm compile has/had failed; using Term instead...")
 
   ;; Term: terminal emulator written in Elisp.
   (use-package term
