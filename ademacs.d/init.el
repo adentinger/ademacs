@@ -92,6 +92,7 @@
   ;; Don't show line number in certain modes
   (dolist (mode '(org-mode-hook
                   term-mode-hook
+                  vterm-mode-hook
                   shell-mode-hook
                   treemacs-mode-hook
                   eshell-mode-hook))
@@ -512,7 +513,16 @@ successful.")
   "VTerm use-package's :config forms"
   (interactive)
   (setq-default term-prompt-regexp ade/terminal-prompt-regexp)
-  (setq-default vterm-max-scrollback 10000))
+  (setq-default vterm-max-scrollback 10000)
+  ;; Couldn't figure out how to remove a keybinding from a specific keymap
+  ;; with general-unbind.
+  (define-key vterm-mode-map (kbd ade/cmd-pfx-plain) nil))
+
+(defun ade/vterm-clear-compile-attempt ()
+  "Remove files indicating that VTerm compilation has been attempted."
+  (interactive)
+  (delete-file ade/vterm-compile-attempted-flag-path)
+  (delete-file ade/vterm-compile-worked-flag-path))
 
 (defun ade/vterm-use-package-p ()
   "Run use-package of VTerm, compiles it if that hasn't been attempted yet,
