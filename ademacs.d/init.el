@@ -479,37 +479,41 @@ These are more about where the buttons are on the keyboard than about the name o
 		 module-file-suffix ; Check for dynamic modules support.
 
 		 ;; VTerm: speedy terminal but requires Emacs dynamic modules support,
-		 ;; a fairly recent CMake version, and other build essentials to setup.
+		 ;; and build essentials to setup.
 		 ;; Check out the ademacs repo's README.md for the list of packages to
 		 ;; install on Ubuntu.
 		 (use-package vterm
+		   ;; Ensure VTerm is loaded right away so we know whether to setup
+		   ;; Term.
 		   :demand t
+		   :init
+		   (defun ade/vterm-compile ()
+			 "Try compiling VTerm if it hasn't been attempted already. Either
+way, return nil if compilation has/had failed, and non-nil otherwise."
+			 (let
+				 ((compile-attempted-flag-path
+				   (concat ade/flag-dir "/vterm-compile-attempted"))
+				  (compile-worked-flag-path
+				   (concat ade/flag-dir "/vterm-compile-worked"))
+				  (compile-worked nil))
+			   ;; If vterm compile wasn't attempted yet...
+			   (unless (file-exists-p compile-attempted-flag-path)
+				 ;; ...then try to compile...
+				 (setq compile-worked (ignore-errors (vterm-module-compile) t))
+				 ;; ...and if compile worked, then remember so...
+				 (when compile-worked
+				   (ade/make-empty-file compile-worked-flag-path)))
+				 ;; ...and remember that compilation was attempted.
+				 (ade/make-empty-file compile-attempted-flag-path)
+			   ;; Then evaluate to whether compile had worked when we
+			   ;; attempted it.
+			   (file-exists-p compile-worked-flag-path)))
+		   (add-hook 'emacs-startup-hook 'ade/vterm-compile)
 		   :custom
 		   (vterm-always-compile-module t)
 		   :config
 		   (setq-default term-prompt-regexp ade/terminal-prompt-regexp)
-		   (setq-default vterm-max-scrollback 10000)
-
-		   (defun ade/vterm-compile ()
-			 "Try compiling VTerm if it hasn't been attempted already. Either
-way, return nil if compilation has/had failed, and non-nil otherwise."
-			 (setq ade/vterm-compile-attempted-flag-path
-				   (concat ade/flag-dir "/vterm-compile-attempted"))
-			 (setq ade/vterm-compile-worked-flag-path
-				   (concat ade/flag-dir "/vterm-compile-worked"))
-			 ;; If vterm compile wasn't attempted yet...
-			 (unless (file-exists-p ade/vterm-compile-attempted-flag-path)
-			   ;; ...then try to compile...
-			   (setq compile-worked (ignore-errors (vterm-module-compile) t))
-			   ;; ...and remember that compilation was attempted...
-			   (ade/make-empty-file ade/vterm-compile-attempted-flag-path)
-			   ;; ...and if compile worked, then remember so.
-			   (when compile-worked
-				 (ade/make-empty-file ade/vterm-compile-worked-flag-path)))
-			 ;; Then evaluate to whether compile had worked when we
-			 ;; attempted it.
-			 (file-exists-p ade/vterm-compile-worked-flag-path))
-		   (ade/vterm-compile)))
+		   (setq-default vterm-max-scrollback 10000)))
 
   ;; Term: terminal emulator written in Elisp.
   (use-package term
