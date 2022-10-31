@@ -620,12 +620,9 @@ but had already worked."
   (lsp-mode . ade/lsp-mode-setup)
   (c-mode   . ade/lsp-c-c++-mode-setup)
   (c++-mode . ade/lsp-c-c++-mode-setup)
-  :bind
-  (("C-c C-c" . completion-at-point))
   :config
-  (lsp-enable-which-key-integration t))
-
-(use-package lsp-treemacs)
+  (lsp-enable-which-key-integration t)
+  (bind-key (concat ade/generic-pfx-plain " C-c") #'completion-at-point nil nil))
 
 (use-package lsp-ivy)
 
