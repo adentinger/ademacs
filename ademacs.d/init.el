@@ -475,46 +475,75 @@ These are more about where the buttons are on the keyboard than about the name o
 ;;;                                TERMINAL                                 ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+(defconst ade/vterm-compile-attempted-flag-path
+  (concat ade/flag-dir "/vterm-compile-attempted")
+  "File which, when present, indicates that VTerm compilation has been
+attempted already.")
+(defconst ade/vterm-compile-worked-flag-path
+  (concat ade/flag-dir "/vterm-compile-worked")
+  "File which, when present, indicated that VTerm compilcation has been
+successful.")
+
 (defun ade/vterm-compile ()
-  "Try compiling VTerm if it hasn't been attempted already. Either
-way, return nil if compilation has/had failed, and non-nil otherwise."
+  "Try compiling VTerm if it hasn't been attempted already."
   (let
-	  ((compile-attempted-flag-path
-		(concat ade/flag-dir "/vterm-compile-attempted"))
-	   (compile-worked-flag-path
-		(concat ade/flag-dir "/vterm-compile-worked"))
-	   (compile-worked nil))
+	  ((compile-worked nil))
 	;; If vterm compile wasn't attempted yet...
-	(unless (file-exists-p compile-attempted-flag-path)
+	(unless (file-exists-p ade/vterm-compile-attempted-flag-path)
 	  ;; ...then try to compile...
 	  (setq compile-worked (ignore-errors (vterm-module-compile) t))
 	  ;; ...and if compile worked, then remember so...
 	  (when compile-worked
-		(ade/make-empty-file compile-worked-flag-path)))
+		(ade/make-empty-file ade/vterm-compile-worked-flag-path)))
 	;; ...and remember that compilation was attempted.
-	(ade/make-empty-file compile-attempted-flag-path)
-	;; Then evaluate to whether compile had worked when we
-	;; attempted it.
-	(file-exists-p compile-worked-flag-path)))
+	(ade/make-empty-file ade/vterm-compile-attempted-flag-path)))
+
+(defun ade/vterm-compile-attempted-p ()
+  "Whether VTerm compilation has been attempted."
+  (interactive)
+  (file-exists-p ade/vterm-compile-attempted-flag-path))
+
+(defun ade/vterm-compile-worked-p ()
+  "Whether VTerm compilation has been attempted and has worked."
+  (interactive)
+  (file-exists-p ade/vterm-compile-worked-flag-path))
+
+(defun ade/vterm-config ()
+  "VTerm use-package's :config forms"
+  (interactive)
+  (setq-default term-prompt-regexp ade/terminal-prompt-regexp)
+  (setq-default vterm-max-scrollback 10000))
+
+(defun ade/vterm-use-package-p ()
+  "Run use-package of VTerm, compiles it if that hasn't been attempted yet,
+and returns non-nil if compile has worked, or if it had been attempted before
+but had already worked."
+  (interactive)
+  (if (not (ade/vterm-compile-attempted-p))
+	  (progn
+		;; VTerm: speedy terminal but requires Emacs dynamic modules support,
+		;; and build essentials to setup.
+		;; Check out the ademacs repo's README.md for the list of packages to
+		;; install on Ubuntu.
+		(use-package vterm
+		  ;; Ensure VTerm is loaded right away so that ade/vterm-config
+		  ;; has access to the VTerm functions.
+		  :demand t
+		  :custom (vterm-always-compile-module t)
+		  :config
+		  (ade/vterm-config))
+
+		(ade/vterm-compile))
+
+	(use-package vterm
+	  :commands vterm
+	  :config
+	  (ade/vterm-config)))
+  (ade/vterm-compile-worked-p))
 
 (unless (and
 		 module-file-suffix ; Check for dynamic modules support.
-
-		 ;; VTerm: speedy terminal but requires Emacs dynamic modules support,
-		 ;; and build essentials to setup.
-		 ;; Check out the ademacs repo's README.md for the list of packages to
-		 ;; install on Ubuntu.
-		 (use-package vterm
-		   ;; Ensure VTerm is loaded right away so that the compile function we
-		   ;; defined above has access to the VTerm functions.
-		   :demand t
-		   :custom
-		   (vterm-always-compile-module t)
-		   :config
-		   (setq-default term-prompt-regexp ade/terminal-prompt-regexp)
-		   (setq-default vterm-max-scrollback 10000))
-
-		 (ade/vterm-compile))
+		 (ade/vterm-use-package-p))
 
   (message "VTerm compile has/had failed; using Term instead...")
 
