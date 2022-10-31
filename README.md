@@ -20,7 +20,7 @@ emacs_tar_basename=emacs-28.2
 tmpdir="$(mktemp -d)"
 echo "Building Emacs in ${tmpdir}"
 cd "${tmpdir}" && wget https://ftp.gnu.org/gnu/emacs/${emacs_tar_basename}.tar.xz && tar -xJf ${emacs_tar_basename}.tar.xz && cd ${emacs_tar_basename}
-sudo apt-get install build-essential texinfo libx11-dev libxpm-dev libjpeg-dev libpng-dev libgif-dev libtiff-dev libncurses-dev automake autoconf libgtk-3-dev
+sudo apt-get install build-essential texinfo libx11-dev libxpm-dev libjpeg-dev libpng-dev libgif-dev libtiff-dev libncurses-dev automake autoconf libgtk-3-dev libtool-bin
 ./configure --with-modules --without-pop --with-x-toolkit=yes && make -j10
 
 # If happy with ./src/emacs, then:
