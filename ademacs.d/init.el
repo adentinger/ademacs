@@ -23,9 +23,18 @@
 
 ;;; KEY PREFIXES
 (defconst ade/cmd-pfx-plain "C-SPC"
-  "String representation of the prefix key for prefixes of commands (Projectile, LSP, ...).")
+  "String representation of the prefix key for prefixes of commands \
+(Projectile, LSP, ...).")
 (defconst ade/evil-window-mgt-leader-pfx-plain "C-w"
   "String representation of the prefix key for Evil mode window management.")
+(defconst ade/projectile-subpfx-plain "p"
+  "String representation of Projectile sub-prefix key.")
+(defconst ade/lsp-subpfx-plain "l"
+  "String representation of LSP sub-prefix key.")
+;; NOTE: Unused at the moment; need to figure out how to make the code depend
+;; on this.
+(defconst ade/cmake-idx-subpfx-plain "c"
+  "String representation of cmake-ide sub-prefix key.")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Rest of code
@@ -610,7 +619,7 @@ but had already worked."
   ;; Does the same as :bind-keymap, but uses a variable's value to compute
   ;; the keybinding string. See:
   ;; https://emacs.stackexchange.com/questions/74322/use-package-bind-keymap-with-car-as-a-form
-  (bind-key (concat ade/cmd-pfx-plain " p")
+  (bind-key (concat ade/cmd-pfx-plain " " ade/projectile-subpfx-plain)
 			#'(lambda nil
 				(interactive)
 				(use-package-autoload-keymap 'projectile-command-map 'projectile nil)))
@@ -640,7 +649,7 @@ but had already worked."
 (use-package lsp-mode
   :commands (lsp lsp-deferred)
   :init
-  (setq lsp-keymap-prefix (concat ade/cmd-pfx-plain " l"))
+  (setq lsp-keymap-prefix (concat ade/cmd-pfx-plain " " ade/lsp-subpfx-plain))
   :hook
   (lsp-mode . ade/lsp-mode-setup)
   (c-mode   . ade/lsp-c-c++-mode-setup)
