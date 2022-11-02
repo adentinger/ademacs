@@ -71,13 +71,37 @@
 ;; Call that newly-created function
 (ade/do-basic-ui-setup)
 
-(defun ade/set-font ()
-  ;; Font && font size
-  (if (eq system-type 'windows-nt)
-	  (progn (set-face-attribute 'default nil :height 190 :weight 'normal :font "Consolas"))
-	(progn (set-face-attribute 'default nil :height 190 :weight 'normal))))
+(defun ade/font-exists-p (font-family)
+  "Whether a font with a given font family exists."
+  (interactive "sFont family: ")
+  (find-font (font-spec :name font-family)))
 
-(ade/set-font)
+(defun ade/set-font (font-family height)
+  "Sets the font family as well as some basic other attributes, or only set \
+the attributes if font-family is nil."
+  (interactive "sFont family: \nnFont height: ")
+  (message "Setting font to %s, height %d." font-family height)
+  (if font-family
+	  (set-face-attribute 'default nil :height height :weight 'normal
+						  :font font-family)
+	(set-face-attribute 'default nil :height height :weight 'normal)))
+
+(defun ade/auto-set-font ()
+  "Determines my preferred available font family, and sets the default font \
+accordingly."
+  (interactive)
+  ;; Font && font size
+  (cond
+   ((ade/font-exists-p "Consolas")
+	(ade/set-font "Consolas" 190))
+   ((ade/font-exists-p "Ubuntu Mono")
+	(ade/set-font "Ubuntu Mono" 190))
+   ((ade/font-exists-p "Liberation Mono")
+	(ade/set-font "Liberation Mono" 160))
+   (t
+	(ade/set-font nil))))
+
+(ade/auto-set-font)
 
 ;; Don't add the annoying Custom line things in this file; add
 ;; them to a separate file
