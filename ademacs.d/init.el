@@ -249,7 +249,7 @@ accordingly."
 ;; https://github.com/seagle0128/doom-modeline/issues/187#issuecomment-507201556
 (defun ade/doom-modeline-height ()
   "Calculate the actual char height of the mode-line."
-  (- (frame-char-height) 8))
+  (- (frame-char-height) 10))
 
 (use-package doom-modeline
   :after all-the-icons
