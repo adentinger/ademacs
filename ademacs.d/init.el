@@ -503,11 +503,11 @@ These are more about where the buttons are on the keyboard than about the name o
 
 (defconst ade/vterm-compile-attempted-flag-path
   (concat ade/flag-dir "/vterm-compile-attempted")
-  "File which, when present, indicates that VTerm compilation has been
+  "File which, when present, indicates that VTerm compilation has been \
 attempted already.")
 (defconst ade/vterm-compile-worked-flag-path
   (concat ade/flag-dir "/vterm-compile-worked")
-  "File which, when present, indicated that VTerm compilcation has been
+  "File which, when present, indicated that VTerm compilcation has been \
 successful.")
 
 (defun ade/vterm-compile ()
@@ -550,8 +550,8 @@ successful.")
   (delete-file ade/vterm-compile-worked-flag-path))
 
 (defun ade/vterm-use-package-p ()
-  "Run use-package of VTerm, compiles it if that hasn't been attempted yet,
-and returns non-nil if compile has worked, or if it had been attempted before
+  "Run use-package of VTerm, compiles it if that hasn't been attempted yet, \
+and returns non-nil if compile has worked, or if it had been attempted before \
 but had already worked."
   (interactive)
   (if (not (ade/vterm-compile-attempted-p))
