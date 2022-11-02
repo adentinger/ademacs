@@ -128,6 +128,7 @@ accordingly."
   (setq-default show-trailing-whitespace t)
   (dolist (hook '(special-mode-hook
                   term-mode-hook
+				  vterm-mode-hook
                   comint-mode-hook
                   compilation-mode-hook
                   minibuffer-setup-hook))
