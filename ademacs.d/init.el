@@ -315,6 +315,8 @@ accordingly."
   :after evil
   :diminish
   :config
+  (add-to-list 'undo-tree-history-directory-alist
+			   (cons "." (concat user-emacs-directory "/undo-tree")))
   (evil-set-undo-system 'undo-tree)
   (global-undo-tree-mode 1))
 
