@@ -116,29 +116,32 @@ accordingly."
 ;; them to a separate file
 (setq custom-file (concat user-emacs-directory "/custom.el"))
 
-(defun ade/do-basic-text-editing-ui-setup ()
+(defun ade/do-basic-text-editing-setup ()
   (column-number-mode)
   (global-display-line-numbers-mode t)
   (set-default-coding-systems 'utf-8)
   (setq-default tab-width 4
 				indent-tabs-mode t)
   (setq-default view-read-only t)
-  ;; Don't show line number in certain modes
+  (setq text-scale-mode-step 1.1)
+  ;; Don't show line number in certain modes.
+  ;; (Some more modes will additionally be setup later in the relevant
+  ;; use-package)
   (dolist (mode '(org-mode-hook
-                  term-mode-hook
-                  vterm-mode-hook
                   shell-mode-hook
-                  treemacs-mode-hook
-                  eshell-mode-hook))
+                  eshell-mode-hook
+                  treemacs-mode-hook))
 	(add-hook mode (lambda () (display-line-numbers-mode 0)))))
 
-(ade/do-basic-text-editing-ui-setup)
+(ade/do-basic-text-editing-setup)
 
 (defun ade/show-trailing-whitespace ()
   (setq-default show-trailing-whitespace t)
+  ;; (Some more modes will additionally be setup later in the relevant
+  ;; use-package)
   (dolist (hook '(special-mode-hook
-                  term-mode-hook
-				  vterm-mode-hook
+                  shell-mode-hook
+                  eshell-mode-hook
                   comint-mode-hook
                   compilation-mode-hook
                   minibuffer-setup-hook))
@@ -522,6 +525,16 @@ attempted already.")
   "File which, when present, indicated that VTerm compilcation has been \
 successful.")
 
+
+(defun ade/terminal-general-setup ()
+  "Sets the text scale for a terminal buffer."
+  (interactive)
+  (text-scale-set -3)
+  (display-line-numbers-mode 0)
+  (setq show-trailing-whitespace nil)
+  (setq-default explicit-shell-file-name "bash")
+  (setq-default term-prompt-regexp ade/terminal-prompt-regexp))
+
 (defun ade/vterm-compile ()
   "Try compiling VTerm if it hasn't been attempted already."
   (let
@@ -553,7 +566,9 @@ successful.")
   (setq-default vterm-max-scrollback 10000)
   ;; Couldn't figure out how to remove a keybinding from a specific keymap
   ;; with general-unbind.
-  (define-key vterm-mode-map (kbd ade/cmd-pfx-plain) nil))
+  (define-key vterm-mode-map (kbd ade/cmd-pfx-plain) nil)
+  (add-hook 'vterm-mode-hook (lambda ()
+							   (ade/terminal-general-setup))))
 
 (defun ade/vterm-clear-compile-attempt ()
   "Remove files indicating that VTerm compilation has been attempted."
@@ -576,7 +591,9 @@ but had already worked."
 		  ;; Ensure VTerm is loaded right away so that ade/vterm-config
 		  ;; has access to the VTerm functions.
 		  :demand t
-		  :custom (vterm-always-compile-module t)
+		  :custom
+		  (vterm-always-compile-module t)
+		  (vterm-min-window-width 80)
 		  :config
 		  (ade/vterm-config))
 
@@ -584,9 +601,15 @@ but had already worked."
 
 	(use-package vterm
 	  :commands vterm
+	  :custom
+	  (vterm-min-window-width 80)
 	  :config
 	  (ade/vterm-config)))
   (ade/vterm-compile-worked-p))
+
+;; Always set the term hook up, even when VTerm works correctly, since this
+;; package is already part of Emacs anyway.
+(add-hook 'term-mode-hook 'ade/terminal-general-setup)
 
 (unless (and
 		 module-file-suffix ; Check for dynamic modules support.
@@ -594,11 +617,10 @@ but had already worked."
 
   (message "VTerm compile has/had failed; using Term instead...")
 
+  ;; TODO Setup term keybinds (toggle terminal buffer, ...).
   ;; Term: terminal emulator written in Elisp.
   (use-package term
-	:config
-	(setq-default explicit-shell-file-name "bash")
-	(setq-default term-prompt-regexp ade/terminal-prompt-regexp))
+	:ensure nil)
 
   ;; For terminal colors
   (use-package eterm-256color
