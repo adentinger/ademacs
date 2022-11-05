@@ -423,8 +423,8 @@ These are more about where the buttons are on the keyboard than about the name o
 	(general-def 'motion "C"   (lambda () (interactive) (scroll-up 1)))
 	(general-def 'motion "b"   'evil-jump-backward)
 	(general-def 'motion "B"   'evil-jump-forward)
-	(general-def 'motion "h"   'evil-visual-char)
-	(general-def 'motion "H"   'evil-visual-line)
+	(general-def 'motion "h"   'evil-replace)
+	(general-def 'motion "H"   'evil-enter-replace-state)
 	(general-def 'motion "M-h" 'evil-visual-block)
 	(general-def 'motion "t"   'evil-jump-item)
 	(ade/evil-window-mgt-leader-def 'motion "a"   'evil-window-left)
@@ -452,8 +452,6 @@ These are more about where the buttons are on the keyboard than about the name o
 	(general-def 'normal "j"   'evil-visual-char)
 	(general-def 'normal "J"   'evil-visual-line)
 	(general-def 'normal "M-j" 'evil-visual-block)
-	(general-def 'normal "h"   'evil-replace)
-	(general-def 'normal "H"   'evil-enter-replace-state)
 	(general-def 'normal "u"   'evil-undo) ; C-z on Linux
 	(general-def 'normal "U"   'evil-redo) ; C-Z on Linux, so uppercase makes sense
 	(general-def 'normal "p"   'evil-paste-before)
@@ -497,9 +495,8 @@ These are more about where the buttons are on the keyboard than about the name o
 	(general-def '(insert replace) "C-P" 'evil-paste-after)
 
 	(general-def 'visual ";"   'comment-dwim) ; I do that often!
-	(general-def 'visual "h"   'evil-visual-char)
-	(general-def 'visual "H"   'evil-visual-line)
-	(general-def 'visual "M-h" 'evil-visual-block)
+	(general-def 'visual "h"   'evil-replace)
+	(general-def 'visual "H"   'evil-enter-replace-state)
 	(general-def 'visual "o"   'kill-ring-save)
 	(general-def 'visual "O"   'kill-region)
 	;; "a" seems to be overridden by its nil keybindings, causing it
