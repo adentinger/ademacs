@@ -108,7 +108,7 @@ accordingly."
    ((ade/font-exists-p "Liberation Mono")
 	(ade/set-font "Liberation Mono" 160))
    (t
-	(ade/set-font nil))))
+	(ade/set-font nil 190))))
 
 (ade/auto-set-font)
 
