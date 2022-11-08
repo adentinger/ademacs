@@ -345,6 +345,18 @@ accordingly."
 ;; Window management is pretty general and important!
 (general-unbind ade/evil-window-mgt-leader-pfx-plain)
 
+;; From: http://xahlee.info/emacs/emacs/emacs_kill-ring.html
+(defun ade/delete-line ()
+  "Delete whole current line without adding it to kill-ring."
+  (interactive)
+  (beginning-of-line 1)
+  (setq p-start (point))
+  (end-of-line 1)
+  (setq p-end (point))
+  (delete-region p-start p-end)
+  ;; Also delete eol itself
+  (delete-char 1))
+
 (use-package evil
   :custom
   ;; Apparently needed with evil-collection
@@ -456,10 +468,10 @@ These are more about where the buttons are on the keyboard than about the name o
 	(general-def 'normal "U"   'evil-redo) ; C-Z on Linux, so uppercase makes sense
 	(general-def 'normal "p"   'evil-paste-before)
 	(general-def 'normal "P"   'evil-paste-after)
-	(general-def 'normal "n"   'evil-delete-backward-char)
-	(general-def 'normal "N"   'evil-delete-whole-line)
-	(general-def 'normal "m"   'evil-delete-char)
-	(general-def 'normal "M"   'evil-delete-whole-line)
+	(general-def 'normal "n"   'delete-backward-char)
+	(general-def 'normal "N"   'ade/delete-line)
+	(general-def 'normal "m"   'delete-char)
+	(general-def 'normal "M"   'ade/delete-line)
 	(general-def 'normal "y"   'save-buffer)
 
 	(general-def '(insert replace) "C-a" 'evil-backward-char)
