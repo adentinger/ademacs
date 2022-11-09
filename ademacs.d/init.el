@@ -36,9 +36,30 @@
 (defconst ade/cmake-idx-subpfx-plain "c"
   "String representation of cmake-ide sub-prefix key.")
 
+;;; PROFILE SEPARATION (personal vs work vs...)
+(defconst ade/profile-id--generic "generic"
+  "Setup ID for profile with no particular extras.")
+(defconst ade/profile-id--personal "personal"
+  "Setup ID for personal profile.")
+(defconst ade/profile-id--work "work"
+  "Setup ID for work profile.")
+
+(defconst ade/profile-id ade/profile-id--generic
+  "Value of the profile ID.")
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Rest of code
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(defun ade/profile-personal-p ()
+  "Whether we are in the personal profile."
+  (interactive)
+  (equal ade/profile-id ade/profile-id--personal))
+
+(defun ade/profile-work-p ()
+  "Whether we are in the work profile."
+  (interactive)
+  (equal ade/profile-id ade/profile-id--work))
 
 ;; Create dir specific to flag files that indicate whether some action has been
 ;; performed already
@@ -784,4 +805,12 @@ but had already worked."
 	"c c" 'cmake-ide-run-cmake
 	"c b" 'camke-ide-compile
 	"c d" 'cmake-ide-load-db))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;                               WORK STUFF                                ;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(when (ade/profile-work-p)
+  ;; TODO
+  )
 
