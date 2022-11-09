@@ -645,10 +645,6 @@ but had already worked."
 	  (ade/vterm-config)))
   (ade/vterm-compile-worked-p))
 
-;; Always set the term hook up, even when VTerm works correctly, since this
-;; package is already part of Emacs anyway.
-(add-hook 'term-mode-hook 'ade/terminal-general-setup)
-
 (unless (and
 		 module-file-suffix ; Check for dynamic modules support.
 		 (ade/vterm-use-package-p))
@@ -658,11 +654,16 @@ but had already worked."
   ;; TODO Setup term keybinds (toggle terminal buffer, ...).
   ;; Term: terminal emulator written in Elisp.
   (use-package term
-	:ensure nil)
+	:ensure nil
+	;; TODO :bind
+	))
 
-  ;; For terminal colors
-  (use-package eterm-256color
-	:hook (term-mode . eterm-256color-mode)))
+;; Always set the Term hook up, even when VTerm works correctly, since this
+;; package is already part of Emacs anyway.
+(add-hook 'term-mode-hook 'ade/terminal-general-setup)
+;; For Term colors
+(use-package eterm-256color
+  :hook (term-mode . eterm-256color-mode))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;                           IDE-LIKE FEATURES                             ;;;
