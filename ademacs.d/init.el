@@ -434,6 +434,7 @@ These are more about where the buttons are on the keyboard than about the name o
 	;; whereas changing modes, inserting and special commands (e.g. kill, yank)
 	;; usually with right hand.
 	(general-def 'motion ":"   'evil-ex) ; Vim execute command thing.
+	(general-def 'motion ";"   'comment-dwim) ; I do that often!
 	(general-def 'motion "a"   'evil-backward-char)
 	(general-def 'motion "f"   'evil-forward-char)
 	(general-def 'motion "s"   'evil-previous-visual-line)
