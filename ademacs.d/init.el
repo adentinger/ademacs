@@ -263,6 +263,11 @@ accordingly."
    ("C-s" . ivy-previous-line)
    ("C-d" . ivy-next-line)))
 
+;; To use PCRE for search-replace
+(use-package visual-regexp-steroids
+  :bind
+  ("C-M-v" . 'vr/query-replace))
+
 ;; Counsel package is used by ivy-rich; ivy-rich doesn't seem to work without it
 (use-package counsel
   :bind (("M-x" . counsel-M-x)

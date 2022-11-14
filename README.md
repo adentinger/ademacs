@@ -26,6 +26,9 @@ sudo pip3 install cmake-language-server
 # Dependencies to allow Emacs and its VTerm package to build
 sudo apt-get install build-essential texinfo libx11-dev libxpm-dev libjpeg-dev libpng-dev libgif-dev libtiff-dev libncurses-dev automake autoconf libgtk-3-dev libtool-bin
 
+## Other dependencies
+sudo apt install python # Required by visual-regexp-steroids
+
 # Build Emacs with modules support
 emacs_tar_basename=emacs-28.2
 tmpdir="$(mktemp -d)"
