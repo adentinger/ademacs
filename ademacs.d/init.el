@@ -144,6 +144,9 @@ accordingly."
   (setq-default tab-width 4
 				indent-tabs-mode t)
   (setq-default view-read-only t)
+  ;; Automatically revert buffers if they change on disk and don't have
+  ;; any unsaved change.
+  (setq-default auto-revert-mode t)
   (setq text-scale-mode-step 1.1)
   ;; Don't show line number in certain modes.
   ;; (Some more modes will additionally be setup later in the relevant
