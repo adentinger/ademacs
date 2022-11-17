@@ -149,6 +149,12 @@ accordingly."
   ;; any unsaved change.
   (setq-default auto-revert-mode)
   (setq text-scale-mode-step 1.1)
+  ;; upcase-region and downcase-region shouldn't ask for confirmation
+  ;; (By default it prompts: "You have invoked the disabled command
+  ;; downcase-region. It is disabled because new users often find it
+  ;; confusing.)
+  (put 'upcase-region 'disabled nil)
+  (put 'downcase-region 'disabled nil)
   ;; Don't show line number in certain modes.
   ;; (Some more modes will additionally be setup later in the relevant
   ;; use-package)
