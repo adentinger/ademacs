@@ -16,6 +16,18 @@
 ;;; Config variables
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+;;; PROFILE SEPARATION (personal vs work vs...)
+(defconst ade/profile-id--generic "generic"
+  "Setup ID for profile with no particular extras.")
+(defconst ade/profile-id--personal "personal"
+  "Setup ID for personal profile.")
+(defconst ade/profile-id--work "work"
+  "Setup ID for work profile.")
+
+(defconst ade/profile-id ade/profile-id--work
+  "Value of the profile ID.")
+
+;; MISC CONFIGURATION
 (defconst ade/prj-dirs (list ade/git-prj-dir "~")
   "List of paths that Projectile will search for projects in.")
 (defconst ade/terminal-prompt-regexp "^[^#$%>\n]*[#$%>] *"
@@ -31,21 +43,6 @@
   "String representation of Projectile sub-prefix key.")
 (defconst ade/lsp-subpfx-plain "l"
   "String representation of LSP sub-prefix key.")
-;; NOTE: Unused at the moment; need to figure out how to make the code depend
-;; on this.
-(defconst ade/cmake-idx-subpfx-plain "c"
-  "String representation of cmake-ide sub-prefix key.")
-
-;;; PROFILE SEPARATION (personal vs work vs...)
-(defconst ade/profile-id--generic "generic"
-  "Setup ID for profile with no particular extras.")
-(defconst ade/profile-id--personal "personal"
-  "Setup ID for personal profile.")
-(defconst ade/profile-id--work "work"
-  "Setup ID for work profile.")
-
-(defconst ade/profile-id ade/profile-id--generic
-  "Value of the profile ID.")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Rest of code
@@ -728,6 +725,8 @@ but had already worked."
   :commands (lsp lsp-deferred)
   :init
   (setq lsp-keymap-prefix (concat ade/cmd-pfx-plain " " ade/lsp-subpfx-plain))
+  :custom
+  (lsp-clients-clangd-args '("--header-insertion-decorators=0" "--log=verbose"))
   :hook
   (lsp-mode . ade/lsp-mode-setup)
   (c-mode   . ade/lsp-c-c++-mode-setup)
@@ -803,30 +802,10 @@ but had already worked."
   :after (cmake-mode)
   :hook (cmake-mode . cmake-font-lock-activate))
 
-;; Config from https://www.reddit.com/r/emacs/comments/audffp/tip_how_to_use_a_stable_and_fast_environment_to/
-(defun ade/cmake-ide-setup-build-dir ()
-  "Sets the cmake-ide-build-dir variable from projectile's project root."
-  (when (projectile-project-p)
-	(setq cmake-ide-build-dir
-		  (concat (projectile-project-root) "/build"))))
-
-(use-package cmake-ide
-  :after projectile
-  :hook
-  (c-mode . ade/cmake-ide-setup-build-dir)
-  (c++-mode . ade/cmake-ide-setup-build-dir)
-  :config
-  (cmake-ide-setup)
-  (ade/cmd-pfx
-	"c c" 'cmake-ide-run-cmake
-	"c b" 'camke-ide-compile
-	"c d" 'cmake-ide-load-db))
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;                               WORK STUFF                                ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (when (ade/profile-work-p)
-  ;; TODO
-  )
+  (shell-command "echo hello world!"))
 
