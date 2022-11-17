@@ -16,7 +16,7 @@
 ;;; Config variables
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;;; PROFILE SEPARATION (personal vs work vs...)
+;;; PROFILE ID CONSTANTS (personal vs work vs...)
 (defconst ade/profile-id--generic "generic"
   "Setup ID for profile with no particular extras.")
 (defconst ade/profile-id--personal "personal"
@@ -24,7 +24,8 @@
 (defconst ade/profile-id--work "work"
   "Setup ID for work profile.")
 
-(defconst ade/profile-id ade/profile-id--work
+;; PROFILE ID FOR THIS CONFIG
+(defconst ade/profile-id ade/profile-id--generic
   "Value of the profile ID.")
 
 ;; MISC CONFIGURATION
@@ -42,7 +43,7 @@
 (defconst ade/projectile-subpfx-plain "p"
   "String representation of Projectile sub-prefix key.")
 (defconst ade/lsp-subpfx-plain "l"
-  "String representation of LSP sub-prefix key.")
+  "String representation of `lsp' sub-prefix key.")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Rest of code
@@ -573,11 +574,11 @@ These are more about where the buttons are on the keyboard than about the name o
 
 (defconst ade/vterm-compile-attempted-flag-path
   (concat ade/flag-dir "/vterm-compile-attempted")
-  "File which, when present, indicates that VTerm compilation has been \
+  "File which, when present, indicates that `vterm' compilation has been \
 attempted already.")
 (defconst ade/vterm-compile-worked-flag-path
   (concat ade/flag-dir "/vterm-compile-worked")
-  "File which, when present, indicated that VTerm compilcation has been \
+  "File which, when present, indicated that `vterm' compilcation has been \
 successful.")
 
 
@@ -591,7 +592,7 @@ successful.")
   (setq-default term-prompt-regexp ade/terminal-prompt-regexp))
 
 (defun ade/vterm-compile ()
-  "Try compiling VTerm if it hasn't been attempted already."
+  "Try compiling `vterm' if it hasn't been attempted already."
   (let
 	  ((compile-worked nil))
 	;; If vterm compile wasn't attempted yet...
@@ -605,17 +606,17 @@ successful.")
 	(ade/make-empty-file ade/vterm-compile-attempted-flag-path)))
 
 (defun ade/vterm-compile-attempted-p ()
-  "Whether VTerm compilation has been attempted."
+  "Whether `vterm' compilation has been attempted."
   (interactive)
   (file-exists-p ade/vterm-compile-attempted-flag-path))
 
 (defun ade/vterm-compile-worked-p ()
-  "Whether VTerm compilation has been attempted and has worked."
+  "Whether `vterm' compilation has been attempted and has worked."
   (interactive)
   (file-exists-p ade/vterm-compile-worked-flag-path))
 
 (defun ade/vterm-config ()
-  "VTerm use-package's :config forms"
+  "`vterm' `use-package''s :config forms"
   (interactive)
   (setq-default term-prompt-regexp ade/terminal-prompt-regexp)
   (setq-default vterm-max-scrollback 10000)
@@ -626,15 +627,15 @@ successful.")
 							   (ade/terminal-general-setup))))
 
 (defun ade/vterm-clear-compile-attempt ()
-  "Remove files indicating that VTerm compilation has been attempted."
+  "Remove files indicating that `vterm' compilation has been attempted."
   (interactive)
   (delete-file ade/vterm-compile-attempted-flag-path)
   (delete-file ade/vterm-compile-worked-flag-path))
 
 (defun ade/vterm-use-package-p ()
-  "Run use-package of VTerm, compiles it if that hasn't been attempted yet, \
-and returns non-nil if compile has worked, or if it had been attempted before \
-but had already worked."
+  "Run `use-package' of `vterm', compiles it if that hasn't been attempted \
+yet, and returns non-nil if compile has worked, or if it had been attempted \
+before but had already worked."
   (interactive)
   (if (not (ade/vterm-compile-attempted-p))
 	  (progn
