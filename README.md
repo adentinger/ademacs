@@ -24,7 +24,7 @@ sudo apt-get install clangd
 # For CMake
 sudo pip3 install cmake-language-server
 # Dependencies to allow Emacs and its VTerm package to build
-sudo apt-get install build-essential texinfo libx11-dev libxpm-dev libjpeg-dev libpng-dev libgif-dev libtiff-dev libncurses-dev automake autoconf libgtk-3-dev libtool-bin
+sudo apt-get install build-essential texinfo libx11-dev libxpm-dev libjpeg-dev libpng-dev libgif-dev libtiff-dev libncurses-dev automake autoconf libgtk2.0-dev libtool-bin
 
 ## Other dependencies
 sudo apt install python # Required by visual-regexp-steroids
@@ -34,7 +34,7 @@ emacs_tar_basename=emacs-28.2
 tmpdir="$(mktemp -d)"
 echo "Building Emacs in ${tmpdir}"
 cd "${tmpdir}" && wget https://ftp.gnu.org/gnu/emacs/${emacs_tar_basename}.tar.xz && tar -xJf ${emacs_tar_basename}.tar.xz && cd ${emacs_tar_basename}
-./configure --with-modules --without-pop --with-x-toolkit=yes && make -j10
+./configure --with-modules --without-pop --with-x-toolkit=gtk2 && make -j10
 ```
 
 If happy with `./src/emacs`, then install it with:
