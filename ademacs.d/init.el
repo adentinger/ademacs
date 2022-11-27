@@ -806,8 +806,7 @@ before but had already worked."
 			   ("C-c C-s" . c-show-syntactic-information)))
 
 (use-package cmake-mode
-  :mode ("CMakeLists\\.txt\\'" "\\.cmake\\'")
-  :hook (cmake-mode . lsp-deferred))
+  :mode ("CMakeLists\\.txt\\'" "\\.cmake\\'"))
 
 ;; Some kind of 'improved' CMake highlighting. Gimme!
 (use-package cmake-font-lock
