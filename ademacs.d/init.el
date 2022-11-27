@@ -417,7 +417,6 @@ accordingly."
   ;; Complete rework of the evil keybindings. ;;
   ;;      ~~User discretion is advised~~      ;;
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
   (defun ade/remove-evil-keybindings ()
 	"Removes all Evil keybindings.
 
@@ -565,7 +564,7 @@ These are more about where the buttons are on the keyboard than about the name o
 ;;;                                 MAGIT                                   ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;; Don't use it yet, but it adds pretty colors to the git commit file!
+;; Don't use it yet, but it adds pretty colors to the git commit file! :)
 (use-package magit)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
