@@ -731,6 +731,11 @@ before but had already worked."
 (use-package lsp-mode
   :commands (lsp lsp-deferred)
   :init
+  (unless (eq system-type 'windows-nt)
+	;; Use clangd-12 on non-windows (default clangd package on Ubuntu 20.04 has
+	;; errors like stddef.h not found).
+	(custom-theme-set-variables 'use-package
+								'(lsp-clients-clangd-executable "/usr/bin/clangd-12")))
   (setq lsp-keymap-prefix (concat ade/cmd-pfx-plain " " ade/lsp-subpfx-plain))
   :custom
   (lsp-clients-clangd-args '("--header-insertion-decorators=0" "--log=verbose"))
