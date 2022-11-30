@@ -156,6 +156,8 @@ accordingly."
   ;; confusing.)
   (put 'upcase-region 'disabled nil)
   (put 'downcase-region 'disabled nil)
+  ;; The underscore character is also a word constitutent
+  (modify-syntax-entry ?_ "w")
   ;; Don't show line number in certain modes.
   ;; (Some more modes will additionally be setup later in the relevant
   ;; use-package)
