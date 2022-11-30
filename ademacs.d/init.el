@@ -250,14 +250,14 @@ accordingly."
   :bind (
 		 :map ivy-minibuffer-map
 		 ("TAB" . ivy-alt-done)
-		 ("C-s" . ivy-previous-line)
-		 ("C-d" . ivy-next-line)
+		 ("C-d" . ivy-previous-line)
+		 ("C-f" . ivy-next-line)
 		 :map ivy-switch-buffer-map
-		 ("C-s" . ivy-previous-line)
-		 ("C-d" . ivy-switch-buffer-kill)
+		 ("C-d" . ivy-previous-line)
+		 ("C-f" . ivy-switch-buffer-kill)
 		 :map ivy-reverse-i-search-map
-		 ("C-s" . ivy-previous-line)
-		 ("C-d" . ivy-reverse-i-search-kill))
+		 ("C-d" . ivy-previous-line)
+		 ("C-f" . ivy-reverse-i-search-kill))
   :config
   (ivy-mode 1)
   (dolist (mode '(counsel-mode))
@@ -271,8 +271,8 @@ accordingly."
   :bind
   (("C-v" . swiper)
    :map swiper-map
-   ("C-s" . ivy-previous-line)
-   ("C-d" . ivy-next-line)))
+   ("C-d" . ivy-previous-line)
+   ("C-f" . ivy-next-line)))
 
 ;; To use PCRE for search-replace
 (use-package visual-regexp-steroids
@@ -369,14 +369,15 @@ accordingly."
 (use-package evil-collection
   :after evil
   :config
-  (evil-collection-init))
+  (evil-collection-init)
+  (setf (cdr emacs-lisp-mode-map) nil))
 
 (defhydra ade/evil-window-size-change (:timeout 4)
   "Resize current window"
-  ("a" evil-window-decrease-width "- width")
-  ("f" evil-window-increase-width "+ width")
-  ("s" evil-window-decrease-height "- height")
-  ("d" evil-window-increase-height "+ height"))
+  ("s" evil-window-decrease-width "- width")
+  ("g" evil-window-increase-width "+ width")
+  ("d" evil-window-decrease-height "- height")
+  ("f" evil-window-increase-height "+ height"))
 
 (general-create-definer ade/evil-window-mgt-leader-def
   :prefix ade/evil-window-mgt-leader-pfx-plain)
@@ -452,45 +453,44 @@ These are more about where the buttons are on the keyboard than about the name o
 	;; usually with right hand.
 	(general-def 'motion ":"   'evil-ex) ; Vim execute command thing.
 	(general-def 'motion ";"   'comment-dwim) ; I do that often!
-	(general-def 'motion "a"   'evil-backward-char)
-	(general-def 'motion "f"   'evil-forward-char)
-	(general-def 'motion "s"   'evil-previous-visual-line)
-	(general-def 'motion "d"   'evil-next-visual-line)
+	(general-def 'motion "s"   'evil-backward-char)
+	(general-def 'motion "g"   'evil-forward-char)
+	(general-def 'motion "d"   'evil-previous-visual-line)
+	(general-def 'motion "f"   'evil-next-visual-line)
 	(general-def 'motion "k"   'evil-insert)
 	(general-def 'motion "K"   'evil-insert-line)
 	(general-def 'motion "l"   'evil-append)
 	(general-def 'motion "L"   'evil-append-line)
-	(general-def 'motion "w"   'evil-backward-word-begin)
-	(general-def 'motion "e"   'evil-forward-word-end)
-	(general-def 'motion "W"   'evil-backward-WORD-begin)
-	(general-def 'motion "E"   'evil-forward-WORD-end)
-	(general-def 'motion "q"   'evil-beginning-of-visual-line)
-	(general-def 'motion "r"   'evil-end-of-visual-line)
-	(general-def 'motion "Q"   'beginning-of-buffer)
-	(general-def 'motion "R"   'end-of-buffer)
-	(general-def 'motion "x"   'scroll-down)
-	(general-def 'motion "c"   'scroll-up)
-	(general-def 'motion "X"   (lambda () (interactive) (scroll-down 1)))
-	(general-def 'motion "C"   (lambda () (interactive) (scroll-up 1)))
-	(general-def 'motion "b"   'evil-jump-backward)
-	(general-def 'motion "B"   'evil-jump-forward)
+	(general-def 'motion "e"   'evil-backward-word-begin)
+	(general-def 'motion "r"   'evil-forward-word-end)
+	(general-def 'motion "E"   'evil-backward-WORD-begin)
+	(general-def 'motion "R"   'evil-forward-WORD-end)
+	(general-def 'motion "w"   'evil-beginning-of-visual-line)
+	(general-def 'motion "t"   'evil-end-of-visual-line)
+	(general-def 'motion "W"   'beginning-of-buffer)
+	(general-def 'motion "T"   'end-of-buffer)
+	(general-def 'motion "c"   'scroll-down)
+	(general-def 'motion "v"   'scroll-up)
+	(general-def 'motion "C"   (lambda () (interactive) (scroll-down 1)))
+	(general-def 'motion "V"   (lambda () (interactive) (scroll-up 1)))
+	(general-def 'motion "x"   'evil-jump-backward)
+	(general-def 'motion "X"   'evil-jump-forward)
 	(general-def 'motion "h"   'evil-replace)
 	(general-def 'motion "H"   'evil-enter-replace-state)
 	(general-def 'motion "M-h" 'evil-visual-block)
-	(general-def 'motion "t"   'evil-jump-item)
-	(ade/evil-window-mgt-leader-def 'motion "a"   'evil-window-left)
-	(ade/evil-window-mgt-leader-def 'motion "f"   'evil-window-right)
-	(ade/evil-window-mgt-leader-def 'motion "s"   'evil-window-up)
-	(ade/evil-window-mgt-leader-def 'motion "d"   'evil-window-down)
+	(general-def 'motion "q"   'evil-jump-item)
+	(ade/evil-window-mgt-leader-def 'motion "s"   'evil-window-left)
+	(ade/evil-window-mgt-leader-def 'motion "g"   'evil-window-right)
+	(ade/evil-window-mgt-leader-def 'motion "d"   'evil-window-up)
+	(ade/evil-window-mgt-leader-def 'motion "f"   'evil-window-down)
 	(ade/evil-window-mgt-leader-def 'motion "q"   'evil-quit)
 	(ade/evil-window-mgt-leader-def 'motion "C-q" 'evil-quit)
 	(ade/evil-window-mgt-leader-def 'motion "w"   'evil-window-split)
 	(ade/evil-window-mgt-leader-def 'motion "e"   'evil-window-vsplit)
 	(ade/evil-window-mgt-leader-def 'motion "C-w" 'evil-window-split)
 	(ade/evil-window-mgt-leader-def 'motion "C-e" 'evil-window-vsplit)
-	(ade/evil-window-mgt-leader-def 'motion "g"   (lambda () (interactive) (kill-buffer nil)))
-	;; C-g is for emacs cancelling.
-	;; (ade/evil-window-mgt-leader-def 'motion "C-g" (lambda () (interactive) (kill-buffer nil)))
+	(ade/evil-window-mgt-leader-def 'motion "a"   (lambda () (interactive) (kill-buffer nil)))
+	(ade/evil-window-mgt-leader-def 'motion "C-a" (lambda () (interactive) (kill-buffer nil)))
     (ade/evil-window-mgt-leader-def 'motion "b"   'counsel-ibuffer)
     (ade/evil-window-mgt-leader-def 'motion "C-b" 'counsel-ibuffer)
 	(ade/evil-window-mgt-leader-def 'motion "r"   'ade/evil-window-size-change/body)
@@ -513,10 +513,10 @@ These are more about where the buttons are on the keyboard than about the name o
 	(general-def 'normal "M"   'ade/delete-line)
 	(general-def 'normal "y"   'save-buffer)
 
-	(general-def '(insert replace) "C-a" 'evil-backward-char)
-	(general-def '(insert replace) "C-f" 'evil-forward-char)
-	(general-def '(insert replace) "C-s" 'evil-previous-visual-line)
-	(general-def '(insert replace) "C-d" 'evil-next-visual-line)
+	(general-def '(insert replace) "C-s" 'evil-backward-char)
+	(general-def '(insert replace) "C-g" 'evil-forward-char)
+	(general-def '(insert replace) "C-d" 'evil-previous-visual-line)
+	(general-def '(insert replace) "C-f" 'evil-next-visual-line)
 	(general-def '(insert replace) "C-u" 'evil-undo)
 	(general-def '(insert replace) "C-U" 'evil-redo)
 	;; Already in insert/replace state so C-k should go to beginning of line
@@ -533,15 +533,14 @@ These are more about where the buttons are on the keyboard than about the name o
 	;; (general-def '(insert replace) "C-m" 'evil-delete-char)
 	;; (general-def '(insert replace) "C-M" 'evil-delete-whole-line)
 	;;
-	;; C-w is already mapped to window management
-	;; (general-def '(insert replace) "C-w" 'evil-backward-word-begin)
-	;; (general-def '(insert replace) "C-W" 'evil-backward-WORD-begin)
-	;; (general-def '(insert replace) "C-e" 'evil-forward-word-begin)
-	;; (general-def '(insert replace) "C-E" 'evil-forward-WORD-begin)
-	(general-def '(insert replace) "C-q" 'evil-beginning-of-visual-line)
-	(general-def '(insert replace) "C-r" 'evil-end-of-visual-line)
-	(general-def '(insert replace) "C-Q" 'beginning-of-buffer)
-	(general-def '(insert replace) "C-R" 'end-of-buffer)
+	(general-def '(insert replace) "C-e" 'evil-backward-word-begin)
+	(general-def '(insert replace) "C-E" 'evil-backward-WORD-begin)
+	(general-def '(insert replace) "C-r" 'evil-forward-word-begin)
+	(general-def '(insert replace) "C-R" 'evil-forward-WORD-begin)
+	(general-def '(insert replace) "C-w" 'evil-beginning-of-visual-line)
+	(general-def '(insert replace) "C-W" 'beginning-of-buffer)
+	(general-def '(insert replace) "C-t" 'evil-end-of-visual-line)
+	(general-def '(insert replace) "C-T" 'end-of-buffer)
 	(general-def '(insert replace) "C-p" 'evil-paste-before)
 	(general-def '(insert replace) "C-P" 'evil-paste-after)
 
@@ -550,9 +549,6 @@ These are more about where the buttons are on the keyboard than about the name o
 	(general-def 'visual "H"   'evil-enter-replace-state)
 	(general-def 'visual "o"   'kill-ring-save)
 	(general-def 'visual "O"   'kill-region)
-	;; "a" seems to be overridden by its nil keybindings, causing it
-	;; to be considered a prefix keybinding, so forcefully set that!
-	(general-def 'visual "a"   'evil-backward-char)
 	(general-def 'visual "u"   'evil-downcase)
 	(general-def 'visual "U"   'evil-upcase))
 
