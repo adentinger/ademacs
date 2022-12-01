@@ -375,7 +375,17 @@ accordingly."
   :after evil
   :config
   (evil-collection-init)
+  ;; This mode map overrides some of the Evil keybinds below.
   (setf (cdr emacs-lisp-mode-map) nil))
+
+(use-package sh-script
+	:hook
+  ;; sh-mode-map overrides some of the Evil keybinds below.
+  ;; I'd like to remove only the keybinds that are in conflict, but when I do
+  ;; so by setting the entry to nil the keybind no longer does anything, and
+  ;; I don't know how to completely remove the entry without setting it to
+  ;; nil.
+  (sh-mode-hook . (lambda () (setf (cdr sh-mode-map) nil))))
 
 (defhydra ade/evil-window-size-change (:timeout 4)
   "Resize current window"
