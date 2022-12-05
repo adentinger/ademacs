@@ -753,6 +753,7 @@ before but had already worked."
   (lsp-mode . ade/lsp-mode-setup)
   (c-mode   . ade/lsp-c-c++-mode-setup)
   (c++-mode . ade/lsp-c-c++-mode-setup)
+  (sh-mode . lsp-deferred)
   :config
   (lsp-enable-which-key-integration t)
   (bind-key (concat ade/generic-pfx-plain " C-c") #'completion-at-point nil nil))
