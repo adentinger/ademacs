@@ -824,6 +824,9 @@ before but had already worked."
   :after (cmake-mode)
   :hook (cmake-mode . cmake-font-lock-activate))
 
+(use-package lsp-java
+  :hook (java-mode . lsp))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;                               WORK STUFF                                ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
