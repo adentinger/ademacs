@@ -529,7 +529,8 @@ These are more about where the buttons are on the keyboard than about the name o
 	(general-def 'normal "y"   'save-buffer)
 
 	(general-def '(insert replace) "C-s" 'evil-backward-char)
-	(general-def '(insert replace) "C-g" 'evil-forward-char)
+	;; C-g used in Emacs for cancel operations
+	;; (general-def '(insert replace) "C-g" 'evil-forward-char)
 	(general-def '(insert replace) "C-d" 'evil-previous-visual-line)
 	(general-def '(insert replace) "C-f" 'evil-next-visual-line)
 	(general-def '(insert replace) "C-u" 'evil-undo)
