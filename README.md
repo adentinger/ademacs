@@ -23,6 +23,8 @@ For CMake buffers (e.g. `CMakeLists.txt` or `*.cmake` files):
 sudo apt-get install clangd
 # For CMake
 sudo pip3 install cmake-language-server
+# Other LSP servers
+sudo npm install -g yaml-language-server
 # Dependencies to allow Emacs and its VTerm package to build
 sudo apt-get install build-essential texinfo libx11-dev libxpm-dev libjpeg-dev libpng-dev libgif-dev libtiff-dev libncurses-dev automake autoconf libgtk2.0-dev libtool-bin
 

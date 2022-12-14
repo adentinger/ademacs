@@ -825,8 +825,13 @@ before but had already worked."
   :after (cmake-mode)
   :hook (cmake-mode . cmake-font-lock-activate))
 
+(use-package yaml-mode
+  :hook (yaml-mode . lsp-deferred)
+  :config
+  (add-to-list 'auto-mode-alist '("\\.clangd\\'" . yaml-mode)))
+
 (use-package lsp-java
-  :hook (java-mode . lsp))
+  :hook (java-mode . lsp-deferred))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;                               WORK STUFF                                ;;;
