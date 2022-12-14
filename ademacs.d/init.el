@@ -828,7 +828,11 @@ before but had already worked."
 (use-package yaml-mode
   :hook (yaml-mode . lsp-deferred)
   :config
+  ;; Consider .clangd files to be YAML files
   (add-to-list 'auto-mode-alist '("\\.clangd\\'" . yaml-mode)))
+
+(use-package json-mode
+  :hook (json-mode . lsp-deferred))
 
 (use-package lsp-java
   :hook (java-mode . lsp-deferred))
