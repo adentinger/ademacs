@@ -375,8 +375,14 @@ accordingly."
   :after evil
   :config
   (evil-collection-init)
-  ;; This mode map overrides some of the Evil keybinds below.
-  (setf (cdr emacs-lisp-mode-map) nil))
+  ;; These mode maps override some of the Evil keybinds below (they usually add
+  ;; stuff under 'g').
+  ;;
+  ;; I don't know how to unbind specific keybinds of specific keymaps
+  ;; without leaving a `nil' in the keymap, so instead let's just nuke the
+  ;; whole keymap.
+  (setf (cdr emacs-lisp-mode-map) nil)
+  (setf (cdr helpful-mode-map) nil))
 
 (use-package sh-script
 	:hook
