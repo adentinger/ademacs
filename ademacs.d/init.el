@@ -835,6 +835,11 @@ before but had already worked."
   :hook (json-mode . lsp-deferred))
 
 (use-package lsp-java
+  :custom
+  (lsp-java-server-install-dir
+   (expand-file-name (concat user-emacs-directory "/jdt-lsp/server/")))
+  (lsp-java-workspace-dir
+   (expand-file-name (concat user-emacs-directory "/jdt-lsp/workspace/")))
   :hook (java-mode . lsp-deferred))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
