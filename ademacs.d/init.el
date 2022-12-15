@@ -336,7 +336,15 @@ accordingly."
   ([remap describe-function] . counsel-describe-function)
   ([remap describe-command] . helpful-command)
   ([remap describe-variable] . counsel-describe-variable)
-  ([remap describe-key] . helpful-key))
+  ([remap describe-key] . helpful-key)
+  :config
+  ;; These mode maps override some of the Evil keybinds below (they usually add
+  ;; stuff under 'g').
+  ;;
+  ;; I don't know how to unbind specific keybinds of specific keymaps
+  ;; without leaving a `nil' in the keymap, so instead let's just nuke the
+  ;; whole keymap.
+  (setf (cdr helpful-mode-map) nil))
 
 (use-package general)
 
@@ -381,8 +389,7 @@ accordingly."
   ;; I don't know how to unbind specific keybinds of specific keymaps
   ;; without leaving a `nil' in the keymap, so instead let's just nuke the
   ;; whole keymap.
-  (setf (cdr emacs-lisp-mode-map) nil)
-  (setf (cdr helpful-mode-map) nil))
+  (setf (cdr emacs-lisp-mode-map) nil))
 
 (use-package sh-script
 	:hook
@@ -723,12 +730,6 @@ before but had already worked."
 				(interactive)
 				(use-package-autoload-keymap 'projectile-command-map 'projectile nil)))
 
-  ;; Doesn't work at the moment because SpaceStudio doesn't create a project
-  ;; file with a fixed name.
-  ;; (defun ade/projectile-register-spacestudio ()
-  ;; 	(projectile-register-project-type 'spacestudio '("*.spacestudio")))
-  ;; (ade/projectile-register-spacestudio)
-
   :custom
   (projectile-completion-system 'ivy)
   ;; Extra ignore rules don't work without native indexing
@@ -805,11 +806,6 @@ before but had already worked."
   :config
   (setq-default c-basic-offset 4)
   (define-key c-mode-base-map (kbd "RET") 'newline-and-indent)
-
-  (defun ade/c-c++-remove-keybindings ()
-	(setf (cdr c-mode-base-map) nil)
-	(setf (cdr c-mode-map) nil))
-  (ade/c-c++-remove-keybindings)
 
   (defun ade/c-c++-indent-setup ()
 	(c-set-offset 'arglist-intro '+)
