@@ -590,7 +590,15 @@ These are more about where the buttons are on the keyboard than about the name o
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; Don't use it yet, but it adds pretty colors to the git commit file! :)
-(use-package magit)
+(use-package magit
+  :config
+  ;; These mode maps override some of the Evil keybinds below (they usually add
+  ;; stuff under 'g').
+  ;;
+  ;; I don't know how to unbind specific keybinds of specific keymaps
+  ;; without leaving a `nil' in the keymap, so instead let's just nuke the
+  ;; whole keymap.
+  (setf (cdr git-commit-mode-map) nil))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;                                TERMINAL                                 ;;;
