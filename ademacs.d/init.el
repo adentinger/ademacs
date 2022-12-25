@@ -843,6 +843,8 @@ before but had already worked."
   (add-to-list 'auto-mode-alist '("\\.clangd\\'" . yaml-mode)))
 
 (use-package json-mode
+  ;; Avro schemas are also JSON files
+  :mode ("\\.avsc\\'")
   :hook (json-mode . lsp-deferred))
 
 (use-package lsp-java
