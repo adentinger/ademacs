@@ -773,10 +773,10 @@ before but had already worked."
   :hook (lsp-mode . lsp-ui-mode)
   :bind
   (:map lsp-ui-peek-mode-map
-		("M-s" . lsp-ui-peek--select-prev)
-		("M-d" . lsp-ui-peek--select-next)
-		("M-a" . lsp-ui-peek--select-prev-file)
-		("M-f" . lsp-ui-peek--select-next-file)
+		("M-d" . lsp-ui-peek--select-prev)
+		("M-f" . lsp-ui-peek--select-next)
+		("M-s" . lsp-ui-peek--select-prev-file)
+		("M-g" . lsp-ui-peek--select-next-file)
 		("C-g" . lsp-ui-peek--abort)))
 
 (use-package company
@@ -786,8 +786,8 @@ before but had already worked."
   ;; entries.
   :bind (:map company-active-map
 			  ("<tab>" . company-complete-selection)
-			  ("M-s" . company-select-previous)
-			  ("M-d" . company-select-next))
+			  ("M-d" . company-select-previous)
+			  ("M-f" . company-select-next))
   (:map lsp-mode-map ("<tab>" . indent-for-tab-command))
   :custom
   (company-minimum-prefix-length 1)
