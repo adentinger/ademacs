@@ -1,13 +1,6 @@
 # Emacs config
 
-This config has the following dependencies:
-
-For C/C++ buffers:
-- [clangd](https://emacs-lsp.github.io/lsp-mode/page/lsp-clangd/) for LSP mode (code completion, ...).
-- [CMake](https://cmake.org/download/) for CMake projects. Required to auto-build CMake projects. On Windows, it doesn't need to be in the `PATH`; it can also be installed via MSYS2 (go into the MSYS2 shell, then run `pacman -Syu cmake`).
-
-For CMake buffers (e.g. `CMakeLists.txt` or `*.cmake` files):
-- [cmake-language-server](https://emacs-lsp.github.io/lsp-mode/page/lsp-cmake/) for LSP mode (code completion, ...).
+This config has some dependencies; see the script below. I try to go to Windows and do whatever tweaks are necessary to keep it working once in a while.
 
 ## Building Emacs with modules support for VTerm
 
@@ -23,6 +16,7 @@ For CMake buffers (e.g. `CMakeLists.txt` or `*.cmake` files):
 sudo apt-get install clangd
 # Other LSP servers
 sudo npm install -g yaml-language-server vscode-langservers-extracted
+# hdl-checker: For VHDL/Verilog
 sudo pip3 install hdl-checker --upgrade
 # Dependencies to allow Emacs and its VTerm package to build
 sudo apt-get install build-essential texinfo libx11-dev libxpm-dev libjpeg-dev libpng-dev libgif-dev libtiff-dev libncurses-dev automake autoconf libgtk2.0-dev libtool-bin
