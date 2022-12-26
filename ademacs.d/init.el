@@ -156,11 +156,18 @@ accordingly."
   ;; confusing.)
   (put 'upcase-region 'disabled nil)
   (put 'downcase-region 'disabled nil)
-  ;; The underscore character is also a word constitutent in these modes
   (dolist (mode '(text-mode-hook
                   prog-mode-hook))
 	(add-hook mode
-			  (lambda () (modify-syntax-entry ?_ "w"))))
+			  (lambda ()
+				;; The underscore character is also a word constitutent in these modes
+				(modify-syntax-entry ?_ "w")
+				;; When a region is active/selected, indent-for-tab-command (which is the
+				;; command that is called when hitting <tab> in most modes) should not call
+				;; indent-region). I don't like to have to hit <tab> on every line just
+				;; because selecting multiple lines and hitting <tab> would do something that
+				;; I don't like!
+				(transient-mark-mode 0))))
   ;; Don't show line number in certain modes.
   ;; (Some more modes will additionally be setup later in the relevant
   ;; use-package)
@@ -775,6 +782,14 @@ before but had already worked."
   (lsp-enable-which-key-integration t)
   (bind-key (concat ade/generic-pfx-plain " C-c") #'completion-at-point nil nil))
 
+;; Adds code snippets. Never really understood these things, so I guess this is
+;; the occasion!
+(use-package yasnippet
+  :config
+  (yas-global-mode 1))
+
+(use-package yasnippet-snippets)
+
 (use-package lsp-ivy)
 
 (use-package lsp-ui
@@ -812,13 +827,17 @@ before but had already worked."
   :custom
   (c-tab-always-indent nil)
   :config
-  (setq-default c-basic-offset 4)
   (define-key c-mode-base-map (kbd "RET") 'newline-and-indent)
 
   (defun ade/c-c++-indent-setup ()
+	(setq c-default-style "linux")
+	(setq c-basic-offset 4)
 	(c-set-offset 'arglist-intro '+)
 	(c-set-offset 'innamespace 0)
-	(c-set-offset 'arglist-close 0))
+	(c-set-offset 'arglist-close 0)
+	;; I don't want my "if"'s opening curly braces to be indented! Altough I
+	;; usually put them on the same line as the "if"...
+	(c-set-offset 'substatement-open 0))
 
   (add-hook 'c-mode-hook   'ade/c-c++-indent-setup)
   (add-hook 'c++-mode-hook 'ade/c-c++-indent-setup)
