@@ -814,7 +814,8 @@ before but had already worked."
   (lsp-ui-doc-show-with-cursor t)
   ;; This is the default, but in case the package changes the defaults let's
   ;; set this.
-  (lsp-ui-doc-show-with-mouse t))
+  (lsp-ui-doc-show-with-mouse t)
+  (lsp-ui-doc-delay 0.5))
 
 (use-package company
   :after lsp-mode
