@@ -796,6 +796,7 @@ before but had already worked."
 (use-package lsp-ivy)
 
 ;; Shows LSP stuff on the UI:
+;; - Sideline (in which I only show flycheck diagnostics)
 ;; - (most importantly) Doc boxes with lsp-ui-doc-* vars and functions
 ;; - "Peek references" window
 ;; - ...
