@@ -518,8 +518,10 @@ These are more about where the buttons are on the keyboard than about the name o
 	(ade/evil-window-mgt-leader-def 'motion "g"   'evil-window-right)
 	(ade/evil-window-mgt-leader-def 'motion "d"   'evil-window-up)
 	(ade/evil-window-mgt-leader-def 'motion "f"   'evil-window-down)
-	(ade/evil-window-mgt-leader-def 'motion "q"   'evil-quit)
-	(ade/evil-window-mgt-leader-def 'motion "C-q" 'evil-quit)
+	;; Don't close Emacs if we try to close the only window; just kill the
+	;; buffer in that case.
+	(ade/evil-window-mgt-leader-def 'motion "q"   'kill-buffer-and-window)
+	(ade/evil-window-mgt-leader-def 'motion "C-q" 'kill-buffer-and-window)
 	(ade/evil-window-mgt-leader-def 'motion "w"   'evil-window-split)
 	(ade/evil-window-mgt-leader-def 'motion "e"   'evil-window-vsplit)
 	(ade/evil-window-mgt-leader-def 'motion "C-w" 'evil-window-split)
