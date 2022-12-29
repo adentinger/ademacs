@@ -861,7 +861,7 @@ before but had already worked."
 		 :map c-mode-map
 			   ("C-c C-s" . c-show-syntactic-information)
 		 :map c++-mode-map
-			   ("C-c C-s" . c-show-syntactic-information)))
+		 ("C-c C-s" . c-show-syntactic-information)))
 
 (use-package cmake-mode
   :mode ("CMakeLists\\.txt\\'" "\\.cmake\\'"))
