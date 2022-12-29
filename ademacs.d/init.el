@@ -760,6 +760,8 @@ before but had already worked."
 (defun ade/lsp-c-c++-mode-setup ()
   (lsp-mode 1)
   (lsp)
+  ;; clangd seemed to crash once in a while when this was set to 0.0. Maybe
+  ;; setting this to slightly more than zero will help?
   (setq-default lsp-idle-delay 0.1))
 
 (use-package lsp-mode
