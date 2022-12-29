@@ -203,8 +203,7 @@ accordingly."
   ;; Put the packages inside the current emacs dir, not the default one.
   (setq package-user-dir (concat user-emacs-directory "/packages"))
   (package-initialize)
-  ;; Only do that on initial package setup
-  (unless package-archive-contents (package-refresh-contents))
+  (package-refresh-contents)
   ;; For non-Linux platforms apparently...
   (unless (package-installed-p 'use-package) (package-install 'use-package)))
 
