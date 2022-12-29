@@ -827,6 +827,7 @@ before but had already worked."
   (:map lsp-mode-map ("<tab>" . indent-for-tab-command))
   :custom
   (company-minimum-prefix-length 1)
+  ;; NOTE: For C/C++ this setting is overridden elsewhere.
   (company-idle-delay 0.0))
 
 (use-package company-box
