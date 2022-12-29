@@ -794,6 +794,10 @@ before but had already worked."
 
 (use-package lsp-ivy)
 
+;; Shows LSP stuff on the UI:
+;; - (most importantly) Doc boxes with lsp-ui-doc-* vars and functions
+;; - "Peek references" window
+;; - ...
 (use-package lsp-ui
   :hook (lsp-mode . lsp-ui-mode)
   :bind
@@ -802,7 +806,14 @@ before but had already worked."
 		("M-f" . lsp-ui-peek--select-next)
 		("M-s" . lsp-ui-peek--select-prev-file)
 		("M-g" . lsp-ui-peek--select-next-file)
-		("C-g" . lsp-ui-peek--abort)))
+		("C-g" . lsp-ui-peek--abort))
+  :custom
+  ;; Show the lsp-ui-doc documentation box when going over symbols with the
+  ;; cursor, not just when hovering over them with the mouse.
+  (lsp-ui-doc-show-with-cursor t)
+  ;; This is the default, but in case the package changes the defaults let's
+  ;; set this.
+  (lsp-ui-doc-show-with-mouse t))
 
 (use-package company
   :after lsp-mode
