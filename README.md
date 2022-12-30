@@ -13,7 +13,7 @@ This config has some dependencies; see the script below. I try to go to Windows 
 ```bash
 ## Dependencies for LSP mode (language-aware completion and help functions)
 # For C++
-sudo apt-get install clangd
+sudo apt-get install clangd-12
 # Other LSP servers
 sudo npm install -g yaml-language-server vscode-langservers-extracted
 # hdl-checker: For VHDL/Verilog
