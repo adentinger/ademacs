@@ -61,7 +61,11 @@
 
 ;; Create dir specific to flag files that indicate whether some action has been
 ;; performed already
-(setq ade/flag-dir (concat user-emacs-directory "/ade-flags"))
+(defconst ade/ade-dir (concat user-emacs-directory "/ade")
+  "Directory for ademacs internal stuff.")
+(unless (file-directory-p ade/ade-dir) (mkdir ade/ade-dir t))
+(defconst ade/flag-dir (concat ade/ade-dir "/flags")
+  "Directory for ademacs flag files to indicate whether some action is done.")
 (unless (file-directory-p ade/flag-dir) (mkdir ade/flag-dir t))
 
 (defun ade/make-empty-file (fname)
