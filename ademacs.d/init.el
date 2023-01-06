@@ -354,7 +354,8 @@ accordingly."
   ;; I don't know how to unbind specific keybinds of specific keymaps
   ;; without leaving a `nil' in the keymap, so instead let's just nuke the
   ;; whole keymap.
-  (setf (cdr helpful-mode-map) nil))
+  (setf (cdr helpful-mode-map) nil)
+  (setf (cdr xref--xref-buffer-mode-map) nil))
 
 (use-package general)
 
