@@ -149,6 +149,10 @@ accordingly."
   (set-default-coding-systems 'utf-8)
   (setq-default tab-width 4
 				indent-tabs-mode t)
+  ;; I (usually) follow the 80-column rule in C/C++ and the like to have
+  ;; code side-by-side, so truncate lines if the smaller of the two windows
+  ;; is too small to display all the line.
+  (toggle-truncate-lines 1)
   (setq-default view-read-only t)
   ;; Automatically revert buffers if they change on disk and don't have
   ;; any unsaved change.
@@ -765,11 +769,7 @@ before but had already worked."
   (lsp)
   ;; clangd seemed to crash once in a while when this was set to 0.0. Maybe
   ;; setting this to slightly more than zero will help?
-  (setq-default lsp-idle-delay 0.1)
-  ;; I (usually) follow the 80-column rule in C/C++ and like to have
-  ;; code side-by-side, so truncate lines if the smaller of the two windows
-  ;; is too small to display all the line.
-  (toggle-truncate-lines 1))
+  (setq-default lsp-idle-delay 0.1))
 
 (use-package lsp-mode
   :commands (lsp lsp-deferred)
