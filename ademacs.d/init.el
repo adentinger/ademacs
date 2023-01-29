@@ -881,9 +881,7 @@ before but had already worked."
 
 (use-package yaml-mode
   :hook (yaml-mode . lsp-deferred)
-  :config
-  ;; Consider .clangd files to be YAML files
-  (add-to-list 'auto-mode-alist '("\\.clangd\\'" . yaml-mode)))
+  :mode ("\\.clangd\\'" "\\.clang-tidy\\'"))
 
 (use-package json-mode
   ;; Avro schemas are also JSON files
