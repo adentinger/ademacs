@@ -896,6 +896,8 @@ before but had already worked."
    (expand-file-name (concat user-emacs-directory "/jdt-lsp/workspace/")))
   :hook (java-mode . lsp-deferred))
 
+(use-package groovy-mode)
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;                               WORK STUFF                                ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
