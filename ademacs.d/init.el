@@ -881,7 +881,7 @@ before but had already worked."
 
 (use-package yaml-mode
   :hook (yaml-mode . lsp-deferred)
-  :mode ("\\.clangd\\'" "\\.clang-tidy\\'"))
+  :mode ("\\.clangd\\'" "\\.clang-tidy\\'" "\\.clang-format\\'"))
 
 (use-package json-mode
   ;; Avro schemas are also JSON files
