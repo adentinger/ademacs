@@ -139,6 +139,24 @@ accordingly."
 ;; them to a separate file
 (setq custom-file (concat user-emacs-directory "/custom.el"))
 
+(defun ade/setup-backup-files ()
+  "Sets up backup files into a single absolute dir and sets up multiple backups."
+  (interactive)
+  ;; Please please stop creating the backup "myfile~" files in the same
+  ;; directory as the file Emacs backs up. They appear inside the file list of
+  ;; Projectile and pollute the directory. Put them all into a single location
+  ;; outside everything else.
+  (setq backup-directory-alist
+		(list (cons "." (concat user-emacs-directory "/file-backups"))))
+  ;; https://stackoverflow.com/a/151946/2252948
+  (setq backup-by-copying t
+		delete-old-versions t
+		version-control t
+		kept-new-versions 6
+		kept-old-versions 2))
+
+(ade/setup-backup-files)
+
 (defun ade/do-basic-text-editing-setup ()
   (column-number-mode)
   ;; Use 1-based column number, not zero-based.
