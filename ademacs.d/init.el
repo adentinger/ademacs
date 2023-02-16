@@ -851,7 +851,8 @@ before but had already worked."
   :bind (:map company-active-map
 			  ("<tab>" . company-complete-selection)
 			  ("M-d" . company-select-previous)
-			  ("M-f" . company-select-next))
+			  ("M-f" . company-select-next)
+			  ("RET" . nil))
   (:map lsp-mode-map ("<tab>" . indent-for-tab-command))
   :custom
   (company-minimum-prefix-length 1)
