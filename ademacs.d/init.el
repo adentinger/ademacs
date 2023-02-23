@@ -153,7 +153,12 @@ accordingly."
 		delete-old-versions t
 		version-control t
 		kept-new-versions 6
-		kept-old-versions 2))
+		kept-old-versions 2)
+  ;; Don't create ".#<filename>" lockfiles --it breaks build systems that use
+  ;; file globs (e.g. "*.cpp", "*.ts"). When are multiple users ever editing
+  ;; the same file nowadays anyway? As for using multiple Emacs instances --I
+  ;; personally don't do that.
+  (setq create-lockfiles nil))
 
 (ade/setup-backup-files)
 
